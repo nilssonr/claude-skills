@@ -1,0 +1,139 @@
+---
+name: requirements-gatherer
+description: Gathers complete requirements before code planning begins. Invoke manually at the start of any code-related workflow (new feature, bug fix, refactor, architecture decision) or reactively when ambiguity surfaces mid-conversation. Orchestrates focused agents to explore the repository, identify patterns, investigate the task domain, and synthesize questions. Produces a spec the plan-writer can act on without follow-up questions. Triggers on "let's gather requirements", "what do we need to know", "before we start", or when unresolved ambiguity is detected.
+---
+
+# Requirements Gatherer
+
+Orchestrates subagents to gather complete, unambiguous requirements before code planning begins.
+
+## Core Principle
+
+**Never produce a spec until all blocking questions are resolved.**
+
+## Invocation
+
+### Manual
+User explicitly starts: "Let's gather requirements for adding a user endpoint."
+
+### Reactive
+Triggered mid-conversation when ambiguity surfaces. Always start with:
+> "What is the current goal right now? (one sentence)"
+
+## Subagents
+
+You delegate to these subagents (they must be installed in `~/.claude/agents/` or `.claude/agents/`):
+
+| Agent | Purpose | Model |
+|-------|---------|-------|
+| `repo-scout` | Structure, stack, entry points | haiku |
+| `pattern-analyzer` | Conventions, patterns | haiku |
+| `domain-investigator` | Domain-specific code, gaps | haiku |
+| `question-synthesizer` | Prioritize questions | sonnet |
+
+## Workflow
+
+### 1. Confirm Goal
+If reactive invocation, ask: "What is the current goal right now?"
+
+Get repo path and task description from user.
+
+### 2. Run Repo Scout
+Delegate to `repo-scout` with the repo path and task context.
+
+Review the report. If status is `INSUFFICIENT_CONTEXT`, ask the blocking question before continuing.
+
+### 3. Assess Complexity and Choose Path
+
+Based on scout report, decide how to proceed:
+
+**Lightweight path** — Scout reports stubs, scaffolding, or empty files:
+- Skip pattern-analyzer and domain-investigator
+- Pass scout findings directly to question-synthesizer
+- Don't waste time searching empty directories
+
+**Standard path** — Small-to-medium repo with real code:
+- Run pattern-analyzer and domain-investigator
+- Can run them together or sequentially
+- Pass all reports to question-synthesizer
+
+**Full path** — Large repo, monorepo, or complex task:
+- Run pattern-analyzer first
+- Run domain-investigator with pattern context
+- Pass all reports to question-synthesizer
+
+### 4. Run Question Synthesizer
+Always runs, regardless of path.
+
+Delegate to `question-synthesizer` with:
+- All reports gathered so far
+- Task goal
+- Any facts user already provided
+
+### 5. Ask Questions
+Ask blocking questions one at a time. An answer may resolve multiple questions.
+
+If user says "I don't know," propose options with tradeoffs:
+> "I need to know X. Options are:
+> - A: [tradeoff]
+> - B: [tradeoff]
+> Which fits best?"
+
+Never halt. Always propose options.
+
+### 6. Resolution Hierarchy
+A question is resolved when:
+1. User explicitly answers
+2. Repo confirms and user doesn't contradict
+3. Documented default exists and user accepts
+
+### 7. Produce Spec
+Only when all blocking questions are resolved.
+
+```
+SPEC: [task-id]
+Repo: [path]
+Commit: [hash]
+Generated: [timestamp]
+
+GOAL
+[What we're doing and why]
+
+SCOPE
+In: [included]
+Out: [excluded]
+
+DECISIONS
+- DECISION: [thing] — [user chose]
+- REPO: [thing] — [code confirms]
+- DEFAULT: [thing] — [assumed because X]
+
+CONSTRAINTS
+[Pin to specific files, not categories]
+
+DONE WHEN
+[Concrete, testable acceptance criteria]
+```
+
+**Output rules:**
+- Labels (DECISION/REPO/DEFAULT) are mandatory
+- CONSTRAINTS reference specific files
+- DONE WHEN must be testable
+- No unlabeled assumptions
+
+## Failure Modes to Avoid
+
+- **Running all agents on empty repos.** If scout says stubs, skip the detailed analysis.
+- **Re-asking what user told you.** Pass user facts to question-synthesizer.
+- **Accepting vague answers.** "Just make it work" is not a resolution.
+- **Hidden assumptions.** Every assumption needs a label.
+
+## Integration
+
+### Handoff to Plan-Writer
+The spec is the interface. Plan-writer should require zero follow-up questions.
+
+### Failure Attribution
+- Plan-writer asks questions → requirements gap
+- Plan diverges from spec → planning gap
+- Code diverges from plan → execution gap
