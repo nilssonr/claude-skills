@@ -10,27 +10,63 @@ AGENT_NAMES := $(notdir $(AGENTS_SRC))
 .PHONY: install install-skills install-agents uninstall uninstall-skills uninstall-agents
 
 install: install-skills install-agents
+	@echo ""
+	@echo "  ✓ Done"
+	@echo ""
 
-install-skills: $(SKILL_NAMES:%=$(SKILLS_DIR)/%)
-
-install-agents: $(AGENT_NAMES:%=$(AGENTS_DIR)/%)
-
-$(SKILLS_DIR)/%: skills/%
+install-skills:
 	@mkdir -p $(SKILLS_DIR)
-	@rm -f $@
-	ln -sfn $(abspath $<) $@
-	@echo "Installed skill: $*"
+	@if [ -n "$(SKILL_NAMES)" ]; then \
+		echo ""; \
+		echo "  Skills"; \
+		$(foreach name,$(SKILL_NAMES), \
+			rm -f $(SKILLS_DIR)/$(name); \
+			ln -sfn $(abspath skills/$(name)) $(SKILLS_DIR)/$(name); \
+			echo "    → $(name)"; \
+		) \
+	else \
+		echo ""; \
+		echo "  Skills"; \
+		echo "    (none found)"; \
+	fi
 
-$(AGENTS_DIR)/%: agents/%
+install-agents:
 	@mkdir -p $(AGENTS_DIR)
-	@rm -f $@
-	ln -sfn $(abspath $<) $@
-	@echo "Installed agent: $*"
+	@if [ -n "$(AGENT_NAMES)" ]; then \
+		echo ""; \
+		echo "  Agents"; \
+		$(foreach name,$(AGENT_NAMES), \
+			rm -f $(AGENTS_DIR)/$(name); \
+			ln -sfn $(abspath agents/$(name)) $(AGENTS_DIR)/$(name); \
+			echo "    → $(name)"; \
+		) \
+	else \
+		echo ""; \
+		echo "  Agents"; \
+		echo "    (none found)"; \
+	fi
 
 uninstall: uninstall-skills uninstall-agents
+	@echo ""
+	@echo "  ✓ Done"
+	@echo ""
 
 uninstall-skills:
-	@$(foreach name,$(SKILL_NAMES),rm -f $(SKILLS_DIR)/$(name) && echo "Removed skill: $(name)";)
+	@if [ -n "$(SKILL_NAMES)" ]; then \
+		echo ""; \
+		echo "  Skills"; \
+		$(foreach name,$(SKILL_NAMES), \
+			rm -f $(SKILLS_DIR)/$(name); \
+			echo "    ✗ $(name)"; \
+		) \
+	fi
 
 uninstall-agents:
-	@$(foreach name,$(AGENT_NAMES),rm -f $(AGENTS_DIR)/$(name) && echo "Removed agent: $(name)";)
+	@if [ -n "$(AGENT_NAMES)" ]; then \
+		echo ""; \
+		echo "  Agents"; \
+		$(foreach name,$(AGENT_NAMES), \
+			rm -f $(AGENTS_DIR)/$(name); \
+			echo "    ✗ $(name)"; \
+		) \
+	fi
