@@ -109,6 +109,7 @@ Generated: [timestamp]
 
 ## Workflow Reminder
 Branch → TDD (red-green) → Commit after each step → Verify all checks → PR
+(Git conventions from `git-workflow` skill apply)
 
 ## Steps
 
@@ -147,7 +148,7 @@ Branch → TDD (red-green) → Commit after each step → Verify all checks → 
 Receives SPEC from `/requirements-gatherer`. The spec is the contract — if it's complete, no follow-up questions should be needed.
 
 ### Downstream
-Plan is executed by user or Claude Code following the user's implementation workflow (branch → TDD → commit → verify → PR).
+Plan is executed by user or Claude Code. Git conventions (branching, commit messages, PR workflow) are handled by the `git-workflow` skill, which auto-activates during implementation.
 
 ### Failure Attribution
 - Plan-writer asks questions → requirements gap (spec was incomplete)
