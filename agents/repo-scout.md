@@ -45,6 +45,12 @@ You are the repo-scout. Your job is to quickly map a repository's structure and 
 
 8. **Declare app types**: api, worker, cli, frontend, lib, mixed, unknown
 
+**Tip:** Batch multiple commands into single tool calls using `&&` where possible.
+
+## App type classification
+
+Declare app types: api, worker, cli, frontend, lib, mixed, unknown
+
 ## Output Format
 
 Return a structured report:
@@ -64,6 +70,9 @@ App Types: [api|worker|cli|frontend|lib|mixed|unknown]
 
 Evidence:
 - [file]:[line] — [what it shows]
+
+Files Read:
+- [list every file path you read during this run]
 
 Unknowns:
 - [question] [blocking|directional] — [why it matters]
