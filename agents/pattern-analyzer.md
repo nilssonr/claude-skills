@@ -45,6 +45,9 @@ Summary:
 Evidence:
 - [file]:[line] — [pattern demonstrated]
 
+Files Read:
+- [list every file path you read during this run]
+
 Unknowns:
 - [question] [blocking|directional] — [why it matters]
 

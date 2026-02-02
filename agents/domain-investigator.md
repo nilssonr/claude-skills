@@ -65,6 +65,9 @@ Data Sources:
 Dependencies:
 - [what this domain depends on]
 
+Files Read:
+- [list every file path you read during this run]
+
 Unknowns:
 - [question] [blocking|directional] — [why it matters]
 

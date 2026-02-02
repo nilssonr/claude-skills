@@ -24,12 +24,14 @@ Triggered mid-conversation when ambiguity surfaces. Always start with:
 
 You delegate to these subagents (they must be installed in `~/.claude/agents/` or `.claude/agents/`):
 
-| Agent | Purpose | Model |
-|-------|---------|-------|
-| `repo-scout` | Structure, stack, entry points | haiku |
-| `pattern-analyzer` | Conventions, patterns | haiku |
-| `domain-investigator` | Domain-specific code, gaps | haiku |
-| `question-synthesizer` | Prioritize questions | sonnet |
+| Agent | Purpose | Model | max_turns |
+|-------|---------|-------|-----------|
+| `repo-scout` | Structure, stack, entry points | haiku | 8 |
+| `pattern-analyzer` | Conventions, patterns | haiku | 8 |
+| `domain-investigator` | Domain-specific code, gaps | haiku | 8 |
+| `question-synthesizer` | Prioritize questions | sonnet | 1 |
+
+**Always set `max_turns`** when launching subagents. This is the only reliable way to enforce tool call budgets.
 
 ## Workflow
 
@@ -42,6 +44,8 @@ Get repo path and task description from user.
 Delegate to `repo-scout` with the repo path and task context.
 
 Review the report. If status is `INSUFFICIENT_CONTEXT`, ask the blocking question before continuing.
+
+**Important:** When passing context to subsequent agents, include the file list and structure from repo-scout's findings so they don't re-explore the repo.
 
 ### 3. Assess Complexity and Choose Path
 
@@ -65,10 +69,13 @@ Based on scout report, decide how to proceed:
 ### 4. Run Question Synthesizer
 Always runs, regardless of path.
 
-Delegate to `question-synthesizer` with:
-- All reports gathered so far
+Delegate to `question-synthesizer` with **all content inline in the prompt** (not as file references). The synthesizer has no tools — it cannot read files. You must embed:
+- The full text of all reports gathered so far
 - Task goal
 - Any facts user already provided
+- A `files_read` manifest listing every file the previous agents examined
+
+Set `max_turns: 1` — the synthesizer must produce its output in a single response.
 
 ### 5. Ask Questions
 Ask blocking questions one at a time. An answer may resolve multiple questions.
