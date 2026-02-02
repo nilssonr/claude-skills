@@ -24,8 +24,8 @@ When auto-detecting, do not announce the skill — just follow the rules below.
 ## Rules
 
 ### 1. Research before coding
-- Before writing a fix for an unfamiliar tool, library, or API, research its behavior and constraints first (docs, web search, source code, existing solutions).
-- For shell/tooling/infra problems, search for existing plugins or community solutions before writing custom implementations.
+- Before writing a fix for an unfamiliar tool, library, or API, spawn the `tool-researcher` agent with the subject and problem. Let it search docs, the web, and source code before you write any fix.
+- For shell/tooling/infra problems, use `tool-researcher` to search for existing plugins or community solutions before writing custom implementations.
 - Do NOT guess-and-check. Understand the system, then fix it.
 
 ### 2. End-to-end understanding
@@ -43,7 +43,7 @@ This is the most important rule. After **2 failed attempts** at the same problem
 
 1. **Stop.** Do not try a 3rd variation of the same approach.
 2. **Reassess.** State explicitly what you tried and why it failed.
-3. **Research deeper.** Read docs, search the web, look at source code of the tool/library.
+3. **Research deeper.** Spawn the `tool-researcher` agent with what you've tried and why it failed.
 4. **Question the approach.** Consider whether the current approach is fundamentally viable.
 5. **Report to the user.** Tell them:
    - What you tried (briefly)
