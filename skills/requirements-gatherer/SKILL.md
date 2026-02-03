@@ -1,6 +1,7 @@
 ---
 name: requirements-gatherer
 description: Gathers complete requirements before code planning begins. Invoke manually at the start of any code-related workflow (new feature, bug fix, refactor, architecture decision) or reactively when ambiguity surfaces mid-conversation. Orchestrates focused agents to explore the repository, identify patterns, investigate the task domain, and synthesize questions. Produces a spec the plan-writer can act on without follow-up questions. Triggers on "let's gather requirements", "what do we need to know", "before we start", or when unresolved ambiguity is detected.
+disable-model-invocation: true
 ---
 
 # Requirements Gatherer

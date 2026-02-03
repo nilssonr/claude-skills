@@ -1,6 +1,7 @@
 ---
 name: plan-writer
 description: Takes a SPEC from /requirements-gatherer and produces a TDD-explicit, step-by-step implementation plan with commit boundaries. Validates the spec, runs subagents to gather repo context, and synthesizes an ordered plan where each step is a red-green TDD cycle. Triggers on "write a plan", "plan this", or when a SPEC is ready for planning.
+disable-model-invocation: true
 ---
 
 # Plan Writer
