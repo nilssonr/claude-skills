@@ -131,18 +131,25 @@ export async function shoppingCartWorkflow(userId: string): Promise<CartState> {
 
   wf.setHandler(checkout, () => { state.checkedOut = true; });
 
-  // Wait for checkout or timeout after 24 hours
-  const completed = await wf.condition(() => state.checkedOut, '24h');
+  // Entity loop - handles signals over time
+  while (!state.checkedOut) {
+    // Check if we should continue-as-new (history getting large)
+    if (wf.workflowInfo().continueAsNewSuggested) {
+      await wf.condition(wf.allHandlersFinished);
+      await wf.continueAsNew<typeof shoppingCartWorkflow>(userId);
+    }
 
-  if (!completed) {
-    // Cart abandoned - could trigger reminder
+    // Wait for checkout or timeout after 24 hours
+    const completed = await wf.condition(() => state.checkedOut, '24h');
+
+    if (!completed) {
+      // Cart abandoned after 24h - could trigger reminder or cleanup
+      break;
+    }
   }
 
-  // Use Continue-As-New periodically for long-lived entities
-  if (wf.workflowInfo().continueAsNewSuggested) {
-    await wf.continueAsNew<typeof shoppingCartWorkflow>(userId);
-  }
-
+  // Wait for any in-flight handlers before completing
+  await wf.condition(wf.allHandlersFinished);
   return state;
 }
 ```
@@ -152,6 +159,7 @@ export async function shoppingCartWorkflow(userId: string): Promise<CartState> {
 - Use Updates when you need a return value or validation
 - Use Queries for read-only state access
 - Implement Continue-As-New to prevent unbounded history growth
+- Wait for `allHandlersFinished` before Continue-As-New or completing
 - Consider workflow timeouts for entity lifecycle
 
 ---
@@ -361,6 +369,7 @@ async def poll_for_completion(job_id: str) -> JobResult:
             raise ApplicationError(f"Job failed: {result.error}")
 
         # Not ready, wait with exponential backoff
+        # Note: asyncio.sleep is fine in Activities (only Workflows require workflow.sleep)
         await asyncio.sleep(backoff)
         backoff = min(backoff * 2, max_backoff)
 

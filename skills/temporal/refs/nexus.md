@@ -185,21 +185,42 @@ export const orderService = nexus.defineService({
 ### Python Example
 
 ```python
-from temporalio import nexus, workflow
-from temporalio.nexus import WorkflowRunOperation
+from dataclasses import dataclass
+import nexusrpc
+from temporalio import nexus
 
-@nexus.service
+# Define the service contract
+@dataclass
+class CreateOrderInput:
+    order_id: str
+    amount: float
+
+@dataclass
+class OrderResult:
+    status: str
+
+@nexusrpc.service
 class OrderService:
-    @nexus.operation
-    async def get_order_status(self, order_id: str) -> OrderStatus:
-        # Sync operation - queries workflow
-        handle = await nexus.get_workflow_handle(f"order-{order_id}")
-        return await handle.query(GetStatusQuery)
+    create_order: nexusrpc.Operation[CreateOrderInput, OrderResult]
+    get_order_status: nexusrpc.Operation[str, OrderStatus]
 
-    @nexus.operation
-    async def create_order(self, input: CreateOrderInput) -> nexus.OperationResult[OrderResult]:
-        # Async operation - starts workflow
-        return await nexus.start_workflow(
+# Implement the service handler
+@nexusrpc.handler.service_handler(service=OrderService)
+class OrderServiceHandler:
+    @nexusrpc.handler.sync_operation
+    async def get_order_status(
+        self, ctx: nexusrpc.handler.StartOperationContext, order_id: str
+    ) -> OrderStatus:
+        # Sync operation - must complete within 10 seconds
+        # Can query workflows, call databases, etc.
+        return OrderStatus(status="processing")
+
+    @nexus.workflow_run_operation
+    async def create_order(
+        self, ctx: nexus.WorkflowRunOperationContext, input: CreateOrderInput
+    ) -> nexus.WorkflowHandle[OrderResult]:
+        # Async operation - starts a workflow
+        return await ctx.start_workflow(
             OrderWorkflow.run,
             input,
             id=f"order-{input.order_id}",

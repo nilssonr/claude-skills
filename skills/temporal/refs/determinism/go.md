@@ -200,6 +200,42 @@ func YourWorkflow(ctx workflow.Context) error {
 }
 ```
 
+## Waiting for Handlers to Complete
+
+Before completing or using Continue-As-New, wait for all in-flight signal/update handlers:
+
+```go
+func YourWorkflow(ctx workflow.Context) error {
+    // ... workflow logic ...
+
+    // Wait for all handlers to complete before finishing
+    if err := workflow.Await(ctx, func() bool {
+        return workflow.AllHandlersFinished(ctx)
+    }); err != nil {
+        return err
+    }
+
+    return nil
+}
+
+// For Continue-As-New:
+func LongRunningWorkflow(ctx workflow.Context, state State) error {
+    for {
+        // ... do work ...
+
+        if workflow.GetInfo(ctx).GetContinueAsNewSuggested() {
+            // Wait for handlers before continuing
+            workflow.Await(ctx, func() bool {
+                return workflow.AllHandlersFinished(ctx)
+            })
+            return workflow.NewContinueAsNewError(ctx, LongRunningWorkflow, state)
+        }
+    }
+}
+```
+
+**Important:** Always wait for handlers to complete before using Continue-As-New or completing the workflow.
+
 ## Versioning with GetVersion
 
 Use `GetVersion` to make backward-compatible changes to running workflows:

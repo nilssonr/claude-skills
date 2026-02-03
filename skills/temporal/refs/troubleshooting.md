@@ -319,8 +319,8 @@ temporal task-queue describe -tq <task-queue>
 # Running workflows
 temporal workflow list -q 'ExecutionStatus="Running"'
 
-# Failed in last hour
-temporal workflow list -q 'ExecutionStatus="Failed" AND CloseTime > "2024-01-01T00:00:00Z"'
+# Failed workflows (adjust timestamp as needed)
+temporal workflow list -q 'ExecutionStatus="Failed" AND CloseTime > "<timestamp>"'
 ```
 
 ### Reset Workflow
