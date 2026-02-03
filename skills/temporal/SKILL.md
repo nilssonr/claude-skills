@@ -1,6 +1,7 @@
 ---
 name: temporal
 description: Comprehensive Temporal durable execution assistant. Helps with workflow authoring, SDK-specific guidance, code review, troubleshooting, and general questions across all SDKs (Go, Python, TypeScript, .NET, Java, PHP, Ruby). Manual invocation only.
+disable-model-invocation: true
 ---
 
 # Temporal
