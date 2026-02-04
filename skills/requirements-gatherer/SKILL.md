@@ -1,6 +1,6 @@
 ---
 name: requirements-gatherer
-description: Gathers complete requirements before code planning begins. Invoke manually at the start of any code-related workflow (new feature, bug fix, refactor, architecture decision) or reactively when ambiguity surfaces mid-conversation. Orchestrates focused agents to explore the repository, identify patterns, investigate the task domain, and synthesize questions. Produces a spec the plan-writer can act on without follow-up questions. Triggers on "let's gather requirements", "what do we need to know", "before we start", or when unresolved ambiguity is detected.
+description: Gathers complete requirements before code planning begins. Invoke manually at the start of any code-related workflow (new feature, bug fix, refactor, architecture decision) or reactively when ambiguity surfaces mid-conversation. Orchestrates focused agents to explore the repository, identify patterns, investigate the task domain, and synthesize questions. Produces a spec then transitions to native plan mode for implementation planning. Triggers on "let's gather requirements", "what do we need to know", "before we start", or when unresolved ambiguity is detected.
 disable-model-invocation: true
 ---
 
@@ -129,6 +129,31 @@ DONE WHEN
 - DONE WHEN must be testable
 - No unlabeled assumptions
 
+### 8. Transition to Planning
+
+After producing the SPEC, present choices using AskUserQuestion:
+
+question: "SPEC complete. How would you like to proceed?"
+options:
+  - label: "Begin planning"
+    description: "Enter plan mode to create an implementation plan from this SPEC"
+  - label: "Revise requirements"
+    description: "Provide feedback and update the SPEC"
+
+**Behavior per choice:**
+
+| Choice | Action |
+|--------|--------|
+| Begin planning | Call `EnterPlanMode` tool. Native plan mode will use the SPEC in context to produce an implementation plan. |
+| Revise requirements | Ask "What would you like to change?" then update the SPEC accordingly. Re-present choices after revision. |
+| Custom | Follow user direction. |
+
+**Note:** Native plan mode will handle:
+- Implementation plan creation
+- Approval UX (implement, reject, edit)
+- Context clearing option
+- Plan file persistence to `~/.claude/plans/`
+
 ## Failure Modes to Avoid
 
 - **Running all agents on empty repos.** If scout says stubs, skip the detailed analysis.
@@ -138,10 +163,13 @@ DONE WHEN
 
 ## Integration
 
-### Handoff to Plan-Writer
-The spec is the interface. Plan-writer should require zero follow-up questions.
+### Handoff to Plan Mode
+The SPEC is the interface. After user selects "Begin planning", `EnterPlanMode` is called. Native plan mode uses the SPEC to produce an implementation plan with:
+- Approval UX (implement, reject, edit)
+- Optional context clearing
+- Plan file persistence to `~/.claude/plans/`
 
 ### Failure Attribution
-- Plan-writer asks questions → requirements gap
-- Plan diverges from spec → planning gap
+- Plan mode asks questions not answered by SPEC → requirements gap
+- Plan diverges from SPEC → planning gap
 - Code diverges from plan → execution gap
