@@ -26,7 +26,7 @@
 | skill-eval.sh | Every user message | Forces skill evaluation before responding |
 | auto-format.sh | Every file Write/Edit | Runs gofmt/rustfmt/prettier/dotnet-format |
 | commit-validator.sh | Any `git commit -m` | Blocks non-conventional commits. Blocks commits to main. |
-| stop-gate.sh | Claude tries to finish | Runs test suite. Blocks if tests fail. Suggests self-review. |
+| stop-gate.sh | Claude tries to finish | Runs test suite (pnpm/yarn/npm auto-detected). Blocks if tests fail. Blocks if code is uncommitted. |
 | pre-compact.sh | Before context compaction | Saves branch, recent commits, uncommitted files |
 
 ## Agents (called by skills, not by you)
@@ -64,11 +64,12 @@ describe the bug
 → commit via git-workflow
 ```
 
-**Quick change:**
+**Targeted fix (specific file:line):**
 ```
-"fix the typo in header.tsx"
-→ no skills needed, direct edit
+"use crypto.timingSafeEqual in handler.ts:45"
+→ skill-eval detects targeted fix, skips /gather
+→ direct implementation
 → auto-format runs
-→ stop-gate checks tests
-→ user decides to commit or not
+→ stop-gate runs tests + blocks if uncommitted
+→ commit via git-workflow
 ```

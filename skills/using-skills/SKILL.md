@@ -5,30 +5,41 @@ description: Meta-skill that ensures all other skills and agents are used correc
 
 # Using Skills
 
-Before responding to ANY user request, follow this checklist:
+Before responding to ANY user request, follow this sequence:
 
-1. **Identify the task type** — Is this a new feature, bug fix, refactor, investigation, git operation, or debugging session?
+## 1. Classify → Match → Announce
 
-2. **Check for relevant skills** — Scan your available skills for matches:
-   - Starting new work → `/gather` (requirements-gatherer)
-   - Writing code with tests → `/tdd`
-   - Git operations → git-workflow auto-activates
-   - Something broke, debugging → troubleshoot auto-activates
-   - Session ending, something went wrong → `/retro`
+Classify the task, match to a skill, and **announce your decision before doing anything else.** The announcement is your first output — before code, before questions, before investigation.
 
-3. **If a skill matches, use it.** Don't skip skills because the task seems simple. The skill exists because skipping it caused problems before.
+| Classification | Skill | Announcement |
+|---|---|---|
+| Targeted fix (specific file:line, known change) | None — proceed directly | `[SKILL:none] Targeted fix — proceeding directly.` |
+| New feature / unclear scope | requirements-gatherer | `[SKILL:requirements-gatherer] Defining scope.` |
+| Test-first requested | tdd | `[SKILL:tdd] Starting RED phase.` |
+| Git operation | git-workflow | `[SKILL:git-workflow] Active.` |
+| Debugging / 2nd failed attempt | troubleshoot | `[SKILL:troubleshoot] Researching before fixing.` |
+| Something went wrong, session end | retro | `[SKILL:retro] Logging observation.` |
 
-4. **If no skill matches, proceed normally** but consider whether the task would benefit from:
-   - An Explore subagent for codebase investigation
-   - Plan mode for complex multi-step work
-   - TodoWrite for tracking progress on multi-step tasks
+**The announcement is mandatory.** It commits you to following the skill. If you announce TDD, you follow all TDD phases. If you announce "targeted fix," you don't secretly run requirements-gatherer.
 
-5. **Announce what you're doing** — "Using git-workflow for this commit" or "No skills apply, proceeding directly."
+## 2. Follow through
 
-## Anti-patterns to avoid
+After announcing:
+- **If a skill was announced:** read and follow that skill exactly. Every phase, every gate.
+- **If no skill (targeted fix):** implement directly. git-workflow and stop-gate hooks still apply.
 
-- Writing implementation code without understanding the codebase first
-- Skipping tests because "it's a small change"
-- Guessing at conventions instead of reading exemplar files
-- Trying a fix more than twice without researching the root cause
-- Committing everything in one giant commit
+## 3. Don't over-apply
+
+A one-line fix doesn't need requirements gathering. A known bug with a known fix doesn't need TDD. Match the process to the complexity. The hooks provide baseline enforcement regardless.
+
+## 4. Always commit after code changes
+
+Don't declare "Done" with uncommitted code. The stop-gate hook blocks this, but don't wait for the hook — commit proactively using git-workflow conventions.
+
+## Rationalization detection
+
+If you catch yourself thinking any of these, you're about to skip a skill:
+- "This is too simple for a skill" → Maybe. But announce your decision.
+- "I already know the answer" → Announce "targeted fix" and proceed.
+- "The user seems impatient" → Skills save time by preventing rework.
+- "I'll just do it quickly" → That's how tests get skipped and commits get forgotten.

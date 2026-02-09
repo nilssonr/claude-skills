@@ -5,6 +5,9 @@ description: Test-driven development with isolated subagents. Orchestrates RED-G
 
 # Test-Driven Development
 
+**Announce at start:** `[SKILL:tdd] Starting RED phase for [feature].`
+**Announce each phase:** `[TDD:RED] Writing failing tests.` → `[TDD:GREEN] Writing minimal implementation.` → `[TDD:REFACTOR] Cleaning up.` → `[TDD:COMMIT] Committing changes.`
+
 ## Activation
 - User says "TDD", "test first", "write tests first"
 - User chooses "Begin TDD" from requirements-gatherer
@@ -33,15 +36,33 @@ prompt: |
   1. Find ONE existing test file to match conventions:
      find . -name '*_test.go' -o -name '*.spec.ts' -o -name '*.test.ts' -o -name '*Tests.cs' | head -5
   2. Read it. Match the framework, style, assertions, naming.
-  3. Write tests covering each criterion. Include error/edge cases.
+  3. Write tests that WILL FAIL against the current code. Each test must exercise
+     the NEW behavior that does not exist yet. If the change is replacing an
+     implementation strategy (e.g., switching from !== to timingSafeEqual), test
+     for the NEW behavior specifically — mock or assert the new function is called,
+     or test a property only the new implementation provides.
   4. Run the tests. They MUST FAIL.
   5. Report: test file path, test names, failure output.
+
+  CRITICAL: If all tests PASS, you wrote the wrong tests. The tests are validating
+  existing behavior, not new behavior. Delete them and write tests that actually
+  exercise the change. A test that passes before AND after the implementation change
+  proves nothing.
 
   Do NOT write implementation code. Do NOT read implementation plans.
 model: sonnet
 ```
 
-**Gate:** Do not proceed unless tests fail. If they pass, the feature may already exist — investigate.
+### RED Gate — HARD BLOCK
+Do not proceed to GREEN unless **at least one test fails.**
+
+If all tests pass:
+1. **Stop.** Do not proceed to GREEN.
+2. Evaluate: does the feature already exist? If yes, tell the user — no work needed.
+3. If the feature does NOT exist but tests pass, the tests are wrong. They test existing behavior, not the new requirement. Delete them and rewrite.
+4. Repeat RED until at least one test fails.
+
+This gate is non-negotiable. GREEN with no prior RED failure means TDD was not followed.
 
 ## GREEN — Write Minimal Implementation
 
@@ -63,9 +84,12 @@ prompt: |
 model: sonnet
 ```
 
-**Gate:** Do not proceed unless all tests pass.
+### GREEN Gate
+Do not proceed unless ALL tests pass (both new and existing).
 
 ## REFACTOR — Clean Up
+
+**This phase is MANDATORY. Always run it. Never skip it.**
 
 Launch via Task tool:
 ```
@@ -76,7 +100,7 @@ prompt: |
 
   1. Run tests — confirm green baseline.
   2. Review for: duplication, complexity, naming, missing error context.
-  3. If clean: report "No refactoring needed" and stop.
+  3. If clean: report "No refactoring needed" and stop. This is a valid outcome.
   4. If refactoring: one change at a time, run tests after each.
   5. If tests break: revert immediately.
 
@@ -84,18 +108,33 @@ prompt: |
 model: sonnet
 ```
 
-"No refactoring needed" is a valid and good outcome.
+"No refactoring needed" is valid and encouraged. But the phase must still run and make the determination.
 
-## After REFACTOR
-1. Run the full test suite for the affected area.
-2. Present results to the user.
-3. If git-workflow is active, commit:
-   ```
-   test(scope): add tests for [feature]
-   feat(scope): implement [feature]
-   ```
+## COMMIT — Mandatory
+
+After REFACTOR completes:
+
+1. Run the full test suite one final time.
+2. **Commit the changes using git-workflow conventions.** Do not skip this.
+   - Check branch: if on main/master, create a feature branch first.
+   - Stage and commit with separate logical commits:
+     ```
+     test(scope): add tests for [feature]
+     ```
+     ```
+     feat(scope): implement [feature]
+     ```
+   - Or a single commit if the change is atomic:
+     ```
+     fix(scope): [description]
+     ```
+3. Present the commit(s) and test results to the user.
+4. Ask if they want to push.
+
+Do NOT declare "Done" without committing. Uncommitted work is unfinished work.
 
 ## Rules
 - Each phase runs in a separate Task (fresh context). Non-negotiable.
-- Phase gates are mandatory. RED before GREEN. GREEN before REFACTOR.
-- The test file is the contract. Never modify after RED.
+- Phase gates are mandatory. RED (must fail) → GREEN (must pass) → REFACTOR (must run) → COMMIT (must happen).
+- The test file is the contract. Never modify tests after RED.
+- The stop-gate hook will also run tests when you finish. Don't duplicate — let the hook verify independently. But DO run tests within each phase to enforce gates.

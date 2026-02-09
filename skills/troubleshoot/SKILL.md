@@ -5,6 +5,8 @@ description: Research-first debugging. Auto-activates after a failed fix attempt
 
 # Troubleshoot
 
+**Announce at start:** `[SKILL:troubleshoot] Researching before fixing.`
+
 Auto-activates when:
 - A fix didn't work and you're about to try another
 - User reports a fix failed for the 2nd+ time

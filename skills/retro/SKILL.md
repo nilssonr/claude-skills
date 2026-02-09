@@ -7,6 +7,8 @@ description: Capture and review retrospective observations. Two modes — "log" 
 
 ## Mode 1: Log (default — `/retro`)
 
+**Announce at start:** `[SKILL:retro] Logging observation.`
+
 Capture an observation while context is fresh.
 
 Ask the user:
@@ -32,6 +34,8 @@ Ensure `~/.claude/retros/` exists. Append to `~/.claude/retros/log.md`:
 Confirm logged. Done.
 
 ## Mode 2: Review (`/retro review`)
+
+**Announce at start:** `[SKILL:retro:review] Analyzing patterns.`
 
 Analyze accumulated entries and propose skill improvements.
 
