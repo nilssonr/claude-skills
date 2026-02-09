@@ -1,54 +1,37 @@
 ---
 name: troubleshoot
-description: Enforces research-first debugging and failure escalation. Auto-activates when Claude has attempted a fix that didn't work and is about to try another, when the user reports a fix didn't work for the 2nd+ time, or when debugging unfamiliar tools/APIs/libraries. Also activates on /troubleshoot.
+description: Research-first debugging. Auto-activates after a failed fix attempt or when debugging unfamiliar tools. Enforces 2-strike escalation.
 ---
 
 # Troubleshoot
 
-Enforces disciplined debugging: research before coding, validate independently, and escalate when stuck.
+Auto-activates when:
+- A fix didn't work and you're about to try another
+- User reports a fix failed for the 2nd+ time
+- Debugging unfamiliar tools/APIs/libraries
 
-## Activation
+Don't announce it — just follow the rules.
 
-### Explicit
-User invokes `/troubleshoot`.
+## Rule 1: Research Before Coding
+For unfamiliar tools/libraries/APIs, launch `tool-researcher` via Task tool with the subject, problem, and any error messages. Wait for findings. Do NOT guess-and-check.
 
-### Auto-detect
-Activate when you observe any of:
-- You attempted a fix that didn't work and are about to try another approach
-- The user reports a fix didn't work for the 2nd or more time
-- You are debugging unfamiliar tools, APIs, or libraries
-- You are in a loop of trial-and-error without clear understanding of the root cause
+## Rule 2: Understand Before Fixing
+Build a mental model of the full stack involved. If you cannot explain WHY it's broken, you're not ready to fix it.
 
-When auto-detecting, do not announce the skill — just follow the rules below.
+## Rule 3: Validate Yourself
+Test assumptions with bash/scripts before asking the user to test. Never use the user as a test runner when you can verify locally.
 
-## Rules
+## Rule 4: Two-Strike Escalation
+After 2 failed attempts at the same problem:
 
-### 1. Research before coding
-- Before writing a fix for an unfamiliar tool, library, or API, spawn the `tool-researcher` agent with the subject and problem. Let it search docs, the web, and source code before you write any fix.
-- For shell/tooling/infra problems, use `tool-researcher` to search for existing plugins or community solutions before writing custom implementations.
-- Do NOT guess-and-check. Understand the system, then fix it.
+1. **Stop.** Do not try a 3rd variation.
+2. **State** what you tried and why it failed.
+3. **Research deeper** — launch `tool-researcher` with your failed attempts.
+4. **Question the approach** — is it fundamentally viable?
+5. **Report to user:**
+   - What you tried
+   - Why it failed
+   - Whether this approach can work at all
+   - Alternative approaches
 
-### 2. End-to-end understanding
-- Before fixing something, build a mental model of the full stack involved.
-- Map out how every component interacts before proposing a fix.
-- If you cannot explain WHY something is broken, you are not ready to fix it.
-
-### 3. Validate independently
-- Use bash, scripts, or other tools to test assumptions and verify fixes yourself before asking the user to test.
-- Never use the user as a test runner when you can validate locally.
-- Never ask the user to test more than twice without first independently verifying.
-
-### 4. Failure escalation
-This is the most important rule. After **2 failed attempts** at the same problem:
-
-1. **Stop.** Do not try a 3rd variation of the same approach.
-2. **Reassess.** State explicitly what you tried and why it failed.
-3. **Research deeper.** Spawn the `tool-researcher` agent with what you've tried and why it failed.
-4. **Question the approach.** Consider whether the current approach is fundamentally viable.
-5. **Report to the user.** Tell them:
-   - What you tried (briefly)
-   - Why you believe it failed
-   - Whether the current approach can work at all
-   - Alternative approaches to consider
-
-Do NOT silently try a 3rd, 4th, 5th variation hoping one sticks. That wastes the user's time and context window.
+Do NOT silently try a 3rd, 4th, 5th variation.

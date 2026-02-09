@@ -1,44 +1,64 @@
 ---
 name: retro
-description: Capture a retrospective observation about a skill or agent that didn't work well or could be improved. Appends a structured entry to ~/.claude/retros/log.md for later review.
+description: Capture and review retrospective observations. Two modes — "log" captures what went wrong, "review" analyzes patterns and proposes skill improvements. Use /retro to log, /retro review to analyze.
 ---
 
 # Retro
 
-Capture an observation about a skill or agent in the moment, while context is fresh.
+## Mode 1: Log (default — `/retro`)
 
-## Behavior
+Capture an observation while context is fresh.
 
-1. Ask the user (using AskUserQuestion with appropriate options where possible):
-   - **Which skill/agent was involved?** — List installed skills/agents as options if possible, otherwise ask as free text.
-   - **What were you trying to do?** — Brief task description.
-   - **What went wrong or could be better?** — The observation.
-   - **Do you have a concrete improvement idea?** — Optional suggested fix.
+Ask the user:
+1. **Which skill/agent?** — list known ones as options
+2. **What happened?** — brief description
+3. **Severity?** — high (wasted significant time), medium (needed correction), low (minor)
+4. **Fix idea?** — optional
 
-2. Gather context automatically:
-   - **Timestamp**: Current date/time
-   - **Repo**: Current working directory
-   - **Branch**: Current git branch (if in a git repo)
+Auto-gather: timestamp, repo path, branch.
 
-3. Ensure `~/.claude/retros/` directory exists (create if needed).
-
-4. Append the entry to `~/.claude/retros/log.md` using this format:
+Ensure `~/.claude/retros/` exists. Append to `~/.claude/retros/log.md`:
 
 ```
 ## [YYYY-MM-DD HH:MM]
-- **Skill/Agent**: [name]
-- **Repo**: [repo path]
+- **Skill**: [name]
+- **Severity**: [high|medium|low]
+- **Repo**: [path]
 - **Branch**: [branch]
-- **Task**: [what the user was trying to do]
-- **Observation**: [what went wrong or could be better]
-- **Suggested fix**: [concrete improvement idea, or "None provided"]
+- **What happened**: [observation]
+- **Fix idea**: [suggestion or "None"]
 ```
 
-5. Confirm to the user that the entry was logged.
+Confirm logged. Done.
+
+## Mode 2: Review (`/retro review`)
+
+Analyze accumulated entries and propose skill improvements.
+
+1. Read `~/.claude/retros/log.md`. If empty, say so and stop.
+
+2. Group by skill/agent. Within each group, find:
+   - Repeated problems (same issue, multiple entries)
+   - Related problems (different symptoms, same root cause)
+   - One-offs
+
+3. Score: impact = frequency × severity (high=3, medium=2, low=1)
+
+4. For each pattern (highest impact first):
+   ```
+   ### 1. [Title]
+   - **Skill**: [name]
+   - **Pattern**: [what keeps happening] ([N] entries, avg severity: [level])
+   - **Impact**: [score]
+   - **File to edit**: [exact path]
+   - **Change**: [specific addition/modification to the skill file]
+   ```
+
+5. Ask: "Which improvements should I apply?"
+   - Apply all / specific numbers / review only
+
+6. If applying: make targeted edits. Show diff. Confirm before saving.
 
 ## Rules
-
-- Never skip asking for the observation — that's the whole point.
-- Keep entries concise. Don't editorialize or rewrite what the user said.
-- If not in a git repo, set Branch to "N/A".
-- Append only — never overwrite or modify existing entries in the log.
+- Never modify `log.md` (append-only for log, read-only for review).
+- Be specific about changes. "Improve the prompt" is not actionable.

@@ -1,147 +1,88 @@
 ---
 name: requirements-gatherer
-description: Gathers complete requirements before code planning begins. Invoke manually at the start of any code-related workflow (new feature, bug fix, refactor, architecture decision) or reactively when ambiguity surfaces mid-conversation. Orchestrates focused agents to explore the repository, identify patterns, investigate the task domain, and synthesize questions. Produces a spec the plan-writer can act on without follow-up questions. Triggers on "let's gather requirements", "what do we need to know", "before we start", or when unresolved ambiguity is detected.
-disable-model-invocation: true
+description: Gathers requirements before planning. Orchestrates repo-scout and codebase-analyzer, synthesizes questions, produces a SPEC. Triggers on "let's gather requirements", "before we start", or when ambiguity is detected.
 ---
 
 # Requirements Gatherer
 
-Orchestrates subagents to gather complete, unambiguous requirements before code planning begins.
-
 ## Core Principle
-
 **Never produce a spec until all blocking questions are resolved.**
-
-## Invocation
-
-### Manual
-User explicitly starts: "Let's gather requirements for adding a user endpoint."
-
-### Reactive
-Triggered mid-conversation when ambiguity surfaces. Always start with:
-> "What is the current goal right now? (one sentence)"
-
-## Subagents
-
-You delegate to these subagents (they must be installed in `~/.claude/agents/` or `.claude/agents/`):
-
-| Agent | Purpose | Model | max_turns |
-|-------|---------|-------|-----------|
-| `repo-scout` | Structure, stack, entry points | haiku | 8 |
-| `pattern-analyzer` | Conventions, patterns | haiku | 8 |
-| `domain-investigator` | Domain-specific code, gaps | haiku | 8 |
-| `question-synthesizer` | Prioritize questions | sonnet | 1 |
-
-**Always set `max_turns`** when launching subagents. This is the only reliable way to enforce tool call budgets.
 
 ## Workflow
 
 ### 1. Confirm Goal
-If reactive invocation, ask: "What is the current goal right now?"
+Ask: "What are we building? (one sentence)"
+Get the repo path if not obvious from cwd.
 
-Get repo path and task description from user.
+### 2. Scout the Repo
+Launch `repo-scout` via Task tool. Review its report.
+- If EMPTY_REPO: skip to step 4 with minimal questions.
+- If PARTIAL/OK: continue.
 
-### 2. Run Repo Scout
-Delegate to `repo-scout` with the repo path and task context.
+### 3. Analyze Codebase
+If repo-scout found real code (not stubs), launch `codebase-analyzer` via Task tool with:
+- The repo-scout report
+- The task goal
+- Domain keywords extracted from the goal
 
-Review the report. If status is `INSUFFICIENT_CONTEXT`, ask the blocking question before continuing.
+If repo is small (<500 files) and task is focused, you can skip this and proceed with repo-scout findings alone.
 
-**Important:** When passing context to subsequent agents, include the file list and structure from repo-scout's findings so they don't re-explore the repo.
+### 4. Synthesize Questions
+This is YOUR job — not a separate agent. Using the reports:
 
-### 3. Assess Complexity and Choose Path
+1. Collect all unknowns from reports
+2. Check if one report answers another's unknown
+3. Check what the user already told you — don't re-ask
+4. Deduplicate
 
-Based on scout report, decide how to proceed:
+Categorize each as **blocking** or **directional**:
 
-**Lightweight path** — Scout reports stubs, scaffolding, or empty files:
-- Skip pattern-analyzer and domain-investigator
-- Pass scout findings directly to question-synthesizer
-- Don't waste time searching empty directories
+**Blocking:** Can't write correct code without it. Changes interfaces, persistence, or security. High rework cost if wrong.
 
-**Standard path** — Small-to-medium repo with real code:
-- Run pattern-analyzer and domain-investigator
-- Can run them together or sequentially
-- Pass all reports to question-synthesizer
-
-**Full path** — Large repo, monorepo, or complex task:
-- Run pattern-analyzer first
-- Run domain-investigator with pattern context
-- Pass all reports to question-synthesizer
-
-### 4. Run Question Synthesizer
-Always runs, regardless of path.
-
-Delegate to `question-synthesizer` with **all content inline in the prompt** (not as file references). The synthesizer has no tools — it cannot read files. You must embed:
-- The full text of all reports gathered so far
-- Task goal
-- Any facts user already provided
-- A `files_read` manifest listing every file the previous agents examined
-
-Set `max_turns: 1` — the synthesizer must produce its output in a single response.
+**Directional:** Has a reasonable default from the repo. Affects style not correctness. Changeable later.
 
 ### 5. Ask Questions
-Ask blocking questions one at a time. An answer may resolve multiple questions.
+Present blocking questions. One at a time. If user says "I don't know," propose options:
+> "Options: A) [tradeoff] or B) [tradeoff]. Which fits?"
 
-If user says "I don't know," propose options with tradeoffs:
-> "I need to know X. Options are:
-> - A: [tradeoff]
-> - B: [tradeoff]
-> Which fits best?"
+For directional questions, propose defaults:
+> "I'll assume [X] based on [evidence]. Object if wrong."
 
-Never halt. Always propose options.
-
-### 6. Resolution Hierarchy
-A question is resolved when:
-1. User explicitly answers
-2. Repo confirms and user doesn't contradict
-3. Documented default exists and user accepts
-
-### 7. Produce Spec
-Only when all blocking questions are resolved.
+### 6. Produce SPEC
 
 ```
 SPEC: [task-id]
-Repo: [path]
-Commit: [hash]
-Generated: [timestamp]
+Repo: [path] @ [commit hash]
 
 GOAL
-[What we're doing and why]
+[What and why — one paragraph]
 
 SCOPE
-In: [included]
-Out: [excluded]
+In: [specific files/modules]
+Out: [explicitly excluded]
 
 DECISIONS
 - DECISION: [thing] — [user chose]
 - REPO: [thing] — [code confirms]
-- DEFAULT: [thing] — [assumed because X]
+- DEFAULT: [thing] — [assumed, reason]
 
 CONSTRAINTS
-[Pin to specific files, not categories]
+- [specific file]: [constraint]
 
 DONE WHEN
-[Concrete, testable acceptance criteria]
+- [ ] [testable criterion]
+- [ ] [testable criterion]
+- [ ] All existing tests pass
 ```
 
-**Output rules:**
-- Labels (DECISION/REPO/DEFAULT) are mandatory
-- CONSTRAINTS reference specific files
-- DONE WHEN must be testable
-- No unlabeled assumptions
+### 7. Transition
+Present options:
+1. **Plan** → Call `EnterPlanMode`. Plan mode will use the SPEC to create implementation steps.
+2. **TDD** → Use `/tdd` with the SPEC's DONE WHEN criteria.
+3. **Revise** → Update SPEC based on feedback.
 
-## Failure Modes to Avoid
-
-- **Running all agents on empty repos.** If scout says stubs, skip the detailed analysis.
-- **Re-asking what user told you.** Pass user facts to question-synthesizer.
-- **Accepting vague answers.** "Just make it work" is not a resolution.
-- **Hidden assumptions.** Every assumption needs a label.
-
-## Integration
-
-### Handoff to Plan-Writer
-The spec is the interface. Plan-writer should require zero follow-up questions.
-
-### Failure Attribution
-- Plan-writer asks questions → requirements gap
-- Plan diverges from spec → planning gap
-- Code diverges from plan → execution gap
+## Rules
+- Don't run codebase-analyzer on empty repos.
+- Don't ask what the user already told you.
+- Every assumption gets a label (DECISION/REPO/DEFAULT).
+- DONE WHEN must be testable, not vibes.
