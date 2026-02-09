@@ -1,0 +1,11 @@
+{
+  "name": "claude-skills",
+  "version": "2.0.0",
+  "description": "Requirements-driven development pipeline with TDD, self-review, git workflow, and retrospective learning. Supports Rust, Go, TypeScript, C#, Angular.",
+  "author": {
+    "name": "nilssonr",
+    "url": "https://github.com/nilssonr"
+  },
+  "repository": "https://github.com/nilssonr/claude-skills",
+  "license": "MIT"
+}
