@@ -5,7 +5,9 @@ description: Git conventions for branching, commits, and PRs. Auto-activates on 
 
 # Git Workflow
 
-Auto-activates when performing git operations. Don't announce it — just follow the rules.
+**Announce at start:** `[SKILL:git-workflow] Active for [operation].`
+
+Auto-activates when performing git operations. Follow the rules below.
 
 ## Branching
 - On main/master → create `type/description` branch (e.g. `feat/add-oauth`)
@@ -51,3 +53,4 @@ Auto-activates when performing git operations. Don't announce it — just follow
 - Rebase over merge. Always.
 - Check `git status` before committing.
 - Small, logical commits > big batched ones.
+- **After any code change is complete (implementation, fix, refactor): commit immediately.** Do not declare "Done" or present a summary without committing first. The stop-gate hook will block completion if code changes are uncommitted.

@@ -5,6 +5,8 @@ description: Gathers requirements before planning. Orchestrates repo-scout and c
 
 # Requirements Gatherer
 
+**Announce at start:** `[SKILL:requirements-gatherer] Defining scope for [task].`
+
 ## Core Principle
 **Never produce a spec until all blocking questions are resolved.**
 
