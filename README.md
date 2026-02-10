@@ -32,7 +32,7 @@ These are your commands. Type them and Claude switches into that workflow.
 
 | Skill | Command | What happens |
 |-------|---------|-------------|
-| **requirements-gatherer** | `/gather` | Scouts the repo with parallel agents, surfaces blocking questions, produces a SPEC, enters plan mode. Use this before building anything non-trivial. |
+| **requirements-gatherer** | `/requirements-gatherer` | Scouts the repo with parallel agents, surfaces blocking questions, produces a SPEC, enters plan mode. Use this before building anything non-trivial. |
 | **tdd** | `/tdd` | RED -- write a failing test. GREEN -- minimum code to pass. REFACTOR -- clean up. COMMIT. Every phase is enforced. No skipping. |
 | **review** | `/review` | 9-dimension code review with [CRIT]/[WARN]/[INFO] severity. Works on local diffs, specific files, or GitHub PRs via `gh`. Read-only -- never posts comments. |
 | **retro** | `/retro` | Logs what went wrong. Run `/retro review` later to analyze patterns and propose skill improvements. Your feedback loop. |
@@ -75,7 +75,7 @@ Skills dispatch these as isolated sub-models. They do one thing well and report 
 
 **Building a feature:**
 ```
-/gather add user authentication
+/requirements-gatherer add user authentication
   --> answer a few blocking questions --> SPEC produced --> plan mode
 /tdd first acceptance criterion
   --> RED --> GREEN --> REFACTOR --> committed

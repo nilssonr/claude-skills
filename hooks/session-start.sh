@@ -25,7 +25,7 @@ Stack: ${STACK:-unknown}
 
 <skill-reminder>
 Before responding, check if a skill applies:
-- New work → /gather (requirements-gatherer)
+- New work → /requirements-gatherer
 - Code with tests → /tdd
 - Git ops → git-workflow (auto)
 - Debugging → troubleshoot (auto)
