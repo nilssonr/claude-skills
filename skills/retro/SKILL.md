@@ -66,3 +66,4 @@ Analyze accumulated entries and propose skill improvements.
 ## Rules
 - Never modify `log.md` (append-only for log, read-only for review).
 - Be specific about changes. "Improve the prompt" is not actionable.
+
