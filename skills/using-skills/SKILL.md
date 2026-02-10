@@ -19,7 +19,7 @@ Classify the task, match to a skill, and **announce your decision before doing a
 | Git operation | git-workflow | `[SKILL:git-workflow] Active.` |
 | Debugging / 2nd failed attempt | troubleshoot | `[SKILL:troubleshoot] Researching before fixing.` |
 | Something went wrong, session end | retro | `[SKILL:retro] Logging observation.` |
-| Review requested or verifying work | code-review | `[SKILL:code-review] Reviewing [scope].` |
+| Review requested or verifying work | review | `[SKILL:review] Reviewing [scope].` |
 
 **The announcement is mandatory.** It commits you to following the skill. If you announce TDD, you follow all TDD phases. If you announce "targeted fix," you don't secretly run requirements-gatherer.
 
