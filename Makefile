@@ -1,72 +1,300 @@
-SKILLS_SRC := $(wildcard skills/*)
-AGENTS_SRC := $(wildcard agents/*)
+# claude-skills Makefile
+#
+# Targets:
+#   make install          — Install agents, skills, commands globally + hooks to current project
+#   make install-global   — Install agents, skills, commands to ~/.claude/ only
+#   make install-hooks    — Install hooks + settings.json to current project only
+#   make uninstall        — Remove everything (global + project hooks)
+#   make uninstall-global — Remove global agents, skills, commands only
+#   make uninstall-hooks  — Remove project hooks only
+#   make status           — Show what's installed and where
+#   make validate         — Check that all files are in place and hooks are executable
+#   make link             — Symlink instead of copy (for development iteration)
+#   make unlink           — Remove symlinks
 
-SKILLS_DIR := $(HOME)/.claude/skills
-AGENTS_DIR := $(HOME)/.claude/agents
+SHELL := /bin/bash
+.DEFAULT_GOAL := help
 
-SKILL_NAMES := $(notdir $(SKILLS_SRC))
-AGENT_NAMES := $(notdir $(AGENTS_SRC))
+# Paths
+GLOBAL_DIR    := $(HOME)/.claude
+PROJECT_DIR   := $(CURDIR)/.claude
+RETRO_DIR     := $(GLOBAL_DIR)/retros
 
-.PHONY: install install-skills install-agents uninstall uninstall-skills uninstall-agents
+# Source directories (relative to this Makefile)
+SRC_AGENTS    := agents
+SRC_SKILLS    := skills
+SRC_COMMANDS  := commands
+SRC_HOOKS     := hooks
+SRC_SETTINGS  := settings.json
 
-install: install-skills install-agents
+# Installed agents
+AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md self-reviewer.md code-reviewer.md
+
+# Installed skills
+SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro
+
+# Installed commands
+COMMANDS := gather.md tdd.md retro.md review.md
+
+# Installed hooks
+HOOKS := session-start.sh skill-eval.sh auto-format.sh commit-validator.sh stop-gate.sh pre-compact.sh
+
+# Colors
+GREEN  := \033[0;32m
+YELLOW := \033[0;33m
+RED    := \033[0;31m
+NC     := \033[0m
+
+# ─────────────────────────────────────────────
+# Install
+# ─────────────────────────────────────────────
+
+.PHONY: install
+install: install-global install-hooks ## Install everything (global + project hooks)
+	@echo -e "$(GREEN)✓ Full install complete.$(NC)"
+	@echo "  Run 'make status' to verify."
+
+.PHONY: install-global
+install-global: ## Install agents, skills, commands to ~/.claude/
+	@echo "Installing agents..."
+	@mkdir -p $(GLOBAL_DIR)/agents
+	@for f in $(AGENTS); do \
+		cp $(SRC_AGENTS)/$$f $(GLOBAL_DIR)/agents/$$f; \
+	done
+
+	@echo "Installing skills..."
+	@for s in $(SKILLS); do \
+		mkdir -p $(GLOBAL_DIR)/skills/$$s; \
+		cp $(SRC_SKILLS)/$$s/SKILL.md $(GLOBAL_DIR)/skills/$$s/SKILL.md; \
+	done
+
+	@echo "Installing commands..."
+	@mkdir -p $(GLOBAL_DIR)/commands
+	@for f in $(COMMANDS); do \
+		cp $(SRC_COMMANDS)/$$f $(GLOBAL_DIR)/commands/$$f; \
+	done
+
+	@mkdir -p $(RETRO_DIR)
+	@echo -e "$(GREEN)✓ Global install complete → $(GLOBAL_DIR)$(NC)"
+
+.PHONY: install-hooks
+install-hooks: ## Install hooks + settings.json to current project's .claude/
+	@echo "Installing hooks to $(PROJECT_DIR)/hooks/..."
+	@mkdir -p $(PROJECT_DIR)/hooks
+
+	@for f in $(HOOKS); do \
+		cp $(SRC_HOOKS)/$$f $(PROJECT_DIR)/hooks/$$f; \
+		chmod +x $(PROJECT_DIR)/hooks/$$f; \
+	done
+
+	@cp $(SRC_SETTINGS) $(PROJECT_DIR)/settings.json
+	@echo -e "$(GREEN)✓ Hooks installed → $(PROJECT_DIR)$(NC)"
+
+# ─────────────────────────────────────────────
+# Uninstall
+# ─────────────────────────────────────────────
+
+.PHONY: uninstall
+uninstall: uninstall-global uninstall-hooks ## Remove everything
+	@echo -e "$(GREEN)✓ Full uninstall complete.$(NC)"
+
+.PHONY: uninstall-global
+uninstall-global: ## Remove agents, skills, commands from ~/.claude/
+	@echo "Removing agents..."
+	@for f in $(AGENTS); do \
+		rm -f $(GLOBAL_DIR)/agents/$$f; \
+	done
+
+	@echo "Removing skills..."
+	@for s in $(SKILLS); do \
+		rm -rf $(GLOBAL_DIR)/skills/$$s; \
+	done
+
+	@echo "Removing commands..."
+	@for f in $(COMMANDS); do \
+		rm -f $(GLOBAL_DIR)/commands/$$f; \
+	done
+
+	@echo -e "$(YELLOW)Note: $(RETRO_DIR)/log.md preserved (your data).$(NC)"
+	@echo -e "$(GREEN)✓ Global uninstall complete.$(NC)"
+
+.PHONY: uninstall-hooks
+uninstall-hooks: ## Remove hooks + settings.json from current project
+	@echo "Removing hooks from $(PROJECT_DIR)/hooks/..."
+	@for f in $(HOOKS); do \
+		rm -f $(PROJECT_DIR)/hooks/$$f; \
+	done
+	@rm -f $(PROJECT_DIR)/settings.json
+	@# Clean up empty dirs but don't remove .claude/ itself (may have other files)
+	@rmdir $(PROJECT_DIR)/hooks 2>/dev/null || true
+	@echo -e "$(GREEN)✓ Hooks uninstalled from project.$(NC)"
+
+# ─────────────────────────────────────────────
+# Link (for development — edit in repo, changes reflected everywhere)
+# ─────────────────────────────────────────────
+
+.PHONY: link
+link: ## Symlink agents/skills/commands to ~/.claude/ (for iterating on skills)
+	@echo "Symlinking agents..."
+	@mkdir -p $(GLOBAL_DIR)/agents
+	@for f in $(AGENTS); do \
+		ln -sf $(CURDIR)/$(SRC_AGENTS)/$$f $(GLOBAL_DIR)/agents/$$f; \
+	done
+
+	@echo "Symlinking skills..."
+	@for s in $(SKILLS); do \
+		mkdir -p $(GLOBAL_DIR)/skills/$$s; \
+		ln -sf $(CURDIR)/$(SRC_SKILLS)/$$s/SKILL.md $(GLOBAL_DIR)/skills/$$s/SKILL.md; \
+	done
+
+	@echo "Symlinking commands..."
+	@mkdir -p $(GLOBAL_DIR)/commands
+	@for f in $(COMMANDS); do \
+		ln -sf $(CURDIR)/$(SRC_COMMANDS)/$$f $(GLOBAL_DIR)/commands/$$f; \
+	done
+
+	@mkdir -p $(RETRO_DIR)
+	@echo -e "$(GREEN)✓ Symlinked → edits in this repo are live immediately.$(NC)"
+
+.PHONY: unlink
+unlink: ## Remove symlinks from ~/.claude/
+	@echo "Removing symlinks..."
+	@for f in $(AGENTS); do \
+		[ -L $(GLOBAL_DIR)/agents/$$f ] && rm $(GLOBAL_DIR)/agents/$$f || true; \
+	done
+	@for s in $(SKILLS); do \
+		[ -L $(GLOBAL_DIR)/skills/$$s/SKILL.md ] && rm $(GLOBAL_DIR)/skills/$$s/SKILL.md || true; \
+		rmdir $(GLOBAL_DIR)/skills/$$s 2>/dev/null || true; \
+	done
+	@for f in $(COMMANDS); do \
+		[ -L $(GLOBAL_DIR)/commands/$$f ] && rm $(GLOBAL_DIR)/commands/$$f || true; \
+	done
+	@echo -e "$(GREEN)✓ Symlinks removed.$(NC)"
+
+# ─────────────────────────────────────────────
+# Status and validation
+# ─────────────────────────────────────────────
+
+.PHONY: status
+status: ## Show what's installed and where
 	@echo ""
-	@echo "  ✓ Done"
+	@echo "=== Global ($(GLOBAL_DIR)) ==="
 	@echo ""
+	@echo "Agents:"
+	@for f in $(AGENTS); do \
+		if [ -f $(GLOBAL_DIR)/agents/$$f ]; then \
+			if [ -L $(GLOBAL_DIR)/agents/$$f ]; then \
+				echo -e "  $(GREEN)✓$(NC) $$f $(YELLOW)(symlinked)$(NC)"; \
+			else \
+				echo -e "  $(GREEN)✓$(NC) $$f"; \
+			fi; \
+		else \
+			echo -e "  $(RED)✗$(NC) $$f"; \
+		fi; \
+	done
 
-install-skills:
-	@mkdir -p $(SKILLS_DIR)
-	@if [ -n "$(SKILL_NAMES)" ]; then \
-		echo ""; \
-		echo "  Skills"; \
-		$(foreach name,$(SKILL_NAMES), \
-			rm -f $(SKILLS_DIR)/$(name); \
-			ln -sfn $(abspath skills/$(name)) $(SKILLS_DIR)/$(name); \
-			echo "    → $(name)"; \
-		) \
+	@echo ""
+	@echo "Skills:"
+	@for s in $(SKILLS); do \
+		if [ -f $(GLOBAL_DIR)/skills/$$s/SKILL.md ]; then \
+			if [ -L $(GLOBAL_DIR)/skills/$$s/SKILL.md ]; then \
+				echo -e "  $(GREEN)✓$(NC) $$s $(YELLOW)(symlinked)$(NC)"; \
+			else \
+				echo -e "  $(GREEN)✓$(NC) $$s"; \
+			fi; \
+		else \
+			echo -e "  $(RED)✗$(NC) $$s"; \
+		fi; \
+	done
+
+	@echo ""
+	@echo "Commands:"
+	@for f in $(COMMANDS); do \
+		if [ -f $(GLOBAL_DIR)/commands/$$f ]; then \
+			echo -e "  $(GREEN)✓$(NC) $$f"; \
+		else \
+			echo -e "  $(RED)✗$(NC) $$f"; \
+		fi; \
+	done
+
+	@echo ""
+	@echo "Retros:"
+	@if [ -d $(RETRO_DIR) ]; then \
+		count=$$(wc -l < $(RETRO_DIR)/log.md 2>/dev/null || echo 0); \
+		echo -e "  $(GREEN)✓$(NC) $(RETRO_DIR)/log.md ($$count lines)"; \
 	else \
-		echo ""; \
-		echo "  Skills"; \
-		echo "    (none found)"; \
+		echo -e "  $(YELLOW)—$(NC) Not created yet (created on first /retro)"; \
 	fi
 
-install-agents:
-	@mkdir -p $(AGENTS_DIR)
-	@if [ -n "$(AGENT_NAMES)" ]; then \
-		echo ""; \
-		echo "  Agents"; \
-		$(foreach name,$(AGENT_NAMES), \
-			rm -f $(AGENTS_DIR)/$(name); \
-			ln -sfn $(abspath agents/$(name)) $(AGENTS_DIR)/$(name); \
-			echo "    → $(name)"; \
-		) \
+	@echo ""
+	@echo "=== Project ($(PROJECT_DIR)) ==="
+	@echo ""
+	@echo "Hooks:"
+	@for f in $(HOOKS); do \
+		if [ -f $(PROJECT_DIR)/hooks/$$f ]; then \
+			if [ -x $(PROJECT_DIR)/hooks/$$f ]; then \
+				echo -e "  $(GREEN)✓$(NC) $$f"; \
+			else \
+				echo -e "  $(YELLOW)!$(NC) $$f (not executable)"; \
+			fi; \
+		else \
+			echo -e "  $(RED)✗$(NC) $$f"; \
+		fi; \
+	done
+
+	@echo ""
+	@echo "Settings:"
+	@if [ -f $(PROJECT_DIR)/settings.json ]; then \
+		hooks=$$(jq '.hooks | keys | length' $(PROJECT_DIR)/settings.json 2>/dev/null || echo "?"); \
+		echo -e "  $(GREEN)✓$(NC) settings.json ($$hooks hook events configured)"; \
 	else \
-		echo ""; \
-		echo "  Agents"; \
-		echo "    (none found)"; \
+		echo -e "  $(RED)✗$(NC) settings.json"; \
 	fi
-
-uninstall: uninstall-skills uninstall-agents
-	@echo ""
-	@echo "  ✓ Done"
 	@echo ""
 
-uninstall-skills:
-	@if [ -n "$(SKILL_NAMES)" ]; then \
-		echo ""; \
-		echo "  Skills"; \
-		$(foreach name,$(SKILL_NAMES), \
-			rm -f $(SKILLS_DIR)/$(name); \
-			echo "    ✗ $(name)"; \
-		) \
+.PHONY: validate
+validate: ## Check that everything is installed correctly
+	@errors=0; \
+	for f in $(AGENTS); do \
+		[ -f $(GLOBAL_DIR)/agents/$$f ] || { echo -e "$(RED)MISSING:$(NC) $(GLOBAL_DIR)/agents/$$f"; errors=$$((errors+1)); }; \
+	done; \
+	for s in $(SKILLS); do \
+		[ -f $(GLOBAL_DIR)/skills/$$s/SKILL.md ] || { echo -e "$(RED)MISSING:$(NC) $(GLOBAL_DIR)/skills/$$s/SKILL.md"; errors=$$((errors+1)); }; \
+	done; \
+	for f in $(COMMANDS); do \
+		[ -f $(GLOBAL_DIR)/commands/$$f ] || { echo -e "$(RED)MISSING:$(NC) $(GLOBAL_DIR)/commands/$$f"; errors=$$((errors+1)); }; \
+	done; \
+	for f in $(HOOKS); do \
+		if [ -f $(PROJECT_DIR)/hooks/$$f ]; then \
+			[ -x $(PROJECT_DIR)/hooks/$$f ] || { echo -e "$(YELLOW)NOT EXECUTABLE:$(NC) $(PROJECT_DIR)/hooks/$$f"; errors=$$((errors+1)); }; \
+		else \
+			echo -e "$(RED)MISSING:$(NC) $(PROJECT_DIR)/hooks/$$f"; errors=$$((errors+1)); \
+		fi; \
+	done; \
+	[ -f $(PROJECT_DIR)/settings.json ] || { echo -e "$(RED)MISSING:$(NC) $(PROJECT_DIR)/settings.json"; errors=$$((errors+1)); }; \
+	if [ $$errors -eq 0 ]; then \
+		echo -e "$(GREEN)✓ All files in place. Installation valid.$(NC)"; \
+	else \
+		echo -e "$(RED)✗ $$errors issues found.$(NC)"; \
+		exit 1; \
 	fi
 
-uninstall-agents:
-	@if [ -n "$(AGENT_NAMES)" ]; then \
-		echo ""; \
-		echo "  Agents"; \
-		$(foreach name,$(AGENT_NAMES), \
-			rm -f $(AGENTS_DIR)/$(name); \
-			echo "    ✗ $(name)"; \
-		) \
-	fi
+# ─────────────────────────────────────────────
+# Help
+# ─────────────────────────────────────────────
+
+.PHONY: help
+help: ## Show this help
+	@echo ""
+	@echo "claude-skills Makefile"
+	@echo ""
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@echo ""
+	@echo "Typical usage:"
+	@echo "  make install        # First time: install everything"
+	@echo "  make link           # For development: symlink so edits are live"
+	@echo "  make status         # Check what's installed"
+	@echo "  make validate       # Verify installation is correct"
+	@echo "  make uninstall      # Remove everything"
+	@echo ""
