@@ -42,12 +42,114 @@ Auto-activates when performing git operations. Follow the rules below.
 ## Pull Requests
 - Check if PR exists: `gh pr view 2>/dev/null`
 - Exists → push new commits. Don't create another.
-- Doesn't exist → ask user. If yes:
+- Doesn't exist -> ask user. If yes, check for a PR template first:
+  ```bash
+  # Check standard template locations
+  cat .github/pull_request_template.md 2>/dev/null \
+    || cat .github/PULL_REQUEST_TEMPLATE.md 2>/dev/null \
+    || cat docs/pull_request_template.md 2>/dev/null \
+    || cat PULL_REQUEST_TEMPLATE.md 2>/dev/null
+  ```
+  If a template exists, read it and fill in every section. Do not skip sections or restructure the template.
+  If no template exists, use the default format:
   ```bash
   git push -u origin HEAD
-  gh pr create --fill
+  gh pr create \
+    --title "type(scope): description" \
+    --body "$(cat <<'EOF'
+  ## What
+
+  [1-2 sentences: what this PR does]
+
+  ## Why
+
+  [1-2 sentences: why this change is needed]
+
+  ## Changes
+
+  - [concrete change 1]
+  - [concrete change 2]
+
+  ## Testing
+
+  [how it was tested, or "N/A" if no testable behavior]
+  EOF
+  )"
   ```
+  Title must follow conventional commit format. Body must be human-readable.
 - Highlight any odd tradeoffs in the PR description.
+
+## Branch Completion
+
+After implementation is committed on a feature branch, present the user with next steps. Check for a remote first:
+
+```bash
+git remote 2>/dev/null | head -1
+```
+
+Present exactly these options:
+
+- **Create PR** (only if a remote exists) -- push and open a pull request
+- **Merge to main** -- rebase onto main and fast-forward merge locally
+- **Discard branch** -- delete the branch and return to main
+
+Wait for the user to choose. Then execute:
+
+### Create PR
+
+Check for a repository PR template first:
+```bash
+cat .github/pull_request_template.md 2>/dev/null \
+  || cat .github/PULL_REQUEST_TEMPLATE.md 2>/dev/null \
+  || cat docs/pull_request_template.md 2>/dev/null \
+  || cat PULL_REQUEST_TEMPLATE.md 2>/dev/null
+```
+If a template exists, read it and fill in every section. Do not skip sections or restructure the template.
+
+If no template exists, use the default format:
+```bash
+git push -u origin HEAD
+gh pr create \
+  --title "type(scope): description" \
+  --body "$(cat <<'EOF'
+## What
+
+[1-2 sentences: what this PR does]
+
+## Why
+
+[1-2 sentences: why this change is needed]
+
+## Changes
+
+- [concrete change 1]
+- [concrete change 2]
+
+## Testing
+
+[how it was tested, or "N/A" if no testable behavior]
+EOF
+)"
+```
+Title follows conventional commit format. Body is composed by Claude from the actual changes -- not auto-filled from commit messages.
+
+### Merge to main
+```bash
+git checkout main
+git pull --rebase 2>/dev/null
+git rebase main <branch> 2>/dev/null || git checkout <branch> && git rebase main
+git checkout main
+git merge --ff-only <branch>
+git branch -d <branch>
+```
+If fast-forward fails, stop and tell the user -- do not force merge.
+
+### Discard branch
+```bash
+git checkout main
+git branch -D <branch>
+```
+Confirm with the user before executing. This is destructive.
 
 ## Rules
 - Rebase over merge. Always.
