@@ -8,7 +8,7 @@
 | `/tdd [feature]` | Implementing with tests first | RED (failing tests) → GREEN (minimal impl) → REFACTOR → commit |
 | `/retro` | Something went wrong | Logs observation with severity to ~/.claude/retros/log.md |
 | `/retro review` | Periodically (weekly) | Analyzes retro log → finds patterns → proposes skill edits → applies with confirmation |
-| `/review` | Before merging a branch | Thorough code review: spec compliance, correctness, tests, security, conventions |
+| `/review` | Before merging, or to verify work | Structured review across 9 dimensions with [CRIT]/[WARN]/[INFO] severity report |
 
 ## Auto-activating skills (you don't invoke these)
 
@@ -37,7 +37,7 @@
 | codebase-analyzer | requirements-gatherer | haiku | Conventions + domain in one pass |
 | tool-researcher | troubleshoot | sonnet | Web research on unfamiliar tools |
 | self-reviewer | stop-gate hook | sonnet | Semantic review (plan mode, read-only) |
-| code-reviewer | /review command | sonnet | Thorough PR-style review (plan mode) |
+| code-reviewer | /review command | sonnet | Structured review via code-review skill (plan mode) |
 
 ## Typical workflows
 
