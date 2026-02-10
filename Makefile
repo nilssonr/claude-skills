@@ -21,7 +21,6 @@ RETRO_DIR     := $(GLOBAL_DIR)/retros
 # Source directories (relative to this Makefile)
 SRC_AGENTS    := agents
 SRC_SKILLS    := skills
-SRC_COMMANDS  := commands
 SRC_HOOKS     := hooks
 SRC_SETTINGS  := settings.json
 
@@ -30,9 +29,6 @@ AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md self-reviewer.md
 
 # Installed skills
 SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro
-
-# Installed commands
-COMMANDS := gather.md tdd.md retro.md review.md
 
 # Installed hooks
 HOOKS := session-start.sh skill-eval.sh auto-format.sh commit-validator.sh stop-gate.sh pre-compact.sh
@@ -48,7 +44,7 @@ NC     := \033[0m
 # ─────────────────────────────────────────────
 
 .PHONY: install
-install: ## Install everything to ~/.claude/ (agents, skills, commands, hooks)
+install: ## Install everything to ~/.claude/ (agents, skills, hooks)
 	@echo "Installing agents..."
 	@mkdir -p $(GLOBAL_DIR)/agents
 	@for f in $(AGENTS); do \
@@ -59,12 +55,6 @@ install: ## Install everything to ~/.claude/ (agents, skills, commands, hooks)
 	@for s in $(SKILLS); do \
 		mkdir -p $(GLOBAL_DIR)/skills/$$s; \
 		cp $(SRC_SKILLS)/$$s/SKILL.md $(GLOBAL_DIR)/skills/$$s/SKILL.md; \
-	done
-
-	@echo "Installing commands..."
-	@mkdir -p $(GLOBAL_DIR)/commands
-	@for f in $(COMMANDS); do \
-		cp $(SRC_COMMANDS)/$$f $(GLOBAL_DIR)/commands/$$f; \
 	done
 
 	@echo "Installing hooks..."
@@ -106,7 +96,7 @@ install-hooks: ## Install hooks + settings.json to current project's .claude/
 # ─────────────────────────────────────────────
 
 .PHONY: uninstall
-uninstall: ## Remove everything from ~/.claude/ (agents, skills, commands, hooks)
+uninstall: ## Remove everything from ~/.claude/ (agents, skills, hooks)
 	@echo "Removing agents..."
 	@for f in $(AGENTS); do \
 		rm -f $(GLOBAL_DIR)/agents/$$f; \
@@ -115,11 +105,6 @@ uninstall: ## Remove everything from ~/.claude/ (agents, skills, commands, hooks
 	@echo "Removing skills..."
 	@for s in $(SKILLS); do \
 		rm -rf $(GLOBAL_DIR)/skills/$$s; \
-	done
-
-	@echo "Removing commands..."
-	@for f in $(COMMANDS); do \
-		rm -f $(GLOBAL_DIR)/commands/$$f; \
 	done
 
 	@echo "Removing hooks..."
@@ -166,12 +151,6 @@ link: ## Symlink everything to ~/.claude/ (for iterating on skills)
 		ln -sf $(CURDIR)/$(SRC_SKILLS)/$$s/SKILL.md $(GLOBAL_DIR)/skills/$$s/SKILL.md; \
 	done
 
-	@echo "Symlinking commands..."
-	@mkdir -p $(GLOBAL_DIR)/commands
-	@for f in $(COMMANDS); do \
-		ln -sf $(CURDIR)/$(SRC_COMMANDS)/$$f $(GLOBAL_DIR)/commands/$$f; \
-	done
-
 	@echo "Symlinking hooks..."
 	@mkdir -p $(GLOBAL_DIR)/hooks
 	@for f in $(HOOKS); do \
@@ -200,9 +179,6 @@ unlink: ## Remove symlinks from ~/.claude/
 	@for s in $(SKILLS); do \
 		[ -L $(GLOBAL_DIR)/skills/$$s/SKILL.md ] && rm $(GLOBAL_DIR)/skills/$$s/SKILL.md || true; \
 		rmdir $(GLOBAL_DIR)/skills/$$s 2>/dev/null || true; \
-	done
-	@for f in $(COMMANDS); do \
-		[ -L $(GLOBAL_DIR)/commands/$$f ] && rm $(GLOBAL_DIR)/commands/$$f || true; \
 	done
 	@for f in $(HOOKS); do \
 		[ -L $(GLOBAL_DIR)/hooks/$$f ] && rm $(GLOBAL_DIR)/hooks/$$f || true; \
@@ -254,16 +230,6 @@ status: ## Show what's installed and where
 	done
 
 	@echo ""
-	@echo "Commands:"
-	@for f in $(COMMANDS); do \
-		if [ -f $(GLOBAL_DIR)/commands/$$f ]; then \
-			echo -e "  $(GREEN)✓$(NC) $$f"; \
-		else \
-			echo -e "  $(RED)✗$(NC) $$f"; \
-		fi; \
-	done
-
-	@echo ""
 	@echo "Hooks:"
 	@for f in $(HOOKS); do \
 		if [ -f $(GLOBAL_DIR)/hooks/$$f ]; then \
@@ -306,9 +272,6 @@ validate: ## Check that everything is installed correctly
 	done; \
 	for s in $(SKILLS); do \
 		[ -f $(GLOBAL_DIR)/skills/$$s/SKILL.md ] || { echo -e "$(RED)MISSING:$(NC) $(GLOBAL_DIR)/skills/$$s/SKILL.md"; errors=$$((errors+1)); }; \
-	done; \
-	for f in $(COMMANDS); do \
-		[ -f $(GLOBAL_DIR)/commands/$$f ] || { echo -e "$(RED)MISSING:$(NC) $(GLOBAL_DIR)/commands/$$f"; errors=$$((errors+1)); }; \
 	done; \
 	for f in $(HOOKS); do \
 		if [ -f $(GLOBAL_DIR)/hooks/$$f ] || [ -L $(GLOBAL_DIR)/hooks/$$f ]; then \
