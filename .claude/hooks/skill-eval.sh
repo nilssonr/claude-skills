@@ -21,7 +21,7 @@ if [ "$is_targeted" = "true" ]; then
 BEFORE responding, quickly evaluate: does this request match a skill?
 This looks like a TARGETED FIX (specific file/line referenced).
 - Do NOT use requirements-gatherer for targeted fixes. Proceed directly.
-- If this is a multi-file change or has unclear scope, use /gather instead.
+- If this is a multi-file change or has unclear scope, use /requirements-gatherer instead.
 - writing tests first / TDD → tdd
 - git commit/branch/PR → git-workflow (auto-commits after implementation)
 - debugging / fix failed → troubleshoot
@@ -31,7 +31,7 @@ EOF
 else
   cat <<'EOF'
 BEFORE responding, quickly evaluate: does this request match a skill?
-- new feature / unclear scope / multi-file → requirements-gatherer (/gather)
+- new feature / unclear scope / multi-file → /requirements-gatherer
 - writing tests first / TDD → tdd
 - git commit/branch/PR → git-workflow
 - debugging / fix failed → troubleshoot

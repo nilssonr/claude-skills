@@ -43,7 +43,7 @@ if [ -f 'package.json' ] && grep -q '"test"' package.json 2>/dev/null; then
   node_test || { echo "Node tests failing. Fix before completing." >&2; exit 2; }
 fi
 if ls *.csproj 1>/dev/null 2>&1; then
-  dotnet test --no-build 2>&1 | tail -10 || { echo ".NET tests failing. Fix before completing." >&2; exit 2; }
+  dotnet test 2>&1 | tail -10 || { echo ".NET tests failing. Fix before completing." >&2; exit 2; }
 fi
 
 # Check for uncommitted code changes and remind about git-workflow
