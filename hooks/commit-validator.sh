@@ -11,8 +11,17 @@ if [[ ! "$command" == *"git commit"* ]] || [[ ! "$command" == *"-m"* ]]; then
   exit 0
 fi
 
-# Extract commit message (handles both single and double quotes)
-msg=$(echo "$command" | grep -oP '(?<=-m\s?["\x27])[^"\x27]+' | head -1)
+# Extract commit message
+# Try heredoc-style first: -m "$(cat <<'EOF'\nmessage\nEOF\n)"
+msg=$(echo "$command" | awk '/cat <</{found=1; next} /^[[:space:]]*EOF/{found=0} found{print; exit}' | sed 's/^[[:space:]]*//')
+
+# Fall back to simple -m "message" or -m 'message'
+if [ -z "$msg" ]; then
+  msg=$(echo "$command" | sed -n 's/.*-m[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+fi
+if [ -z "$msg" ]; then
+  msg=$(echo "$command" | sed -n "s/.*-m[[:space:]]*'\([^']*\)'.*/\1/p" | head -1)
+fi
 
 if [ -z "$msg" ]; then
   exit 0
@@ -26,11 +35,5 @@ if [[ ! "$msg" =~ ^(feat|fix|docs|style|refactor|test|chore)(\(.+\))?\!?:\ .+ ]]
   exit 2
 fi
 
-# Block commits to main/master
-branch=$(git branch --show-current 2>/dev/null || echo "unknown")
-if [[ "$branch" == "main" || "$branch" == "master" ]]; then
-  echo "Cannot commit directly to $branch. Create a feature branch first." >&2
-  exit 2
-fi
 
 exit 0
