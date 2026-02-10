@@ -1,55 +1,56 @@
 ---
 name: git-workflow
-description: Git workflow conventions for branching, commits, and PRs. Auto-activates when performing git operations during implementation (branching, committing, creating PRs) or when executing a plan.
+description: Git conventions for branching, commits, and PRs. Auto-activates on git operations. Enforced by PreToolUse hook for commit message validation.
 ---
 
 # Git Workflow
 
-Enforces consistent git conventions for branching, commits, and pull requests.
+**Announce at start:** `[SKILL:git-workflow] Active for [operation].`
 
-## Activation
+Auto-activates when performing git operations. Follow the rules below.
 
-### Explicit
-User invokes `/git-workflow`.
+## Branching
+- On main/master → create `type/description` branch (e.g. `feat/add-oauth`)
+- Already on feature branch → confirm and continue. Don't create nested branches.
+- NEVER commit to main/master.
 
-### Auto-detect
-Activate when you observe any of:
-- About to create a branch for implementation work
-- About to commit changes
-- About to create or update a pull request
-- Executing a plan from `/plan-writer`
-
-When auto-detecting, do not announce the skill — just follow the rules below.
-
-## Rules
-
-### 1. Branching
-- If already on a non-primary branch (i.e. not `main`/`master`), confirm with the user and continue on that branch — do NOT create a new one
-- If on a primary branch, create a new branch using `type/description` naming (e.g. `feat/add-oauth-support`, `fix/login-redirect`)
-- NEVER commit directly to main/master
-
-### 2. Commit Often
-- Commit after each logical step or closely related group of changes
-- Never batch an entire plan into a single commit
+## Commits
+- Commit after each logical step. Never batch a whole plan into one commit.
 - Use conventional commits:
   ```
-  <type>[optional scope]: <description>
+  type(scope): description
   ```
-  Types: feat, fix, docs, style, refactor, test, chore
-  Scope clarifies the affected area, e.g. `feat(auth): add OAuth support`
-  Mark breaking changes with `!` after type/scope or `BREAKING CHANGE:` in footer
-- When executing a single ad-hoc request (e.g. "fix X real quick") without a multi-step plan, do NOT commit automatically — let the user decide
+  Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+  Breaking changes: `feat(auth)!: remove password login`
 
-### 3. Pull Requests
-- After all checks pass, check if a PR already exists for the current branch (e.g. `gh pr view`)
-- If a PR exists, push the new commits to the branch — do NOT create a new PR
-- If no PR exists, ask the user: "Would you like me to create a PR now?"
-  - If yes, push the branch and create a PR with:
-    - Brief overview of what was done
-    - If any strange or odd trade-offs were made, highlight them and link to the relevant code
-- Use rebase, never merge. Maintain a clean linear history.
+- Use HEREDOC to avoid escaping issues:
+  ```bash
+  git commit -m "$(cat <<'EOF'
+  feat(auth): add OAuth2 PKCE flow
 
-### 4. General Preferences
-- Always use rebase over merge
-- Prefer small, logical commits over large batched ones
-- Never commit on main
+  Implements authorization code flow with PKCE for public clients.
+  EOF
+  )"
+  ```
+
+- Ad-hoc one-off requests ("fix X real quick") → don't auto-commit. Let user decide.
+
+## Pushing
+- After rebase: `git push --force-with-lease` (NEVER `--force`)
+- If rejected: someone else pushed. Fetch and re-examine.
+
+## Pull Requests
+- Check if PR exists: `gh pr view 2>/dev/null`
+- Exists → push new commits. Don't create another.
+- Doesn't exist → ask user. If yes:
+  ```bash
+  git push -u origin HEAD
+  gh pr create --fill
+  ```
+- Highlight any odd tradeoffs in the PR description.
+
+## Rules
+- Rebase over merge. Always.
+- Check `git status` before committing.
+- Small, logical commits > big batched ones.
+- **After any code change is complete (implementation, fix, refactor): commit immediately.** Do not declare "Done" or present a summary without committing first. The stop-gate hook will block completion if code changes are uncommitted.
