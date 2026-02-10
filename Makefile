@@ -1,11 +1,9 @@
 # claude-skills Makefile
 #
 # Targets:
-#   make install          — Install agents, skills, commands globally + hooks to current project
-#   make install-global   — Install agents, skills, commands to ~/.claude/ only
+#   make install          — Install everything globally to ~/.claude/
 #   make install-hooks    — Install hooks + settings.json to current project only
-#   make uninstall        — Remove everything (global + project hooks)
-#   make uninstall-global — Remove global agents, skills, commands only
+#   make uninstall        — Remove everything from ~/.claude/
 #   make uninstall-hooks  — Remove project hooks only
 #   make status           — Show what's installed and where
 #   make validate         — Check that all files are in place and hooks are executable
@@ -50,12 +48,7 @@ NC     := \033[0m
 # ─────────────────────────────────────────────
 
 .PHONY: install
-install: install-global install-hooks ## Install everything (global + project hooks)
-	@echo -e "$(GREEN)✓ Full install complete.$(NC)"
-	@echo "  Run 'make status' to verify."
-
-.PHONY: install-global
-install-global: ## Install agents, skills, commands to ~/.claude/
+install: ## Install everything to ~/.claude/ (agents, skills, commands, hooks)
 	@echo "Installing agents..."
 	@mkdir -p $(GLOBAL_DIR)/agents
 	@for f in $(AGENTS); do \
@@ -74,8 +67,26 @@ install-global: ## Install agents, skills, commands to ~/.claude/
 		cp $(SRC_COMMANDS)/$$f $(GLOBAL_DIR)/commands/$$f; \
 	done
 
+	@echo "Installing hooks..."
+	@mkdir -p $(GLOBAL_DIR)/hooks
+	@for f in $(HOOKS); do \
+		cp $(SRC_HOOKS)/$$f $(GLOBAL_DIR)/hooks/$$f; \
+		chmod +x $(GLOBAL_DIR)/hooks/$$f; \
+	done
+
+	@echo "Merging hook settings into ~/.claude/settings.json..."
+	@sed 's|\.claude/hooks/|$(GLOBAL_DIR)/hooks/|g' $(SRC_SETTINGS) > /tmp/claude-skills-hooks.json
+	@if [ -f $(GLOBAL_DIR)/settings.json ]; then \
+		jq -s '.[0] * .[1]' $(GLOBAL_DIR)/settings.json /tmp/claude-skills-hooks.json > /tmp/claude-skills-merged.json; \
+		mv /tmp/claude-skills-merged.json $(GLOBAL_DIR)/settings.json; \
+	else \
+		cp /tmp/claude-skills-hooks.json $(GLOBAL_DIR)/settings.json; \
+	fi
+	@rm -f /tmp/claude-skills-hooks.json
+
 	@mkdir -p $(RETRO_DIR)
-	@echo -e "$(GREEN)✓ Global install complete → $(GLOBAL_DIR)$(NC)"
+	@echo -e "$(GREEN)✓ Install complete → $(GLOBAL_DIR)$(NC)"
+	@echo "  Run 'make status' to verify."
 
 .PHONY: install-hooks
 install-hooks: ## Install hooks + settings.json to current project's .claude/
@@ -95,11 +106,7 @@ install-hooks: ## Install hooks + settings.json to current project's .claude/
 # ─────────────────────────────────────────────
 
 .PHONY: uninstall
-uninstall: uninstall-global uninstall-hooks ## Remove everything
-	@echo -e "$(GREEN)✓ Full uninstall complete.$(NC)"
-
-.PHONY: uninstall-global
-uninstall-global: ## Remove agents, skills, commands from ~/.claude/
+uninstall: ## Remove everything from ~/.claude/ (agents, skills, commands, hooks)
 	@echo "Removing agents..."
 	@for f in $(AGENTS); do \
 		rm -f $(GLOBAL_DIR)/agents/$$f; \
@@ -115,8 +122,20 @@ uninstall-global: ## Remove agents, skills, commands from ~/.claude/
 		rm -f $(GLOBAL_DIR)/commands/$$f; \
 	done
 
+	@echo "Removing hooks..."
+	@for f in $(HOOKS); do \
+		rm -f $(GLOBAL_DIR)/hooks/$$f; \
+	done
+	@rmdir $(GLOBAL_DIR)/hooks 2>/dev/null || true
+
+	@echo "Removing hook settings from ~/.claude/settings.json..."
+	@if [ -f $(GLOBAL_DIR)/settings.json ]; then \
+		jq 'del(.hooks)' $(GLOBAL_DIR)/settings.json > /tmp/claude-skills-clean.json; \
+		mv /tmp/claude-skills-clean.json $(GLOBAL_DIR)/settings.json; \
+	fi
+
 	@echo -e "$(YELLOW)Note: $(RETRO_DIR)/log.md preserved (your data).$(NC)"
-	@echo -e "$(GREEN)✓ Global uninstall complete.$(NC)"
+	@echo -e "$(GREEN)✓ Uninstall complete.$(NC)"
 
 .PHONY: uninstall-hooks
 uninstall-hooks: ## Remove hooks + settings.json from current project
@@ -134,7 +153,7 @@ uninstall-hooks: ## Remove hooks + settings.json from current project
 # ─────────────────────────────────────────────
 
 .PHONY: link
-link: ## Symlink agents/skills/commands to ~/.claude/ (for iterating on skills)
+link: ## Symlink everything to ~/.claude/ (for iterating on skills)
 	@echo "Symlinking agents..."
 	@mkdir -p $(GLOBAL_DIR)/agents
 	@for f in $(AGENTS); do \
@@ -153,6 +172,22 @@ link: ## Symlink agents/skills/commands to ~/.claude/ (for iterating on skills)
 		ln -sf $(CURDIR)/$(SRC_COMMANDS)/$$f $(GLOBAL_DIR)/commands/$$f; \
 	done
 
+	@echo "Symlinking hooks..."
+	@mkdir -p $(GLOBAL_DIR)/hooks
+	@for f in $(HOOKS); do \
+		ln -sf $(CURDIR)/$(SRC_HOOKS)/$$f $(GLOBAL_DIR)/hooks/$$f; \
+	done
+
+	@echo "Merging hook settings into ~/.claude/settings.json..."
+	@sed 's|\.claude/hooks/|$(GLOBAL_DIR)/hooks/|g' $(SRC_SETTINGS) > /tmp/claude-skills-hooks.json
+	@if [ -f $(GLOBAL_DIR)/settings.json ]; then \
+		jq -s '.[0] * .[1]' $(GLOBAL_DIR)/settings.json /tmp/claude-skills-hooks.json > /tmp/claude-skills-merged.json; \
+		mv /tmp/claude-skills-merged.json $(GLOBAL_DIR)/settings.json; \
+	else \
+		cp /tmp/claude-skills-hooks.json $(GLOBAL_DIR)/settings.json; \
+	fi
+	@rm -f /tmp/claude-skills-hooks.json
+
 	@mkdir -p $(RETRO_DIR)
 	@echo -e "$(GREEN)✓ Symlinked → edits in this repo are live immediately.$(NC)"
 
@@ -169,6 +204,17 @@ unlink: ## Remove symlinks from ~/.claude/
 	@for f in $(COMMANDS); do \
 		[ -L $(GLOBAL_DIR)/commands/$$f ] && rm $(GLOBAL_DIR)/commands/$$f || true; \
 	done
+	@for f in $(HOOKS); do \
+		[ -L $(GLOBAL_DIR)/hooks/$$f ] && rm $(GLOBAL_DIR)/hooks/$$f || true; \
+	done
+	@rmdir $(GLOBAL_DIR)/hooks 2>/dev/null || true
+
+	@echo "Removing hook settings from ~/.claude/settings.json..."
+	@if [ -f $(GLOBAL_DIR)/settings.json ]; then \
+		jq 'del(.hooks)' $(GLOBAL_DIR)/settings.json > /tmp/claude-skills-clean.json; \
+		mv /tmp/claude-skills-clean.json $(GLOBAL_DIR)/settings.json; \
+	fi
+
 	@echo -e "$(GREEN)✓ Symlinks removed.$(NC)"
 
 # ─────────────────────────────────────────────
@@ -218,21 +264,12 @@ status: ## Show what's installed and where
 	done
 
 	@echo ""
-	@echo "Retros:"
-	@if [ -d $(RETRO_DIR) ]; then \
-		count=$$(wc -l < $(RETRO_DIR)/log.md 2>/dev/null || echo 0); \
-		echo -e "  $(GREEN)✓$(NC) $(RETRO_DIR)/log.md ($$count lines)"; \
-	else \
-		echo -e "  $(YELLOW)—$(NC) Not created yet (created on first /retro)"; \
-	fi
-
-	@echo ""
-	@echo "=== Project ($(PROJECT_DIR)) ==="
-	@echo ""
 	@echo "Hooks:"
 	@for f in $(HOOKS); do \
-		if [ -f $(PROJECT_DIR)/hooks/$$f ]; then \
-			if [ -x $(PROJECT_DIR)/hooks/$$f ]; then \
+		if [ -f $(GLOBAL_DIR)/hooks/$$f ]; then \
+			if [ -L $(GLOBAL_DIR)/hooks/$$f ]; then \
+				echo -e "  $(GREEN)✓$(NC) $$f $(YELLOW)(symlinked)$(NC)"; \
+			elif [ -x $(GLOBAL_DIR)/hooks/$$f ]; then \
 				echo -e "  $(GREEN)✓$(NC) $$f"; \
 			else \
 				echo -e "  $(YELLOW)!$(NC) $$f (not executable)"; \
@@ -244,11 +281,20 @@ status: ## Show what's installed and where
 
 	@echo ""
 	@echo "Settings:"
-	@if [ -f $(PROJECT_DIR)/settings.json ]; then \
-		hooks=$$(jq '.hooks | keys | length' $(PROJECT_DIR)/settings.json 2>/dev/null || echo "?"); \
+	@if [ -f $(GLOBAL_DIR)/settings.json ]; then \
+		hooks=$$(jq '.hooks | keys | length' $(GLOBAL_DIR)/settings.json 2>/dev/null || echo "?"); \
 		echo -e "  $(GREEN)✓$(NC) settings.json ($$hooks hook events configured)"; \
 	else \
 		echo -e "  $(RED)✗$(NC) settings.json"; \
+	fi
+
+	@echo ""
+	@echo "Retros:"
+	@if [ -d $(RETRO_DIR) ]; then \
+		count=$$(wc -l < $(RETRO_DIR)/log.md 2>/dev/null || echo 0); \
+		echo -e "  $(GREEN)✓$(NC) $(RETRO_DIR)/log.md ($$count lines)"; \
+	else \
+		echo -e "  $(YELLOW)—$(NC) Not created yet (created on first /retro)"; \
 	fi
 	@echo ""
 
@@ -265,13 +311,17 @@ validate: ## Check that everything is installed correctly
 		[ -f $(GLOBAL_DIR)/commands/$$f ] || { echo -e "$(RED)MISSING:$(NC) $(GLOBAL_DIR)/commands/$$f"; errors=$$((errors+1)); }; \
 	done; \
 	for f in $(HOOKS); do \
-		if [ -f $(PROJECT_DIR)/hooks/$$f ]; then \
-			[ -x $(PROJECT_DIR)/hooks/$$f ] || { echo -e "$(YELLOW)NOT EXECUTABLE:$(NC) $(PROJECT_DIR)/hooks/$$f"; errors=$$((errors+1)); }; \
+		if [ -f $(GLOBAL_DIR)/hooks/$$f ] || [ -L $(GLOBAL_DIR)/hooks/$$f ]; then \
+			[ -x $(GLOBAL_DIR)/hooks/$$f ] || [ -L $(GLOBAL_DIR)/hooks/$$f ] || { echo -e "$(YELLOW)NOT EXECUTABLE:$(NC) $(GLOBAL_DIR)/hooks/$$f"; errors=$$((errors+1)); }; \
 		else \
-			echo -e "$(RED)MISSING:$(NC) $(PROJECT_DIR)/hooks/$$f"; errors=$$((errors+1)); \
+			echo -e "$(RED)MISSING:$(NC) $(GLOBAL_DIR)/hooks/$$f"; errors=$$((errors+1)); \
 		fi; \
 	done; \
-	[ -f $(PROJECT_DIR)/settings.json ] || { echo -e "$(RED)MISSING:$(NC) $(PROJECT_DIR)/settings.json"; errors=$$((errors+1)); }; \
+	if [ -f $(GLOBAL_DIR)/settings.json ]; then \
+		jq -e '.hooks' $(GLOBAL_DIR)/settings.json > /dev/null 2>&1 || { echo -e "$(RED)MISSING:$(NC) hooks config in $(GLOBAL_DIR)/settings.json"; errors=$$((errors+1)); }; \
+	else \
+		echo -e "$(RED)MISSING:$(NC) $(GLOBAL_DIR)/settings.json"; errors=$$((errors+1)); \
+	fi; \
 	if [ $$errors -eq 0 ]; then \
 		echo -e "$(GREEN)✓ All files in place. Installation valid.$(NC)"; \
 	else \
