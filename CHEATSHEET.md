@@ -36,8 +36,7 @@
 | repo-scout | requirements-gatherer | haiku | Fast repo mapping (1 bash call) |
 | codebase-analyzer | requirements-gatherer | haiku | Conventions + domain in one pass |
 | tool-researcher | troubleshoot | sonnet | Web research on unfamiliar tools |
-| self-reviewer | stop-gate hook | sonnet | Semantic review (plan mode, read-only) |
-| code-reviewer | /review command | sonnet | Structured review via code-review skill (plan mode) |
+| code-reviewer | /review command | sonnet | Structured review via review skill (plan mode) |
 
 ## Typical workflows
 

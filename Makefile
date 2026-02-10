@@ -25,10 +25,10 @@ SRC_HOOKS     := hooks
 SRC_SETTINGS  := settings.json
 
 # Installed agents
-AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md self-reviewer.md code-reviewer.md
+AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md code-reviewer.md
 
 # Installed skills
-SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro
+SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro review
 
 # Installed hooks
 HOOKS := session-start.sh skill-eval.sh auto-format.sh commit-validator.sh stop-gate.sh pre-compact.sh
@@ -55,6 +55,10 @@ install: ## Install everything to ~/.claude/ (agents, skills, hooks)
 	@for s in $(SKILLS); do \
 		mkdir -p $(GLOBAL_DIR)/skills/$$s; \
 		cp $(SRC_SKILLS)/$$s/SKILL.md $(GLOBAL_DIR)/skills/$$s/SKILL.md; \
+		if [ -d $(SRC_SKILLS)/$$s/references ]; then \
+			mkdir -p $(GLOBAL_DIR)/skills/$$s/references; \
+			cp $(SRC_SKILLS)/$$s/references/* $(GLOBAL_DIR)/skills/$$s/references/; \
+		fi; \
 	done
 
 	@echo "Installing hooks..."
@@ -149,6 +153,12 @@ link: ## Symlink everything to ~/.claude/ (for iterating on skills)
 	@for s in $(SKILLS); do \
 		mkdir -p $(GLOBAL_DIR)/skills/$$s; \
 		ln -sf $(CURDIR)/$(SRC_SKILLS)/$$s/SKILL.md $(GLOBAL_DIR)/skills/$$s/SKILL.md; \
+		if [ -d $(SRC_SKILLS)/$$s/references ]; then \
+			mkdir -p $(GLOBAL_DIR)/skills/$$s/references; \
+			for ref in $(CURDIR)/$(SRC_SKILLS)/$$s/references/*; do \
+				ln -sf $$ref $(GLOBAL_DIR)/skills/$$s/references/$$(basename $$ref); \
+			done; \
+		fi; \
 	done
 
 	@echo "Symlinking hooks..."
@@ -178,6 +188,12 @@ unlink: ## Remove symlinks from ~/.claude/
 	done
 	@for s in $(SKILLS); do \
 		[ -L $(GLOBAL_DIR)/skills/$$s/SKILL.md ] && rm $(GLOBAL_DIR)/skills/$$s/SKILL.md || true; \
+		if [ -d $(GLOBAL_DIR)/skills/$$s/references ]; then \
+			for ref in $(GLOBAL_DIR)/skills/$$s/references/*; do \
+				[ -L "$$ref" ] && rm "$$ref" || true; \
+			done; \
+			rmdir $(GLOBAL_DIR)/skills/$$s/references 2>/dev/null || true; \
+		fi; \
 		rmdir $(GLOBAL_DIR)/skills/$$s 2>/dev/null || true; \
 	done
 	@for f in $(HOOKS); do \
