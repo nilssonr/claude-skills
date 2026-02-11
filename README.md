@@ -36,6 +36,7 @@ These are your commands. Type them and Claude switches into that workflow.
 | **tdd** | `/tdd` | RED -- write a failing test. GREEN -- minimum code to pass. REFACTOR -- clean up. COMMIT. Every phase is enforced. No skipping. |
 | **review** | `/review` | 9-dimension code review with [CRIT]/[WARN]/[INFO] severity. Works on local diffs, specific files, or GitHub PRs via `gh`. Read-only -- never posts comments. |
 | **retro** | `/retro` | Logs what went wrong. Run `/retro review` later to analyze patterns and propose skill improvements. Your feedback loop. |
+| **sumo-search** | `/search` | Sumo Logic Search Query Language reference. Covers search operators, parsing, aggregation, time-series, enrichment, pattern detection, and query optimization. Backed by 214 official docs. |
 
 ## Skills that activate themselves
 

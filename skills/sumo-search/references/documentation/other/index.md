@@ -1,0 +1,30 @@
+---
+slug: /search/lookup-tables
+title: Lookup Tables
+description: Use lookup tables in Sumo Logic to enrich your searches with external reference data for greater query flexibility and powerful log correlations.
+---
+
+This guide has information about Lookup Tables. 
+
+New Lookup Tables are available in all deployments except Sumo Logic's Montreal deployment, pending AWS providing a required AWS service in the Montreal region.
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+In this section, we'll introduce the following concepts:
+
+<div className="box-wrapper">
+<div className="box smallbox card">
+  <div className="container">
+  <a href={useBaseUrl('docs/search/lookup-tables/create-lookup-table')}><img src={useBaseUrl('img/icons/logs.png')} alt="icon" width="40"/><h4>Create a Lookup Table</h4></a>
+  <p>Learn about Lookup Tables and how to create and manage them.</p>
+  </div>
+</div>
+<div className="box smallbox card">
+  <div className="container">
+  <a href={useBaseUrl('docs/search/lookup-tables/manage-update-lookup-tables')}><img src={useBaseUrl('img/icons/logs.png')} alt="icon" width="40"/><h4>Manage and Update Lookup Tables</h4></a>
+  <p>Learn how to update, export, and share Lookup Tables.</p>
+  </div>
+</div>
+</div>
+
+<br/>
