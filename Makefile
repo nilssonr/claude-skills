@@ -28,7 +28,7 @@ SRC_SETTINGS  := settings.json
 AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md code-reviewer.md
 
 # Installed skills
-SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro review
+SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro review sumo-search
 
 # Installed hooks
 HOOKS := session-start.sh skill-eval.sh auto-format.sh commit-validator.sh stop-gate.sh pre-compact.sh
@@ -57,7 +57,7 @@ install: ## Install everything to ~/.claude/ (agents, skills, hooks)
 		cp $(SRC_SKILLS)/$$s/SKILL.md $(GLOBAL_DIR)/skills/$$s/SKILL.md; \
 		if [ -d $(SRC_SKILLS)/$$s/references ]; then \
 			mkdir -p $(GLOBAL_DIR)/skills/$$s/references; \
-			cp $(SRC_SKILLS)/$$s/references/* $(GLOBAL_DIR)/skills/$$s/references/; \
+			cp -r $(SRC_SKILLS)/$$s/references/* $(GLOBAL_DIR)/skills/$$s/references/; \
 		fi; \
 	done
 
