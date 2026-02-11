@@ -29,6 +29,7 @@ Before responding, check if a skill applies:
 - Code with tests → /tdd
 - Git ops → git-workflow (auto)
 - Debugging → troubleshoot (auto)
+- Temporal workflows → /temporal
 - Session end → /retro
 If none apply, proceed normally.
 </skill-reminder>

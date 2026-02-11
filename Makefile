@@ -28,7 +28,7 @@ SRC_SETTINGS  := settings.json
 AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md code-reviewer.md
 
 # Installed skills
-SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro review sumo-search
+SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro review sumo-search temporal
 
 # Installed hooks
 HOOKS := session-start.sh skill-eval.sh auto-format.sh commit-validator.sh stop-gate.sh pre-compact.sh

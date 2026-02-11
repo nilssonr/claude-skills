@@ -1,0 +1,3008 @@
+{
+  "total_files": 6,
+  "total_settings": 36,
+  "detected_patterns": {},
+  "config_files": [
+    {
+      "file_path": "/Users/ingemar/Code/tools/documentation/docs/output/temporal/quality_report.json",
+      "relative_path": "output/temporal/quality_report.json",
+      "type": "json",
+      "purpose": "general_configuration",
+      "patterns": [],
+      "settings_count": 17,
+      "settings": [
+        {
+          "key": "timestamp",
+          "value": "2026-02-10T19:17:56.400914",
+          "type": "string",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "skill_name",
+          "value": "temporal",
+          "type": "string",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "overall_score.total_score",
+          "value": 66.0,
+          "type": "number",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "overall_score.completeness",
+          "value": 70.0,
+          "type": "number",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "overall_score.accuracy",
+          "value": 100.0,
+          "type": "number",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "overall_score.coverage",
+          "value": 0.0,
+          "type": "number",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "overall_score.health",
+          "value": 100.0,
+          "type": "number",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "overall_score.grade",
+          "value": "C+",
+          "type": "string",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "metrics",
+          "value": [
+            {
+              "name": "Completeness",
+              "value": 70.0,
+              "level": "MetricLevel.INFO",
+              "description": "Documentation completeness: 70.0%",
+              "suggestions": [
+                "Expand documentation coverage"
+              ]
+            },
+            {
+              "name": "Accuracy",
+              "value": 100.0,
+              "level": "MetricLevel.INFO",
+              "description": "Documentation accuracy: 100.0%",
+              "suggestions": []
+            },
+            {
+              "name": "Coverage",
+              "value": 0.0,
+              "level": "MetricLevel.WARNING",
+              "description": "Documentation coverage: 0.0%",
+              "suggestions": [
+                "Add getting started guide",
+                "Add API reference documentation",
+                "Expand documentation coverage"
+              ]
+            },
+            {
+              "name": "Health",
+              "value": 100.0,
+              "level": "MetricLevel.INFO",
+              "description": "Skill health: 100.0%",
+              "suggestions": []
+            }
+          ],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "statistics.total_files",
+          "value": 7,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "statistics.total_size_bytes",
+          "value": 51763,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "statistics.markdown_files",
+          "value": 7,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "statistics.reference_files",
+          "value": 0,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "statistics.total_characters",
+          "value": 51729,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "statistics.total_words",
+          "value": 5592,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "recommendations",
+          "value": [
+            "\ud83d\udfe1 Expand documentation coverage (API, examples)",
+            "\ud83d\udcdd Review and enhance overall documentation quality"
+          ],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "history",
+          "value": [],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        }
+      ],
+      "parse_errors": []
+    },
+    {
+      "file_path": "/Users/ingemar/Code/tools/documentation/docs/output/temporal/code_analysis.json",
+      "relative_path": "output/temporal/code_analysis.json",
+      "type": "json",
+      "purpose": "general_configuration",
+      "patterns": [],
+      "settings_count": 1,
+      "settings": [
+        {
+          "key": "files",
+          "value": [],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        }
+      ],
+      "parse_errors": []
+    },
+    {
+      "file_path": "/Users/ingemar/Code/tools/documentation/docs/output/temporal/references/documentation/documentation_index.json",
+      "relative_path": "output/temporal/references/documentation/documentation_index.json",
+      "type": "json",
+      "purpose": "general_configuration",
+      "patterns": [],
+      "settings_count": 5,
+      "settings": [
+        {
+          "key": "total_files",
+          "value": 5,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "categories.api",
+          "value": [
+            "cloud/references/regions/awsregions.md",
+            "cloud/references/regions/gcpregions.md",
+            "cloud/references/regions/private-service.md"
+          ],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "categories.overview",
+          "value": [
+            "glossary.md"
+          ],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "categories.other",
+          "value": [
+            "output/temporal/config_patterns/config_patterns.md"
+          ],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "files",
+          "value": [
+            {
+              "path": "cloud/references/regions/awsregions.md",
+              "filename": "awsregions.md",
+              "category": "api",
+              "size_bytes": 6465,
+              "title": "awsregions",
+              "structure": {
+                "title": null,
+                "headers": [
+                  {
+                    "level": 3,
+                    "text": "Asia Pacific - Tokyo (`ap-northeast-1`)",
+                    "line": 1
+                  },
+                  {
+                    "level": 3,
+                    "text": "Asia Pacific - Seoul (`ap-northeast-2`)",
+                    "line": 16
+                  },
+                  {
+                    "level": 3,
+                    "text": "Asia Pacific - Mumbai (`ap-south-1`)",
+                    "line": 31
+                  },
+                  {
+                    "level": 3,
+                    "text": "Asia Pacific - Hyderabad (`ap-south-2`)",
+                    "line": 46
+                  },
+                  {
+                    "level": 3,
+                    "text": "Asia Pacific - Singapore (`ap-southeast-1`)",
+                    "line": 61
+                  },
+                  {
+                    "level": 3,
+                    "text": "Asia Pacific - Sydney (`ap-southeast-2`)",
+                    "line": 76
+                  },
+                  {
+                    "level": 3,
+                    "text": "Europe - Frankfurt (`eu-central-1`)",
+                    "line": 91
+                  },
+                  {
+                    "level": 3,
+                    "text": "Europe - Ireland (`eu-west-1`)",
+                    "line": 103
+                  },
+                  {
+                    "level": 3,
+                    "text": "Europe - London (`eu-west-2`)",
+                    "line": 115
+                  },
+                  {
+                    "level": 3,
+                    "text": "North America - Central Canada (`ca-central-1`)",
+                    "line": 127
+                  },
+                  {
+                    "level": 3,
+                    "text": "North America - Northern Virginia (`us-east-1`)",
+                    "line": 142
+                  },
+                  {
+                    "level": 3,
+                    "text": "North America - Ohio (`us-east-2`)",
+                    "line": 157
+                  },
+                  {
+                    "level": 3,
+                    "text": "North America - Oregon (`us-west-2`)",
+                    "line": 172
+                  },
+                  {
+                    "level": 3,
+                    "text": "South America - S\u00e3o Paulo (`sa-east-1`)",
+                    "line": 187
+                  }
+                ],
+                "code_blocks": [],
+                "links": [],
+                "word_count": 588,
+                "line_count": 197
+              },
+              "summary": "Sections: Asia Pacific - Tokyo (`ap-northeast-1`), Asia Pacific - Seoul (`ap-northeast-2`), Asia Pacific - Mumbai (`ap-south-1`), Asia Pacific - Hyderabad (`ap-south-2`), Asia Pacific - Singapore (`ap-southeast-1`)\n- **Cloud API Code**: `aws-ap-northeast-1` - **Regional Endpoint**: `aws-ap-northeast-1.region.tmprl.cloud` - **PrivateLink Endpoint Service**: `com.amazonaws.vpce.ap-northeast-1.vpce-svc-08f34c33f9fb...\n(588 words, 0 code blocks)",
+              "content": null
+            },
+            {
+              "path": "cloud/references/regions/gcpregions.md",
+              "filename": "gcpregions.md",
+              "category": "api",
+              "size_bytes": 2576,
+              "title": "gcpregions",
+              "structure": {
+                "title": null,
+                "headers": [
+                  {
+                    "level": 3,
+                    "text": "North America - Iowa (`us-central1`)",
+                    "line": 1
+                  },
+                  {
+                    "level": 3,
+                    "text": "North America - Oregon (`us-west1`)",
+                    "line": 16
+                  },
+                  {
+                    "level": 3,
+                    "text": "North America - Northern Virginia (`us-east4`)",
+                    "line": 31
+                  },
+                  {
+                    "level": 3,
+                    "text": "Europe - Frankfurt (`europe-west3`)",
+                    "line": 46
+                  },
+                  {
+                    "level": 3,
+                    "text": "Asia Pacific - Mumbai (`asia-south1`)",
+                    "line": 59
+                  }
+                ],
+                "code_blocks": [],
+                "links": [],
+                "word_count": 233,
+                "line_count": 74
+              },
+              "summary": "Sections: North America - Iowa (`us-central1`), North America - Oregon (`us-west1`), North America - Northern Virginia (`us-east4`), Europe - Frankfurt (`europe-west3`), Asia Pacific - Mumbai (`asia-south1`)\n- **Cloud API Code**: `gcp-us-central1` - **Regional Endpoint**: `gcp-us-central1.region.tmprl.cloud` - **Private Service Connect Service Attachment URI**: `projects/prod-d9ch6v2ybver8d2a8fyf7qru9/reg...\n(233 words, 0 code blocks)",
+              "content": null
+            },
+            {
+              "path": "cloud/references/regions/private-service.md",
+              "filename": "private-service.md",
+              "category": "api",
+              "size_bytes": 596,
+              "title": "private-service",
+              "structure": {
+                "title": null,
+                "headers": [],
+                "code_blocks": [],
+                "links": [],
+                "word_count": 30,
+                "line_count": 6
+              },
+              "summary": "| Region                 | Private Service Connect Service Name                                                      | | ---------------------- | ------------------------------------------------------...\n(30 words, 0 code blocks)",
+              "content": null
+            },
+            {
+              "path": "glossary.md",
+              "filename": "glossary.md",
+              "category": "overview",
+              "size_bytes": 38793,
+              "title": "glossary",
+              "structure": {
+                "title": null,
+                "headers": [
+                  {
+                    "level": 4,
+                    "text": "[Action](/cloud/pricing#action)",
+                    "line": 14
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Actions Per Second (APS)](/cloud/limits#actions-per-second)",
+                    "line": 22
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Activity](/activities)",
+                    "line": 30
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Activity Definition](/activity-definition)",
+                    "line": 36
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Activity Execution](/activity-execution)",
+                    "line": 42
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Activity Heartbeat](/encyclopedia/detecting-activity-failures#activity-heartbeat)",
+                    "line": 48
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Activity Id](/activity-execution#activity-id)",
+                    "line": 56
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Activity Task](/tasks#activity-task)",
+                    "line": 62
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Activity Task Execution](/tasks#activity-task-execution)",
+                    "line": 68
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Activity Type](/activity-definition#activity-type)",
+                    "line": 75
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Archival](/temporal-service/archival)",
+                    "line": 81
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Asynchronous Activity Completion](/activity-execution#asynchronous-activity-completion)",
+                    "line": 88
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Audit Logging](/cloud/audit-logs)",
+                    "line": 95
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Authorizer Plugin](/self-hosted-guide/security#authorizer-plugin)",
+                    "line": 101
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Availability Zone](/cloud/high-availability)",
+                    "line": 108
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Child Workflow](/child-workflows)",
+                    "line": 116
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Claim Mapper](/self-hosted-guide/security#claim-mapper)",
+                    "line": 122
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Codec Server](/codec-server)",
+                    "line": 128
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Command](/workflow-execution#command)",
+                    "line": 135
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Continue-As-New](/workflow-execution/continue-as-new)",
+                    "line": 141
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Core SDK](https://temporal.io/blog/why-rust-powers-core-sdk)",
+                    "line": 148
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Custom Data Converter](/default-custom-data-converters#custom-data-converter)",
+                    "line": 157
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Data Converter](/dataconversion)",
+                    "line": 164
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Default Data Converter](/default-custom-data-converters#default-data-converter)",
+                    "line": 170
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Delay Workflow Execution](/workflow-execution/timers-delays)",
+                    "line": 177
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Dual Visibility](/dual-visibility)",
+                    "line": 185
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Durable Execution](/temporal#durable-execution)",
+                    "line": 192
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Dynamic Handler](/dynamic-handler)",
+                    "line": 199
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Event](/workflow-execution/event#event)",
+                    "line": 206
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Event History](/workflow-execution/event#event-history)",
+                    "line": 213
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Failback](/cloud/high-availability)",
+                    "line": 219
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Failover](/cloud/high-availability)",
+                    "line": 224
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Failure](/temporal#failure)",
+                    "line": 232
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Failure Converter](/failure-converter)",
+                    "line": 238
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Failures](/references/failures)",
+                    "line": 244
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Frontend Service](/temporal-service/temporal-server#frontend-service)",
+                    "line": 250
+                  },
+                  {
+                    "level": 4,
+                    "text": "[General Availability](/evaluate/development-production-features/release-stages#general-availability)",
+                    "line": 257
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Global Namespace](/global-namespace)",
+                    "line": 263
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Heartbeat Timeout](/encyclopedia/detecting-activity-failures#heartbeat-timeout)",
+                    "line": 272
+                  },
+                  {
+                    "level": 4,
+                    "text": "[High Availability](/cloud/high-availability/)",
+                    "line": 278
+                  },
+                  {
+                    "level": 4,
+                    "text": "[High Availability features](/cloud/high-availability#high-availability-features)",
+                    "line": 286
+                  },
+                  {
+                    "level": 4,
+                    "text": "[History Service](/temporal-service/temporal-server#history-service)",
+                    "line": 295
+                  },
+                  {
+                    "level": 4,
+                    "text": "[History Shard](/temporal-service/temporal-server#history-shard)",
+                    "line": 302
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Idempotency](/activity-definition#idempotency)",
+                    "line": 309
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Isolation Domain](/cloud/high-availability)",
+                    "line": 318
+                  },
+                  {
+                    "level": 4,
+                    "text": "[List Filter](/list-filter)",
+                    "line": 325
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Local Activity](/local-activity)",
+                    "line": 331
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Matching Service](/temporal-service/temporal-server#matching-service)",
+                    "line": 337
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Memo](/workflow-execution#memo)",
+                    "line": 343
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Multi-Cluster Replication](/self-hosted-guide/multi-cluster-replication)",
+                    "line": 350
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Multi-cloud Replication](/cloud/high-availability/enable)",
+                    "line": 357
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Multi-region Replication](/cloud/high-availability/enable)",
+                    "line": 364
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Namespace](/namespaces)",
+                    "line": 372
+                  },
+                  {
+                    "level": 4,
+                    "text": "Nexus Async Completion Callback",
+                    "line": 378
+                  },
+                  {
+                    "level": 4,
+                    "text": "Nexus Endpoint",
+                    "line": 384
+                  },
+                  {
+                    "level": 4,
+                    "text": "Nexus Machinery",
+                    "line": 394
+                  },
+                  {
+                    "level": 4,
+                    "text": "Nexus Operation",
+                    "line": 404
+                  },
+                  {
+                    "level": 4,
+                    "text": "Nexus Operation Events",
+                    "line": 415
+                  },
+                  {
+                    "level": 4,
+                    "text": "Nexus Operation Handler",
+                    "line": 422
+                  },
+                  {
+                    "level": 4,
+                    "text": "Nexus Registry",
+                    "line": 429
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Nexus RPC](https://github.com/nexus-rpc/api/blob/main/SPEC.md)",
+                    "line": 438
+                  },
+                  {
+                    "level": 4,
+                    "text": "Nexus Service",
+                    "line": 446
+                  },
+                  {
+                    "level": 4,
+                    "text": "Nexus Service Contract",
+                    "line": 454
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Parent Close Policy](/parent-close-policy)",
+                    "line": 461
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Payload](/dataconversion#payload)",
+                    "line": 468
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Payload Codec](/payload-codec)",
+                    "line": 474
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Payload Converter](/payload-converter)",
+                    "line": 480
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Pre-release](/evaluate/development-production-features/release-stages#pre-release)",
+                    "line": 486
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Public Preview](/evaluate/development-production-features/release-stages#public-preview)",
+                    "line": 492
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Query](/sending-messages#sending-queries)",
+                    "line": 498
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Remote data encoding](/remote-data-encoding)",
+                    "line": 504
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Replication Lag](/cloud/high-availability/monitoring#replication-lag-metric)",
+                    "line": 511
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Requests Per Second (RPS)](/references/dynamic-configuration#service-level-rps-limits)",
+                    "line": 517
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Reset](/workflow-execution/event#reset)",
+                    "line": 524
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Retention Period](/temporal-service/temporal-server#retention-period)",
+                    "line": 531
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Retry Policy](/encyclopedia/retry-policies)",
+                    "line": 538
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Run Id](/workflow-execution/workflowid-runid#run-id)",
+                    "line": 545
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Same-region Replication](/cloud/high-availability/enable)",
+                    "line": 551
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Schedule](/schedule)",
+                    "line": 558
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Schedule-To-Close Timeout](/encyclopedia/detecting-activity-failures#schedule-to-close-timeout)",
+                    "line": 564
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Schedule-To-Start Timeout](/encyclopedia/detecting-activity-failures#schedule-to-start-timeout)",
+                    "line": 572
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Search Attribute](/search-attribute)",
+                    "line": 579
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Side Effect](/workflow-execution/event#side-effect)",
+                    "line": 586
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Signal](/sending-messages#sending-signals)",
+                    "line": 593
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Signal-With-Start](/sending-messages#signal-with-start)",
+                    "line": 599
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Start-To-Close Timeout](/encyclopedia/detecting-activity-failures#start-to-close-timeout)",
+                    "line": 605
+                  },
+                  {
+                    "level": 4,
+                    "text": "[State Transition](/workflow-execution#state-transition)",
+                    "line": 611
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Sticky Execution](/sticky-execution)",
+                    "line": 617
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Task](/tasks#task)",
+                    "line": 624
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Task Queue](/task-queue)",
+                    "line": 630
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Task Routing](/task-routing)",
+                    "line": 636
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Task Token](/activity-execution#task-token)",
+                    "line": 642
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal](/temporal)",
+                    "line": 648
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Application](/temporal#temporal-application)",
+                    "line": 654
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal CLI](/cli) {#cli}",
+                    "line": 660
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Client](/encyclopedia/temporal-sdks#temporal-client)",
+                    "line": 666
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Cloud](/cloud/overview)",
+                    "line": 672
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Cloud Account Id](/cloud/namespaces#temporal-cloud-account-id)",
+                    "line": 678
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Cloud Namespace Id](/cloud/namespaces#temporal-cloud-namespace-id)",
+                    "line": 684
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Cloud Namespace Name](/cloud/namespaces#temporal-cloud-namespace-name)",
+                    "line": 690
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Cloud gRPC Endpoint](/cloud/namespaces#temporal-cloud-grpc-endpoint)",
+                    "line": 696
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Cluster](/temporal-service)",
+                    "line": 702
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Service](/temporal-service)",
+                    "line": 707
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Service configuration](/temporal-service/configuration)",
+                    "line": 713
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Cron Job](/cron-job)",
+                    "line": 719
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Platform](/temporal#temporal-platform)",
+                    "line": 726
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal SDK](/encyclopedia/temporal-sdks)",
+                    "line": 732
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Server](/temporal-service/temporal-server)",
+                    "line": 739
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Temporal Web UI](/web-ui)",
+                    "line": 745
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Timer](/workflow-execution/timers-delays)",
+                    "line": 751
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Update](/sending-messages#sending-updates)",
+                    "line": 757
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Visibility](/temporal-service/visibility)",
+                    "line": 763
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Worker](/workers#worker)",
+                    "line": 770
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Worker Entity](/workers#worker-entity)",
+                    "line": 777
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Worker Process](/workers#worker-process)",
+                    "line": 783
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Worker Program](/workers#worker-program)",
+                    "line": 790
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Worker Service](/temporal-service/temporal-server#worker-service)",
+                    "line": 797
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Worker Session](/task-routing#worker-session)",
+                    "line": 804
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow](/workflows)",
+                    "line": 811
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Definition](/workflow-definition)",
+                    "line": 818
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Execution](/workflow-execution)",
+                    "line": 824
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Execution Timeout](/encyclopedia/detecting-workflow-failures#workflow-execution-timeout)",
+                    "line": 831
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow History Export](/cloud/export)",
+                    "line": 838
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Id](/workflow-execution/workflowid-runid#workflow-id)",
+                    "line": 844
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Id Conflict Policy](/workflow-execution/workflowid-runid#workflow-id-conflict-policy)",
+                    "line": 851
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Id Reuse Policy](/workflow-execution/workflowid-runid#workflow-id-reuse-policy)",
+                    "line": 858
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Run Timeout](/encyclopedia/detecting-workflow-failures#workflow-run-timeout)",
+                    "line": 865
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Task](/tasks#workflow-task)",
+                    "line": 871
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Task Execution](/tasks#workflow-task-execution)",
+                    "line": 877
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Task Timeout](/encyclopedia/detecting-workflow-failures#workflow-task-timeout)",
+                    "line": 884
+                  },
+                  {
+                    "level": 4,
+                    "text": "[Workflow Type](/workflow-definition#workflow-type)",
+                    "line": 891
+                  },
+                  {
+                    "level": 2,
+                    "text": "Deprecated terms",
+                    "line": 897
+                  },
+                  {
+                    "level": 4,
+                    "text": "tctl (_deprecated_)",
+                    "line": 899
+                  }
+                ],
+                "code_blocks": [],
+                "links": [
+                  {
+                    "text": "Temporal Platform",
+                    "url": "/temporal"
+                  },
+                  {
+                    "text": "Action",
+                    "url": "/cloud/pricing#action"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "pricing",
+                    "url": "/tags/pricing"
+                  },
+                  {
+                    "text": "temporal-cloud",
+                    "url": "/tags/temporal-cloud"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Actions Per Second (APS)",
+                    "url": "/cloud/limits#actions-per-second"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "pricing",
+                    "url": "/tags/pricing"
+                  },
+                  {
+                    "text": "temporal-cloud",
+                    "url": "/tags/temporal-cloud"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Activity",
+                    "url": "/activities"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Activity Definition",
+                    "url": "/activity-definition"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Activity Execution",
+                    "url": "/activity-execution"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Activity Heartbeat",
+                    "url": "/encyclopedia/detecting-activity-failures#activity-heartbeat"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Activity Id",
+                    "url": "/activity-execution#activity-id"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Activity Task",
+                    "url": "/tasks#activity-task"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Activity Task Execution",
+                    "url": "/tasks#activity-task-execution"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Activity Type",
+                    "url": "/activity-definition#activity-type"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Archival",
+                    "url": "/temporal-service/archival"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Asynchronous Activity Completion",
+                    "url": "/activity-execution#asynchronous-activity-completion"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Audit Logging",
+                    "url": "/cloud/audit-logs"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "temporal-cloud",
+                    "url": "/tags/temporal-cloud"
+                  },
+                  {
+                    "text": "operations",
+                    "url": "/tags/operations"
+                  },
+                  {
+                    "text": "Authorizer Plugin",
+                    "url": "/self-hosted-guide/security#authorizer-plugin"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Availability Zone",
+                    "url": "/cloud/high-availability"
+                  },
+                  {
+                    "text": "SLA",
+                    "url": "/cloud/sla"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Child Workflow",
+                    "url": "/child-workflows"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "child-workflow",
+                    "url": "/tags/child-workflow"
+                  },
+                  {
+                    "text": "Claim Mapper",
+                    "url": "/self-hosted-guide/security#claim-mapper"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Codec Server",
+                    "url": "/codec-server"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Command",
+                    "url": "/workflow-execution#command"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Continue-As-New",
+                    "url": "/workflow-execution/continue-as-new"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "continue-as-new",
+                    "url": "/tags/continue-as-new"
+                  },
+                  {
+                    "text": "Core SDK",
+                    "url": "https://temporal.io/blog/why-rust-powers-core-sdk"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "continue-as-new",
+                    "url": "/tags/continue-as-new"
+                  },
+                  {
+                    "text": "Custom Data Converter",
+                    "url": "/default-custom-data-converters#custom-data-converter"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Data Converter",
+                    "url": "/dataconversion"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Default Data Converter",
+                    "url": "/default-custom-data-converters#default-data-converter"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Delay Workflow Execution",
+                    "url": "/workflow-execution/timers-delays"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "delay-workflow",
+                    "url": "/tags/delay-workflow"
+                  },
+                  {
+                    "text": "Dual Visibility",
+                    "url": "/dual-visibility"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "filtered-lists",
+                    "url": "/tags/filtered-lists"
+                  },
+                  {
+                    "text": "visibility",
+                    "url": "/tags/visibility"
+                  },
+                  {
+                    "text": "Durable Execution",
+                    "url": "/temporal#durable-execution"
+                  },
+                  {
+                    "text": "temporal",
+                    "url": "/tags/temporal"
+                  },
+                  {
+                    "text": "durable-execution",
+                    "url": "/tags/durable-execution"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Dynamic Handler",
+                    "url": "/dynamic-handler"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Event",
+                    "url": "/workflow-execution/event#event"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Event History",
+                    "url": "/workflow-execution/event#event-history"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Failback",
+                    "url": "/cloud/high-availability"
+                  },
+                  {
+                    "text": "Failover",
+                    "url": "/cloud/high-availability"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Failure",
+                    "url": "/temporal#failure"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Failure Converter",
+                    "url": "/failure-converter"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Failures",
+                    "url": "/references/failures"
+                  },
+                  {
+                    "text": "failure",
+                    "url": "/tags/failure"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Frontend Service",
+                    "url": "/temporal-service/temporal-server#frontend-service"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "General Availability",
+                    "url": "/evaluate/development-production-features/release-stages#general-availability"
+                  },
+                  {
+                    "text": "product-release-stages",
+                    "url": "/tags/product-release-stages"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Global Namespace",
+                    "url": "/global-namespace"
+                  },
+                  {
+                    "text": "Temporal Service",
+                    "url": "#temporal-cluster"
+                  },
+                  {
+                    "text": "failover",
+                    "url": "#failover"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Heartbeat Timeout",
+                    "url": "/encyclopedia/detecting-activity-failures#heartbeat-timeout"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "timeouts",
+                    "url": "/tags/timeouts"
+                  },
+                  {
+                    "text": "High Availability",
+                    "url": "/cloud/high-availability/"
+                  },
+                  {
+                    "text": "SLA",
+                    "url": "/cloud/sla"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "timeouts",
+                    "url": "/tags/timeouts"
+                  },
+                  {
+                    "text": "High Availability features",
+                    "url": "/cloud/high-availability#high-availability-features"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "timeouts",
+                    "url": "/tags/timeouts"
+                  },
+                  {
+                    "text": "History Service",
+                    "url": "/temporal-service/temporal-server#history-service"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "History Shard",
+                    "url": "/temporal-service/temporal-server#history-shard"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Idempotency",
+                    "url": "/activity-definition#idempotency"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Isolation Domain",
+                    "url": "/cloud/high-availability"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "List Filter",
+                    "url": "/list-filter"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "filtered-lists",
+                    "url": "/tags/filtered-lists"
+                  },
+                  {
+                    "text": "visibility",
+                    "url": "/tags/visibility"
+                  },
+                  {
+                    "text": "Local Activity",
+                    "url": "/local-activity"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Matching Service",
+                    "url": "/temporal-service/temporal-server#matching-service"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Memo",
+                    "url": "/workflow-execution#memo"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Multi-Cluster Replication",
+                    "url": "/self-hosted-guide/multi-cluster-replication"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Multi-cloud Replication",
+                    "url": "/cloud/high-availability/enable"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Multi-region Replication",
+                    "url": "/cloud/high-availability/enable"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Namespace",
+                    "url": "/namespaces"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Nexus RPC",
+                    "url": "/glossary#nexus-rpc"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Nexus RPC",
+                    "url": "https://github.com/nexus-rpc/api/blob/main/SPEC.md"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Parent Close Policy",
+                    "url": "/parent-close-policy"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "child-workflow-executions",
+                    "url": "/tags/child-workflow-executions"
+                  },
+                  {
+                    "text": "Payload",
+                    "url": "/dataconversion#payload"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "payloads",
+                    "url": "/tags/payloads"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Payload Codec",
+                    "url": "/payload-codec"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Payload Converter",
+                    "url": "/payload-converter"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Pre-release",
+                    "url": "/evaluate/development-production-features/release-stages#pre-release"
+                  },
+                  {
+                    "text": "product-release-stages",
+                    "url": "/tags/product-release-stages"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Public Preview",
+                    "url": "/evaluate/development-production-features/release-stages#public-preview"
+                  },
+                  {
+                    "text": "product-release-stages",
+                    "url": "/tags/product-release-stages"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Query",
+                    "url": "/sending-messages#sending-queries"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "queries",
+                    "url": "/tags/queries"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Remote data encoding",
+                    "url": "/remote-data-encoding"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "queries",
+                    "url": "/tags/queries"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Replication Lag",
+                    "url": "/cloud/high-availability/monitoring#replication-lag-metric"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Requests Per Second (RPS)",
+                    "url": "/references/dynamic-configuration#service-level-rps-limits"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "temporal",
+                    "url": "/tags/temporal"
+                  },
+                  {
+                    "text": "Reset",
+                    "url": "/workflow-execution/event#reset"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "resets",
+                    "url": "/tags/resets"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Retention Period",
+                    "url": "/temporal-service/temporal-server#retention-period"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Retry Policy",
+                    "url": "/encyclopedia/retry-policies"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Run Id",
+                    "url": "/workflow-execution/workflowid-runid#run-id"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Same-region Replication",
+                    "url": "/cloud/high-availability/enable"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Schedule",
+                    "url": "/schedule"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Schedule-To-Close Timeout",
+                    "url": "/encyclopedia/detecting-activity-failures#schedule-to-close-timeout"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "timeouts",
+                    "url": "/tags/timeouts"
+                  },
+                  {
+                    "text": "Schedule-To-Start Timeout",
+                    "url": "/encyclopedia/detecting-activity-failures#schedule-to-start-timeout"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "timeouts",
+                    "url": "/tags/timeouts"
+                  },
+                  {
+                    "text": "Search Attribute",
+                    "url": "/search-attribute"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "filtered-lists",
+                    "url": "/tags/filtered-lists"
+                  },
+                  {
+                    "text": "visibility",
+                    "url": "/tags/visibility"
+                  },
+                  {
+                    "text": "Side Effect",
+                    "url": "/workflow-execution/event#side-effect"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Signal",
+                    "url": "/sending-messages#sending-signals"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "signals",
+                    "url": "/tags/signals"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Signal-With-Start",
+                    "url": "/sending-messages#signal-with-start"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Start-To-Close Timeout",
+                    "url": "/encyclopedia/detecting-activity-failures#start-to-close-timeout"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "timeouts",
+                    "url": "/tags/timeouts"
+                  },
+                  {
+                    "text": "State Transition",
+                    "url": "/workflow-execution#state-transition"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Sticky Execution",
+                    "url": "/sticky-execution"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Task",
+                    "url": "/tasks#task"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Task Queue",
+                    "url": "/task-queue"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Task Routing",
+                    "url": "/task-routing"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Task Token",
+                    "url": "/activity-execution#task-token"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal",
+                    "url": "/temporal"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Application",
+                    "url": "/temporal#temporal-application"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal CLI",
+                    "url": "/cli"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "cli",
+                    "url": "/tags/cli"
+                  },
+                  {
+                    "text": "Temporal Client",
+                    "url": "/encyclopedia/temporal-sdks#temporal-client"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Cloud",
+                    "url": "/cloud/overview"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Cloud Account Id",
+                    "url": "/cloud/namespaces#temporal-cloud-account-id"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Cloud Namespace Id",
+                    "url": "/cloud/namespaces#temporal-cloud-namespace-id"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Cloud Namespace Name",
+                    "url": "/cloud/namespaces#temporal-cloud-namespace-name"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Cloud gRPC Endpoint",
+                    "url": "/cloud/namespaces#temporal-cloud-grpc-endpoint"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Cluster",
+                    "url": "/temporal-service"
+                  },
+                  {
+                    "text": "Temporal Service",
+                    "url": "#temporal-service"
+                  },
+                  {
+                    "text": "Temporal Service",
+                    "url": "/temporal-service"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Service configuration",
+                    "url": "/temporal-service/configuration"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Cron Job",
+                    "url": "/cron-job"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Platform",
+                    "url": "/temporal#temporal-platform"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal SDK",
+                    "url": "/encyclopedia/temporal-sdks"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Server",
+                    "url": "/temporal-service/temporal-server"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal Web UI",
+                    "url": "/web-ui"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "web-ui",
+                    "url": "/tags/web-ui"
+                  },
+                  {
+                    "text": "Timer",
+                    "url": "/workflow-execution/timers-delays"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Update",
+                    "url": "/sending-messages#sending-updates"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "updates",
+                    "url": "/tags/updates"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Visibility",
+                    "url": "/temporal-service/visibility"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Worker",
+                    "url": "/workers#worker"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Worker Entity",
+                    "url": "/workers#worker-entity"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Worker Process",
+                    "url": "/workers#worker-process"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Worker Program",
+                    "url": "/workers#worker-program"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Worker Service",
+                    "url": "/temporal-service/temporal-server#worker-service"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "Worker Session",
+                    "url": "/task-routing#worker-session"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Workflow",
+                    "url": "/workflows"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Workflow Definition",
+                    "url": "/workflow-definition"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Workflow Execution",
+                    "url": "/workflow-execution"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Workflow Execution Timeout",
+                    "url": "/encyclopedia/detecting-workflow-failures#workflow-execution-timeout"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "timeouts",
+                    "url": "/tags/timeouts"
+                  },
+                  {
+                    "text": "Workflow History Export",
+                    "url": "/cloud/export"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "temporal-cloud",
+                    "url": "/tags/temporal-cloud"
+                  },
+                  {
+                    "text": "operations",
+                    "url": "/tags/operations"
+                  },
+                  {
+                    "text": "Workflow Id",
+                    "url": "/workflow-execution/workflowid-runid#workflow-id"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Workflow Id Conflict Policy",
+                    "url": "/workflow-execution/workflowid-runid#workflow-id-conflict-policy"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Workflow Id Reuse Policy",
+                    "url": "/workflow-execution/workflowid-runid#workflow-id-reuse-policy"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Workflow Run Timeout",
+                    "url": "/encyclopedia/detecting-workflow-failures#workflow-run-timeout"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "timeouts",
+                    "url": "/tags/timeouts"
+                  },
+                  {
+                    "text": "Workflow Task",
+                    "url": "/tasks#workflow-task"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Workflow Task Execution",
+                    "url": "/tasks#workflow-task-execution"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Workflow Task Timeout",
+                    "url": "/encyclopedia/detecting-workflow-failures#workflow-task-timeout"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "timeouts",
+                    "url": "/tags/timeouts"
+                  },
+                  {
+                    "text": "Workflow Type",
+                    "url": "/workflow-definition#workflow-type"
+                  },
+                  {
+                    "text": "term",
+                    "url": "/tags/term"
+                  },
+                  {
+                    "text": "explanation",
+                    "url": "/tags/explanation"
+                  },
+                  {
+                    "text": "Temporal CLI utility",
+                    "url": "#cli"
+                  }
+                ],
+                "word_count": 4355,
+                "line_count": 903
+              },
+              "summary": "Sections: Deprecated terms\n--- id: glossary title: Glossary description: The following terms have specific definitions within the context of the Temporal Platform. sidebar_label: Glossary sidebar_position: 13 toc_max_heading_le...\n(4355 words, 0 code blocks)",
+              "content": null
+            },
+            {
+              "path": "output/temporal/config_patterns/config_patterns.md",
+              "filename": "config_patterns.md",
+              "category": "other",
+              "size_bytes": 491,
+              "title": "Configuration Extraction Report",
+              "structure": {
+                "title": "Configuration Extraction Report",
+                "headers": [
+                  {
+                    "level": 1,
+                    "text": "Configuration Extraction Report",
+                    "line": 1
+                  },
+                  {
+                    "level": 2,
+                    "text": "Configuration Files",
+                    "line": 7
+                  },
+                  {
+                    "level": 3,
+                    "text": "output/temporal/code_analysis.json",
+                    "line": 9
+                  },
+                  {
+                    "level": 3,
+                    "text": "output/temporal/dependencies/dependency_graph.json",
+                    "line": 15
+                  },
+                  {
+                    "level": 3,
+                    "text": "output/temporal/dependencies/statistics.json",
+                    "line": 21
+                  }
+                ],
+                "code_blocks": [],
+                "links": [],
+                "word_count": 49,
+                "line_count": 27
+              },
+              "summary": "**Configuration Extraction Report**\nSections: Configuration Files, output/temporal/code_analysis.json, output/temporal/dependencies/dependency_graph.json, output/temporal/dependencies/statistics.json\n**Total Files:** 3 **Total Settings:** 10 **Detected Patterns:** None\n(49 words, 0 code blocks)",
+              "content": null
+            }
+          ],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        }
+      ],
+      "parse_errors": []
+    },
+    {
+      "file_path": "/Users/ingemar/Code/tools/documentation/docs/output/temporal/references/config_patterns/config_patterns.json",
+      "relative_path": "output/temporal/references/config_patterns/config_patterns.json",
+      "type": "json",
+      "purpose": "general_configuration",
+      "patterns": [],
+      "settings_count": 4,
+      "settings": [
+        {
+          "key": "total_files",
+          "value": 3,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "total_settings",
+          "value": 10,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "config_files",
+          "value": [
+            {
+              "file_path": "/Users/ingemar/Code/tools/documentation/docs/output/temporal/code_analysis.json",
+              "relative_path": "output/temporal/code_analysis.json",
+              "type": "json",
+              "purpose": "general_configuration",
+              "patterns": [],
+              "settings_count": 1,
+              "settings": [
+                {
+                  "key": "files",
+                  "value": [],
+                  "type": "array",
+                  "env_var": null,
+                  "description": ""
+                }
+              ],
+              "parse_errors": []
+            },
+            {
+              "file_path": "/Users/ingemar/Code/tools/documentation/docs/output/temporal/dependencies/dependency_graph.json",
+              "relative_path": "output/temporal/dependencies/dependency_graph.json",
+              "type": "json",
+              "purpose": "ci_cd_configuration",
+              "patterns": [],
+              "settings_count": 2,
+              "settings": [
+                {
+                  "key": "nodes",
+                  "value": [],
+                  "type": "array",
+                  "env_var": null,
+                  "description": ""
+                },
+                {
+                  "key": "edges",
+                  "value": [],
+                  "type": "array",
+                  "env_var": null,
+                  "description": ""
+                }
+              ],
+              "parse_errors": []
+            },
+            {
+              "file_path": "/Users/ingemar/Code/tools/documentation/docs/output/temporal/dependencies/statistics.json",
+              "relative_path": "output/temporal/dependencies/statistics.json",
+              "type": "json",
+              "purpose": "ci_cd_configuration",
+              "patterns": [],
+              "settings_count": 7,
+              "settings": [
+                {
+                  "key": "total_files",
+                  "value": 0,
+                  "type": "integer",
+                  "env_var": null,
+                  "description": ""
+                },
+                {
+                  "key": "total_dependencies",
+                  "value": 0,
+                  "type": "integer",
+                  "env_var": null,
+                  "description": ""
+                },
+                {
+                  "key": "circular_dependencies",
+                  "value": 0,
+                  "type": "integer",
+                  "env_var": null,
+                  "description": ""
+                },
+                {
+                  "key": "strongly_connected_components",
+                  "value": 0,
+                  "type": "integer",
+                  "env_var": null,
+                  "description": ""
+                },
+                {
+                  "key": "avg_dependencies_per_file",
+                  "value": 0,
+                  "type": "integer",
+                  "env_var": null,
+                  "description": ""
+                },
+                {
+                  "key": "files_with_no_dependencies",
+                  "value": 0,
+                  "type": "integer",
+                  "env_var": null,
+                  "description": ""
+                },
+                {
+                  "key": "files_not_imported",
+                  "value": 0,
+                  "type": "integer",
+                  "env_var": null,
+                  "description": ""
+                }
+              ],
+              "parse_errors": []
+            }
+          ],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "errors",
+          "value": [],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        }
+      ],
+      "parse_errors": []
+    },
+    {
+      "file_path": "/Users/ingemar/Code/tools/documentation/docs/output/temporal/references/dependencies/dependency_graph.json",
+      "relative_path": "output/temporal/references/dependencies/dependency_graph.json",
+      "type": "json",
+      "purpose": "ci_cd_configuration",
+      "patterns": [],
+      "settings_count": 2,
+      "settings": [
+        {
+          "key": "nodes",
+          "value": [],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "edges",
+          "value": [],
+          "type": "array",
+          "env_var": null,
+          "description": ""
+        }
+      ],
+      "parse_errors": []
+    },
+    {
+      "file_path": "/Users/ingemar/Code/tools/documentation/docs/output/temporal/references/dependencies/statistics.json",
+      "relative_path": "output/temporal/references/dependencies/statistics.json",
+      "type": "json",
+      "purpose": "ci_cd_configuration",
+      "patterns": [],
+      "settings_count": 7,
+      "settings": [
+        {
+          "key": "total_files",
+          "value": 0,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "total_dependencies",
+          "value": 0,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "circular_dependencies",
+          "value": 0,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "strongly_connected_components",
+          "value": 0,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "avg_dependencies_per_file",
+          "value": 0,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "files_with_no_dependencies",
+          "value": 0,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        },
+        {
+          "key": "files_not_imported",
+          "value": 0,
+          "type": "integer",
+          "env_var": null,
+          "description": ""
+        }
+      ],
+      "parse_errors": []
+    }
+  ],
+  "errors": []
+}

@@ -18,6 +18,7 @@ Before responding to ANY request, classify the task and announce your decision. 
 | Something went wrong | retro | `[SKILL:retro] Logging observation.` |
 | Review requested or verifying work | review | `[SKILL:review] Reviewing [scope].` |
 | Sumo Logic query or log analysis | sumo-search | `[SKILL:search] Querying SumoQL.` |
+| Temporal workflow questions | temporal | `[SKILL:temporal] Consulting Temporal reference.` |
 
 If you announce a skill, follow it completely. Every phase, every gate. If you announce "targeted fix," do not secretly run requirements-gatherer or skip committing.
 
@@ -68,6 +69,12 @@ Two modes: "log" captures observations to ~/.claude/retros/log.md. "review" anal
 Sumo Logic Search Query Language reference and best practices. Provides comprehensive SumoQL guidance -- search operators, parse operators, aggregation, time-series analysis, enrichment, pattern detection, and query optimization. Backed by 214 official Sumo Logic documentation files.
 
 Invoke with `/search` when writing or debugging Sumo Logic queries.
+
+### temporal
+
+Temporal platform documentation and operational reference. Provides comprehensive guidance on workflow definitions, activities, deployment, configuration, monitoring, and best practices across Go, Java, Python, TypeScript, PHP, .NET, and Ruby SDKs. Backed by 266 official Temporal documentation files.
+
+Invoke with `/temporal` when working with Temporal workflows, designing temporal solutions, or troubleshooting operational issues.
 
 ## Hooks (always running)
 
