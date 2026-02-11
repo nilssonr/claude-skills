@@ -72,7 +72,7 @@ Invoke with `/search` when writing or debugging Sumo Logic queries.
 
 ### temporal
 
-Temporal platform documentation and operational reference. Provides comprehensive guidance on workflow definitions, activities, deployment, configuration, monitoring, and best practices across Go, Java, Python, TypeScript, PHP, .NET, and Ruby SDKs. Backed by 266 official Temporal documentation files. Dispatches temporal-debugger and temporal-reviewer agents for focused work.
+Temporal platform documentation and operational reference. Provides comprehensive guidance on workflow definitions, activities, deployment, configuration, monitoring, and best practices across Go, Java, Python, TypeScript, PHP, .NET, and Ruby SDKs. Backed by 266 official Temporal documentation files.
 
 Invoke with `/temporal` when working with Temporal workflows, designing temporal solutions, or troubleshooting operational issues.
 

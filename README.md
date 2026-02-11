@@ -72,8 +72,6 @@ Skills dispatch these as isolated sub-models. They do one thing well and report 
 | **codebase-analyzer** | requirements-gatherer | haiku | Convention and domain analysis in a single pass |
 | **tool-researcher** | troubleshoot | sonnet | Web research on unfamiliar tools, libraries, and error messages |
 | **code-reviewer** | review | sonnet | Structured 9-dimension code review |
-| **temporal-debugger** | temporal | sonnet | Diagnoses stuck workflows, failed activities, non-determinism errors |
-| **temporal-reviewer** | temporal | sonnet | Reviews Temporal code for determinism violations and incorrect patterns |
 
 ## Workflows in practice
 
