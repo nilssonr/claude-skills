@@ -46,7 +46,7 @@ You don't call these -- they kick in when the situation demands it.
 | Skill | Triggers on | What it does |
 |-------|------------|-------------|
 | **git-workflow** | Any git operation | Conventional commits, feature branches, rebase over merge, `--force-with-lease`. No commits to main. |
-| **troubleshoot** | 2nd failed fix attempt | Stops guessing. Dispatches tool-researcher for real investigation. Two strikes and it escalates. |
+| **troubleshoot** | Failed fix, unfamiliar tool, or `/troubleshoot` | Four-phase systematic debugging (triage, investigate, hypothesize, fix). Dispatches tool-researcher for unfamiliar tools. Two strikes and it escalates with a full report. |
 | **using-skills** | Every session start | The meta-skill. Reminds Claude to check which skill applies before doing anything. |
 
 ## Hooks (the guardrails)

@@ -58,7 +58,7 @@ After ANY code change: commit immediately. Do not declare "Done" without committ
 
 ### troubleshoot
 
-Research-first debugging. Forces investigation via tool-researcher before attempting fixes. 2-strike escalation: if a fix fails twice, escalate.
+Phased systematic debugging (Phase 0-3: triage, investigate, hypothesize, fix). Loads reference files for methodology, stack trace handling, and interaction policy. Dispatches tool-researcher for unfamiliar tools. Hard phase gates for unfamiliar systems; skippable with evidence for obvious issues. 2-strike escalation: if a fix fails twice, stop, research deeper, and report.
 
 ### retro
 
