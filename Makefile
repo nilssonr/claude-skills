@@ -25,7 +25,7 @@ SRC_HOOKS     := hooks
 SRC_SETTINGS  := settings.json
 
 # Installed agents
-AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md code-reviewer.md temporal-debugger.md temporal-reviewer.md
+AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md code-reviewer.md
 
 # Installed skills
 SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro review sumo-search temporal
