@@ -20,6 +20,7 @@ Classify the task, match to a skill, and **announce your decision before doing a
 | Debugging / 2nd failed attempt | troubleshoot | `[SKILL:troubleshoot] Researching before fixing.` |
 | Something went wrong, session end | retro | `[SKILL:retro] Logging observation.` |
 | Review requested or verifying work | review | `[SKILL:review] Reviewing [scope].` |
+| Temporal workflow questions | temporal | `[SKILL:temporal] Consulting Temporal reference.` |
 
 **The announcement is mandatory.** It commits you to following the skill. If you announce TDD, you follow all TDD phases. If you announce "targeted fix," you don't secretly run requirements-gatherer.
 
