@@ -52,7 +52,7 @@ Never posts to GitHub. Read-only.
 
 ### git-workflow
 
-Conventional commits, feature branches, rebase over merge, force-with-lease.
+Conventional commits, feature branches, rebase over merge, force-with-lease. PR-aware: checks for PR after push, routes merge through `gh pr merge` when PR exists.
 
 After ANY code change: commit immediately. Do not declare "Done" without committing. The stop-gate hook blocks this.
 

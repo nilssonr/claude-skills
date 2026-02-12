@@ -38,6 +38,13 @@ Auto-activates when performing git operations. Follow the rules below.
 ## Pushing
 - After rebase: `git push --force-with-lease` (NEVER `--force`)
 - If rejected: someone else pushed. Fetch and re-examine.
+- After any push to a feature branch, check for an existing PR:
+  ```bash
+  gh pr view --json state,url 2>/dev/null
+  ```
+  - PR exists and open: note the PR URL. The push updated it.
+  - PR exists but merged/closed: inform the user. Do nothing.
+  - No PR: offer to create one. If yes, follow the Pull Requests section.
 
 ## Pull Requests
 - Check if PR exists: `gh pr view 2>/dev/null`
@@ -134,6 +141,19 @@ EOF
 Title follows conventional commit format. Body is composed by Claude from the actual changes -- not auto-filled from commit messages.
 
 ### Merge to main
+
+First, check for an open PR on this branch:
+```bash
+gh pr view --json state,number 2>/dev/null
+```
+
+**If an open PR exists**, merge via GitHub:
+```bash
+gh pr merge <number> --delete-branch
+```
+Ask the user for merge strategy: `--merge`, `--squash`, or `--rebase`. Do not choose silently.
+
+**If no PR exists**, merge locally:
 ```bash
 git checkout main
 git pull --rebase 2>/dev/null
