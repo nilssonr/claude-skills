@@ -10,8 +10,8 @@ description: Git conventions for branching, commits, and PRs. Auto-activates on 
 Auto-activates when performing git operations. Follow the rules below.
 
 ## Branching
-- On main/master → create `type/description` branch (e.g. `feat/add-oauth`)
-- Already on feature branch → confirm and continue. Don't create nested branches.
+- On main/master -> create `type/description` branch (e.g. `feat/add-oauth`)
+- Already on feature branch -> confirm and continue. Don't create nested branches.
 - NEVER commit to main/master.
 
 ## Commits
@@ -33,7 +33,7 @@ Auto-activates when performing git operations. Follow the rules below.
   )"
   ```
 
-- Ad-hoc one-off requests ("fix X real quick") → don't auto-commit. Let user decide.
+- Ad-hoc one-off requests ("fix X real quick") -> don't auto-commit. Let user decide.
 
 ## Pushing
 - After rebase: `git push --force-with-lease` (NEVER `--force`)
@@ -47,44 +47,18 @@ Auto-activates when performing git operations. Follow the rules below.
   - No PR: offer to create one. If yes, follow the Pull Requests section.
 
 ## Pull Requests
+
 - Check if PR exists: `gh pr view 2>/dev/null`
-- Exists → push new commits. Don't create another.
-- Doesn't exist -> ask user. If yes, check for a PR template first:
-  ```bash
-  # Check standard template locations
-  cat .github/pull_request_template.md 2>/dev/null \
-    || cat .github/PULL_REQUEST_TEMPLATE.md 2>/dev/null \
-    || cat docs/pull_request_template.md 2>/dev/null \
-    || cat PULL_REQUEST_TEMPLATE.md 2>/dev/null
-  ```
-  If a template exists, read it and fill in every section. Do not skip sections or restructure the template.
-  If no template exists, use the default format:
-  ```bash
-  git push -u origin HEAD
-  gh pr create \
-    --title "type(scope): description" \
-    --body "$(cat <<'EOF'
-  ## What
+- Exists -> push new commits. Don't create another.
+- Doesn't exist -> ask user. If yes:
 
-  [1-2 sentences: what this PR does]
+Launch `pr-composer` (Task tool, subagent_type: general-purpose, model: haiku) with the branch name and base branch. The agent reads the PR template (if any), git log, and diff summary, then returns a composed title and body.
 
-  ## Why
-
-  [1-2 sentences: why this change is needed]
-
-  ## Changes
-
-  - [concrete change 1]
-  - [concrete change 2]
-
-  ## Testing
-
-  [how it was tested, or "N/A" if no testable behavior]
-  EOF
-  )"
-  ```
-  Title must follow conventional commit format. Body must be human-readable.
-- Highlight any odd tradeoffs in the PR description.
+Parse the agent's output and run:
+```bash
+git push -u origin HEAD
+gh pr create --title "<title from agent>" --body "<body from agent>"
+```
 
 ## Branch Completion
 
@@ -104,41 +78,7 @@ Wait for the user to choose. Then execute:
 
 ### Create PR
 
-Check for a repository PR template first:
-```bash
-cat .github/pull_request_template.md 2>/dev/null \
-  || cat .github/PULL_REQUEST_TEMPLATE.md 2>/dev/null \
-  || cat docs/pull_request_template.md 2>/dev/null \
-  || cat PULL_REQUEST_TEMPLATE.md 2>/dev/null
-```
-If a template exists, read it and fill in every section. Do not skip sections or restructure the template.
-
-If no template exists, use the default format:
-```bash
-git push -u origin HEAD
-gh pr create \
-  --title "type(scope): description" \
-  --body "$(cat <<'EOF'
-## What
-
-[1-2 sentences: what this PR does]
-
-## Why
-
-[1-2 sentences: why this change is needed]
-
-## Changes
-
-- [concrete change 1]
-- [concrete change 2]
-
-## Testing
-
-[how it was tested, or "N/A" if no testable behavior]
-EOF
-)"
-```
-Title follows conventional commit format. Body is composed by Claude from the actual changes -- not auto-filled from commit messages.
+Launch `pr-composer` as described in the Pull Requests section. Use its output for `gh pr create`.
 
 ### Merge to main
 
