@@ -23,6 +23,7 @@ SRC_AGENTS    := agents
 SRC_SKILLS    := skills
 SRC_HOOKS     := hooks
 SRC_SETTINGS  := settings.json
+SRC_CLAUDE_MD := global-CLAUDE.md
 
 # Installed agents
 AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md code-reviewer.md
@@ -44,7 +45,16 @@ NC     := \033[0m
 # ─────────────────────────────────────────────
 
 .PHONY: install
-install: ## Install everything to ~/.claude/ (agents, skills, hooks)
+install: ## Install everything to ~/.claude/ (agents, skills, hooks, CLAUDE.md)
+	@echo "Installing global CLAUDE.md..."
+	@if [ -f $(GLOBAL_DIR)/CLAUDE.md ] && ! [ -L $(GLOBAL_DIR)/CLAUDE.md ]; then \
+		if ! diff -q $(SRC_CLAUDE_MD) $(GLOBAL_DIR)/CLAUDE.md > /dev/null 2>&1; then \
+			cp $(GLOBAL_DIR)/CLAUDE.md $(GLOBAL_DIR)/CLAUDE.md.bak; \
+			echo "  Backed up existing CLAUDE.md to CLAUDE.md.bak"; \
+		fi; \
+	fi
+	@cp $(SRC_CLAUDE_MD) $(GLOBAL_DIR)/CLAUDE.md
+
 	@echo "Installing agents..."
 	@mkdir -p $(GLOBAL_DIR)/agents
 	@for f in $(AGENTS); do \
@@ -100,7 +110,14 @@ install-hooks: ## Install hooks + settings.json to current project's .claude/
 # ─────────────────────────────────────────────
 
 .PHONY: uninstall
-uninstall: ## Remove everything from ~/.claude/ (agents, skills, hooks)
+uninstall: ## Remove everything from ~/.claude/ (agents, skills, hooks, CLAUDE.md)
+	@echo "Removing global CLAUDE.md..."
+	@rm -f $(GLOBAL_DIR)/CLAUDE.md
+	@if [ -f $(GLOBAL_DIR)/CLAUDE.md.bak ]; then \
+		mv $(GLOBAL_DIR)/CLAUDE.md.bak $(GLOBAL_DIR)/CLAUDE.md; \
+		echo "  Restored CLAUDE.md from backup"; \
+	fi
+
 	@echo "Removing agents..."
 	@for f in $(AGENTS); do \
 		rm -f $(GLOBAL_DIR)/agents/$$f; \
@@ -143,6 +160,13 @@ uninstall-hooks: ## Remove hooks + settings.json from current project
 
 .PHONY: link
 link: ## Symlink everything to ~/.claude/ (for iterating on skills)
+	@echo "Symlinking global CLAUDE.md..."
+	@if [ -f $(GLOBAL_DIR)/CLAUDE.md ] && ! [ -L $(GLOBAL_DIR)/CLAUDE.md ]; then \
+		cp $(GLOBAL_DIR)/CLAUDE.md $(GLOBAL_DIR)/CLAUDE.md.bak; \
+		echo "  Backed up existing CLAUDE.md to CLAUDE.md.bak"; \
+	fi
+	@ln -sf $(CURDIR)/$(SRC_CLAUDE_MD) $(GLOBAL_DIR)/CLAUDE.md
+
 	@echo "Symlinking agents..."
 	@mkdir -p $(GLOBAL_DIR)/agents
 	@for f in $(AGENTS); do \
@@ -182,6 +206,15 @@ link: ## Symlink everything to ~/.claude/ (for iterating on skills)
 
 .PHONY: unlink
 unlink: ## Remove symlinks from ~/.claude/
+	@echo "Removing CLAUDE.md symlink..."
+	@if [ -L $(GLOBAL_DIR)/CLAUDE.md ]; then \
+		rm $(GLOBAL_DIR)/CLAUDE.md; \
+		if [ -f $(GLOBAL_DIR)/CLAUDE.md.bak ]; then \
+			mv $(GLOBAL_DIR)/CLAUDE.md.bak $(GLOBAL_DIR)/CLAUDE.md; \
+			echo "  Restored CLAUDE.md from backup"; \
+		fi; \
+	fi
+
 	@echo "Removing symlinks..."
 	@for f in $(AGENTS); do \
 		[ -L $(GLOBAL_DIR)/agents/$$f ] && rm $(GLOBAL_DIR)/agents/$$f || true; \
@@ -217,6 +250,21 @@ unlink: ## Remove symlinks from ~/.claude/
 status: ## Show what's installed and where
 	@echo ""
 	@echo "=== Global ($(GLOBAL_DIR)) ==="
+	@echo ""
+	@echo "CLAUDE.md:"
+	@if [ -f $(GLOBAL_DIR)/CLAUDE.md ]; then \
+		if [ -L $(GLOBAL_DIR)/CLAUDE.md ]; then \
+			echo -e "  $(GREEN)✓$(NC) CLAUDE.md $(YELLOW)(symlinked)$(NC)"; \
+		else \
+			echo -e "  $(GREEN)✓$(NC) CLAUDE.md"; \
+		fi; \
+	else \
+		echo -e "  $(RED)✗$(NC) CLAUDE.md"; \
+	fi
+	@if [ -f $(GLOBAL_DIR)/CLAUDE.md.bak ]; then \
+		echo -e "  $(YELLOW)!$(NC) CLAUDE.md.bak (previous version backed up)"; \
+	fi
+
 	@echo ""
 	@echo "Agents:"
 	@for f in $(AGENTS); do \
@@ -283,6 +331,7 @@ status: ## Show what's installed and where
 .PHONY: validate
 validate: ## Check that everything is installed correctly
 	@errors=0; \
+	[ -f $(GLOBAL_DIR)/CLAUDE.md ] || { echo -e "$(RED)MISSING:$(NC) $(GLOBAL_DIR)/CLAUDE.md"; errors=$$((errors+1)); }; \
 	for f in $(AGENTS); do \
 		[ -f $(GLOBAL_DIR)/agents/$$f ] || { echo -e "$(RED)MISSING:$(NC) $(GLOBAL_DIR)/agents/$$f"; errors=$$((errors+1)); }; \
 	done; \
