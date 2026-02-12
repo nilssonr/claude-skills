@@ -1,6 +1,6 @@
 ---
 name: requirements-gatherer
-description: Gathers requirements before planning. Orchestrates repo-scout and codebase-analyzer, synthesizes questions, produces a SPEC. Triggers on "let's gather requirements", "before we start", or when ambiguity is detected.
+description: Gathers requirements before planning. Orchestrates repo-scout and codebase-analyzer in parallel, delegates synthesis to requirements-synthesizer agent, produces a SPEC. Triggers on "let's gather requirements", "before we start", or when ambiguity is detected.
 ---
 
 # Requirements Gatherer
@@ -16,72 +16,44 @@ description: Gathers requirements before planning. Orchestrates repo-scout and c
 Ask: "What are we building? (one sentence)"
 Get the repo path if not obvious from cwd.
 
-### 2. Scout the Repo
-Launch `repo-scout` via Task tool. Review its report.
-- If EMPTY_REPO: skip to step 4 with minimal questions.
-- If PARTIAL/OK: continue.
+### 2. Scout the Repo (parallel)
+Launch BOTH agents in parallel via Task tool (two Task calls in a single response):
 
-### 3. Analyze Codebase
-If repo-scout found real code (not stubs), launch `codebase-analyzer` via Task tool with:
-- The repo-scout report
-- The task goal
-- Domain keywords extracted from the goal
+- `repo-scout` with the repo path
+- `codebase-analyzer` with the repo path, task goal, and domain keywords extracted from the goal
 
-If repo is small (<500 files) and task is focused, you can skip this and proceed with repo-scout findings alone.
+If repo-scout returns EMPTY_REPO: skip codebase-analyzer results (may not have returned yet) and go to step 3 with minimal questions.
 
-### 4. Synthesize Questions
-This is YOUR job — not a separate agent. Using the reports:
+If repo is small (<500 files) and task is focused, you may ignore codebase-analyzer results and proceed with repo-scout findings alone.
 
-1. Collect all unknowns from reports
-2. Check if one report answers another's unknown
-3. Check what the user already told you — don't re-ask
-4. Deduplicate
+### 3. Synthesize Questions (agent)
+Launch `requirements-synthesizer` (Task tool, subagent_type: general-purpose, model: haiku) with:
+- Both scout reports (or just repo-scout if codebase-analyzer was skipped)
+- The user's goal statement
+- Any context the user already provided
 
-Categorize each as **blocking** or **directional**:
+The synthesizer returns a categorized question list (blocking + directional with defaults).
 
-**Blocking:** Can't write correct code without it. Changes interfaces, persistence, or security. High rework cost if wrong.
-
-**Directional:** Has a reasonable default from the repo. Affects style not correctness. Changeable later.
-
-### 5. Ask Questions
-Present blocking questions. One at a time. If user says "I don't know," propose options:
+### 4. Ask Questions
+Present blocking questions from the synthesizer. One at a time. If user says "I don't know," propose options:
 > "Options: A) [tradeoff] or B) [tradeoff]. Which fits?"
 
-For directional questions, propose defaults:
+For directional questions, present the synthesizer's proposed defaults:
 > "I'll assume [X] based on [evidence]. Object if wrong."
 
-### 6. Produce SPEC
+### 5. Produce SPEC (agent)
+Launch `requirements-synthesizer` again with:
+- Both scout reports
+- The user's goal
+- All resolved answers
 
-```
-SPEC: [task-id]
-Repo: [path] @ [commit hash]
+The synthesizer produces the SPEC. Review it for completeness, then present to the user.
 
-GOAL
-[What and why — one paragraph]
-
-SCOPE
-In: [specific files/modules]
-Out: [explicitly excluded]
-
-DECISIONS
-- DECISION: [thing] — [user chose]
-- REPO: [thing] — [code confirms]
-- DEFAULT: [thing] — [assumed, reason]
-
-CONSTRAINTS
-- [specific file]: [constraint]
-
-DONE WHEN
-- [ ] [testable criterion]
-- [ ] [testable criterion]
-- [ ] All existing tests pass
-```
-
-### 7. Transition
+### 6. Transition
 Present options:
-1. **Plan** → Call `EnterPlanMode`. Plan mode will use the SPEC to create implementation steps.
-2. **TDD** → Use `/tdd` with the SPEC's DONE WHEN criteria.
-3. **Revise** → Update SPEC based on feedback.
+1. **Plan** -- Call `EnterPlanMode`. Plan mode will use the SPEC to create implementation steps.
+2. **TDD** -- Use `/tdd` with the SPEC's DONE WHEN criteria.
+3. **Revise** -- Update SPEC based on feedback.
 
 ## Rules
 - Don't run codebase-analyzer on empty repos.
