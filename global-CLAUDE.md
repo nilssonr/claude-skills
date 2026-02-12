@@ -43,41 +43,33 @@ When executing a plan (e.g. from /requirements-gatherer), follow this workflow:
 
 ### requirements-gatherer
 
-Orchestrates parallel subagents (repo-scout, codebase-analyzer) to explore the repository, then synthesizes blocking questions into a SPEC. Use for new features or unclear scope. Do NOT use for targeted fixes where the file, line, and change are already known.
+Launches repo-scout and codebase-analyzer in parallel, delegates synthesis to requirements-synthesizer agent (haiku). Produces blocking questions, then a SPEC. Use for new features or unclear scope. Do NOT use for targeted fixes.
 
 ### tdd
 
-RED-GREEN-REFACTOR-COMMIT. Each phase runs as a separate Task (isolated context).
+RED-GREEN+REFACTOR-COMMIT. RED phase in isolated sonnet agent (parallel fan-out for 3+ independent criteria). GREEN+REFACTOR merged into single haiku agent. COMMIT in main context.
 
-- RED: Write tests that FAIL against current code. Tests must exercise NEW behavior. If all tests pass, they are wrong -- delete and rewrite. This gate is non-negotiable.
-- GREEN: Write MINIMUM code to make tests pass. Do not modify tests. Do not add features beyond what tests require.
-- REFACTOR: Mandatory phase. "No refactoring needed" is valid, but the phase must run.
+- RED: Write tests that FAIL. This gate is non-negotiable.
+- GREEN+REFACTOR: Minimum implementation, then cleanup. Tests must pass at exit.
 - COMMIT: Commit using git-workflow conventions. Uncommitted work is unfinished work.
 
 ### review
 
-Structured code review producing a [CRIT]/[WARN]/[INFO] severity report. Runs as a subagent so the diff does not persist in the main context.
-
-Routes by input:
-- No arguments: reviews local git diff (branch vs main, or working tree)
-- GitHub PR URL or `owner/repo#N`: fetches via `gh` CLI, reviews remotely
-- File path: reviews that specific file
-
-Never posts to GitHub. Read-only.
+Structured code review with size-based routing. Small reviews (<=20 files, <=3000 lines) use a single code-reviewer agent. Large reviews fan out to parallel agents grouped by security-sensitivity and directory. Never posts to GitHub. Read-only.
 
 ### git-workflow
 
-Conventional commits, feature branches, rebase over merge, force-with-lease. PR-aware: checks for PR after push, routes merge through `gh pr merge` when PR exists.
+Conventional commits, feature branches, rebase over merge, force-with-lease. Delegates PR composition to pr-composer agent (haiku). PR-aware: checks for PR after push, routes merge through `gh pr merge` when PR exists.
 
 After ANY code change: commit immediately. Do not declare "Done" without committing. The stop-gate hook blocks this.
 
 ### troubleshoot
 
-Phased systematic debugging (Phase 0-3: triage, investigate, hypothesize, fix). Dispatches tool-researcher for unfamiliar tools. Hard phase gates for unfamiliar systems; skippable with evidence for obvious issues. 2-strike escalation: if a fix fails twice, stop, research deeper, and report.
+Classification gate determines reference loading (saves tokens on obvious issues). Phases 0-2 dispatched as troubleshoot-investigator agents (sonnet). Phase 3 (fix) stays in main context. Background tool-researcher for unfamiliar tools. 2-strike escalation.
 
 ### retro
 
-Two modes: "log" captures observations to ~/.claude/retros/log.md. "review" analyzes accumulated entries for patterns and proposes skill improvements.
+Two modes: "log" captures observations to ~/.claude/retros/log.md. "review" delegates to retro-analyzer agent (haiku) for pattern analysis and improvement proposals.
 
 ### sumo-search
 
