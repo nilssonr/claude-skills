@@ -88,3 +88,4 @@ Present options:
 - Don't ask what the user already told you.
 - Every assumption gets a label (DECISION/REPO/DEFAULT).
 - DONE WHEN must be testable, not vibes.
+- If the task adds, removes, or significantly modifies a skill, check whether README.md needs updating. Include it in SCOPE and DONE WHEN.
