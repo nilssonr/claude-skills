@@ -29,7 +29,7 @@ gh auth status 2>/dev/null
 ```
 If not available, stop: `gh CLI required. Install: https://cli.github.com -- then: gh auth login`
 
-Fetch metadata and diff in parallel (two Bash calls in a single response):
+Fetch metadata and line-numbered diff in parallel (two Bash calls in a single response):
 ```bash
 gh pr view $PR_NUM --repo $OWNER_REPO --json \
   title,body,state,baseRefName,headRefName,\
@@ -37,23 +37,36 @@ gh pr view $PR_NUM --repo $OWNER_REPO --json \
   changedFiles,labels,reviewDecision,commits
 ```
 ```bash
-gh pr diff $PR_NUM --repo $OWNER_REPO
+gh pr diff $PR_NUM --repo $OWNER_REPO | awk '
+/^diff |^index |^--- / { print; next }
+/^\+\+\+ /             { print; next }
+/^@@ / { split($3,a,/[+,]/); nr=a[2]+0; print; next }
+/^-/   { print; next }
+       { printf "%d\t%s\n", nr, $0; nr++ }
+'
 ```
+The awk script annotates every context and added line with its actual file line number (derived from `@@` hunk headers). Removed lines (`-`) are not numbered. Use these prefixed numbers as the canonical line reference in all findings.
 
 Use the **GitHub PR** report header from severity-and-format.md.
 
 **Local** (arguments are empty or contain local paths):
 
 ```bash
-# Branch diff against main
-git diff main...HEAD --name-only 2>/dev/null
+# Branch diff against main (with line numbers)
+git diff main...HEAD 2>/dev/null | awk '
+/^diff |^index |^--- / { print; next }
+/^\+\+\+ /             { print; next }
+/^@@ / { split($3,a,/[+,]/); nr=a[2]+0; print; next }
+/^-/   { print; next }
+       { printf "%d\t%s\n", nr, $0; nr++ }
+'
 
-# Or uncommitted work
-git diff --name-only 2>/dev/null
-git diff --cached --name-only 2>/dev/null
+# Or uncommitted work (same awk pipeline)
+git diff 2>/dev/null | awk '...'       # unstaged
+git diff --cached 2>/dev/null | awk '...'  # staged
 ```
 
-If the user specified files, constrain to those. Otherwise review all changed files.
+If the user specified files, constrain with `-- path/to/file`. Otherwise review all changed files.
 
 Use the **local review** report header from severity-and-format.md.
 
@@ -97,6 +110,6 @@ After the code-reviewer returns, evaluate and add under PR-LEVEL OBSERVATIONS:
 
 ## Step 3: Report
 
-Produce the structured report per severity-and-format.md. Line numbers refer to actual file line numbers (not diff hunk offsets). For GitHub PRs, use the `+` side of the diff for added-line references.
+Produce the structured report per severity-and-format.md. Line numbers in findings come from the annotated diff prefix -- they are already actual file line numbers.
 
 **Constraint: never run `gh pr comment`, `gh pr review`, or any write command. This skill is read-only.**
