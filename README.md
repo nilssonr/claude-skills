@@ -32,10 +32,10 @@ These are your commands. Type them and Claude switches into that workflow.
 
 | Skill | Command | What happens |
 |-------|---------|-------------|
-| **requirements-gatherer** | `/requirements-gatherer` | Scouts the repo with parallel agents, surfaces blocking questions, produces a SPEC, enters plan mode. Use this before building anything non-trivial. |
-| **tdd** | `/tdd` | RED -- write a failing test. GREEN -- minimum code to pass. REFACTOR -- clean up. COMMIT. Every phase is enforced. No skipping. |
-| **review** | `/review` | 9-dimension code review with [CRIT]/[WARN]/[INFO] severity. Works on local diffs, specific files, or GitHub PRs via `gh`. Read-only -- never posts comments. |
-| **retro** | `/retro` | Logs what went wrong. Run `/retro review` later to analyze patterns and propose skill improvements. Your feedback loop. |
+| **requirements-gatherer** | `/requirements-gatherer` | Scouts the repo with parallel agents, delegates synthesis to requirements-synthesizer (haiku), surfaces blocking questions, produces a SPEC, enters plan mode. |
+| **tdd** | `/tdd` | RED (sonnet, parallel fan-out for 3+ criteria) -- GREEN+REFACTOR (single haiku agent) -- COMMIT. Every phase gate is enforced. No skipping. |
+| **review** | `/review` | 9-dimension code review with size-based routing. Small diffs get one agent; large diffs fan out to parallel agents. Works on local diffs, files, or GitHub PRs. Read-only. |
+| **retro** | `/retro` | Logs what went wrong. Run `/retro review` to delegate pattern analysis to retro-analyzer (haiku) and propose skill improvements. |
 | **sumo-search** | `/search` | Sumo Logic Search Query Language reference. Covers search operators, parsing, aggregation, time-series, enrichment, pattern detection, and query optimization. Backed by 214 official docs. |
 | **temporal** | `/temporal` | Temporal platform documentation and operational reference. Covers workflow definitions, activities, deployment, configuration, monitoring, and best practices across Go, Java, Python, TypeScript, PHP, .NET, and Ruby SDKs. Backed by 266 official docs. |
 
@@ -45,8 +45,8 @@ You don't call these -- they kick in when the situation demands it.
 
 | Skill | Triggers on | What it does |
 |-------|------------|-------------|
-| **git-workflow** | Any git operation | Conventional commits, feature branches, rebase over merge, `--force-with-lease`. No commits to main. PR-aware push and merge. |
-| **troubleshoot** | Failed fix, unfamiliar tool, or `/troubleshoot` | Four-phase systematic debugging (triage, investigate, hypothesize, fix). Dispatches tool-researcher for unfamiliar tools. Two strikes and it escalates with a full report. |
+| **git-workflow** | Any git operation | Conventional commits, feature branches, rebase over merge, `--force-with-lease`. Delegates PR composition to pr-composer (haiku). PR-aware push and merge. |
+| **troubleshoot** | Failed fix, unfamiliar tool, or `/troubleshoot` | Classification gate loads only needed references. Phases 0-2 dispatched as troubleshoot-investigator agents (sonnet). Background tool-researcher for unfamiliar tools. Two strikes and it escalates. |
 | **using-skills** | Every session start | The meta-skill. Reminds Claude to check which skill applies before doing anything. |
 
 ## Hooks (the guardrails)
@@ -70,8 +70,12 @@ Skills dispatch these as isolated sub-models. They do one thing well and report 
 |-------|--------------|-------|-----|
 | **repo-scout** | requirements-gatherer | haiku | Fast repo structure mapping |
 | **codebase-analyzer** | requirements-gatherer | haiku | Convention and domain analysis in a single pass |
+| **requirements-synthesizer** | requirements-gatherer | haiku | Synthesizes scout reports into questions and SPEC |
 | **tool-researcher** | troubleshoot | sonnet | Web research on unfamiliar tools, libraries, and error messages |
-| **code-reviewer** | review | sonnet | Structured 9-dimension code review |
+| **troubleshoot-investigator** | troubleshoot | sonnet | Runs a single troubleshoot phase (0-2), returns concise report |
+| **code-reviewer** | review | sonnet | Structured 9-dimension code review (diff-hunk preference) |
+| **pr-composer** | git-workflow | haiku | Composes PR title and body from branch context |
+| **retro-analyzer** | retro | haiku | Analyzes retro log for patterns, proposes improvements |
 
 ## Workflows in practice
 
