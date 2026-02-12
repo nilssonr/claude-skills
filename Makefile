@@ -26,7 +26,8 @@ SRC_SETTINGS  := settings.json
 SRC_CLAUDE_MD := global-CLAUDE.md
 
 # Installed agents
-AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md code-reviewer.md
+AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md code-reviewer.md \
+          troubleshoot-investigator.md requirements-synthesizer.md pr-composer.md retro-analyzer.md
 
 # Installed skills
 SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro review sumo-search temporal
