@@ -17,11 +17,11 @@ agent: code-reviewer
 - `/review path/to/file.ts` -- review a specific file
 - After TDD COMMIT phase (optional verification step)
 
-## Step 1: Determine source and acquire diff
+## Step 1: Acquire and Route
 
-### If arguments contain a GitHub PR reference
+### Determine source
 
-Detect any of: `github.com/.../pull/N`, `owner/repo#N`, or `owner/repo N`.
+**GitHub PR** (arguments contain `github.com/.../pull/N`, `owner/repo#N`, or `owner/repo N`):
 
 Verify `gh` CLI is available:
 ```bash
@@ -29,33 +29,20 @@ gh auth status 2>/dev/null
 ```
 If not available, stop: `gh CLI required. Install: https://cli.github.com -- then: gh auth login`
 
-Fetch metadata:
+Fetch metadata and diff in parallel (two Bash calls in a single response):
 ```bash
 gh pr view $PR_NUM --repo $OWNER_REPO --json \
   title,body,state,baseRefName,headRefName,\
   author,createdAt,additions,deletions,\
   changedFiles,labels,reviewDecision,commits
 ```
-
-Fetch diff:
 ```bash
 gh pr diff $PR_NUM --repo $OWNER_REPO
 ```
 
-If the diff exceeds ~3000 lines or >50 files, note the constraint in the report header and triage: prioritize security-sensitive paths (auth, crypto, payment, session, middleware), files with the most changes, and error handling / API boundary files.
-
-For files where diff context is insufficient (need surrounding function, types, callers):
-```bash
-gh api repos/$OWNER_REPO/contents/$FILE_PATH?ref=$HEAD_BRANCH \
-  --jq '.content' | base64 -d
-```
-Only fetch selectively. The diff is usually enough.
-
-**Constraint: never run `gh pr comment`, `gh pr review`, or any write command. This skill is read-only.**
-
 Use the **GitHub PR** report header from severity-and-format.md.
 
-### If arguments are empty or contain local paths
+**Local** (arguments are empty or contain local paths):
 
 ```bash
 # Branch diff against main
@@ -68,19 +55,39 @@ git diff --cached --name-only 2>/dev/null
 
 If the user specified files, constrain to those. Otherwise review all changed files.
 
-Read each changed file in full. Read adjacent unchanged files when context is needed (callers, interfaces, types).
-
 Use the **local review** report header from severity-and-format.md.
+
+### Measure scope and route
+
+Count changed files and total diff lines.
+
+- **Small review** (<=20 files AND <=3000 diff lines): dispatch a single `code-reviewer` agent with the full diff.
+- **Large review** (>20 files OR >3000 diff lines): fan-out (see below).
+
+### Fan-out strategy (large reviews)
+
+Group changed files:
+- Group 1: Security-sensitive paths (auth, crypto, payment, session, middleware)
+- Groups 2-N: Remaining files grouped by directory, max 15 files per group
+
+Dispatch one `code-reviewer` agent per group (all in parallel via multiple Task calls). Each agent receives:
+- Its file list
+- The diff for those files (plus 10 lines of surrounding context)
+- A note that it is reviewing a subset
+
+After all agents return, merge findings:
+1. Deduplicate (same file:line, same dimension)
+2. Rank by severity
+3. Enforce 15-finding cap (highest severity kept)
+4. Note omissions if any
 
 ## Step 2: Analyze
 
-Read `references/dimensions.md` using the Read tool. Apply every applicable dimension checklist to the acquired diff.
-
-Read `references/severity-and-format.md` using the Read tool. Use its severity classification, output format, and rules.
+The code-reviewer agent reads `references/dimensions.md` and `references/severity-and-format.md`, then applies every applicable dimension checklist.
 
 ### PR-level checks (GitHub PRs only)
 
-After running the dimension checklists, evaluate and report under PR-LEVEL OBSERVATIONS:
+After the code-reviewer returns, evaluate and add under PR-LEVEL OBSERVATIONS:
 
 - **PR scope**: Is this PR doing one thing? Multiple unrelated changes reduce reviewability.
 - **Commit hygiene**: Do commits tell a coherent story? Fixup commits that should be squashed?
@@ -91,3 +98,5 @@ After running the dimension checklists, evaluate and report under PR-LEVEL OBSER
 ## Step 3: Report
 
 Produce the structured report per severity-and-format.md. Line numbers refer to actual file line numbers (not diff hunk offsets). For GitHub PRs, use the `+` side of the diff for added-line references.
+
+**Constraint: never run `gh pr comment`, `gh pr review`, or any write command. This skill is read-only.**
