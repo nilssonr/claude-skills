@@ -100,13 +100,9 @@ Temporal platform documentation and operational reference. Invoke with `/tempora
 
 Hooks provide baseline enforcement regardless of which skill is active. Do not duplicate what hooks do (e.g., do not manually run the test suite at the end of a task -- stop-gate does this).
 
-## Review Severity
+## Review Standards
 
-- [CRIT]: Would cause a production incident. Bugs, security vulnerabilities, data loss, race conditions.
-- [WARN]: Should fix before or shortly after merge. Design concerns, performance issues, missing tests, excessive complexity.
-- [INFO]: Take it or leave it. Naming, docs, minor simplification.
-
-Style (formatting, whitespace, import order) is NOT a review finding. It belongs to linters.
+The review skill applies 9 dimensions (Code Review Pyramid). Full checklist in `skills/review/references/dimensions.md`. Severity definitions in `skills/review/references/severity-and-format.md`. Maximum 15 findings. Style belongs to linters, not reviews.
 
 ## Git Conventions
 

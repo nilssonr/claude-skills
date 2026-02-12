@@ -1,7 +1,5 @@
 # Review Dimensions
 
-Work through each dimension in order. Not every check applies to every diff. Skip dimensions with zero findings. Never fabricate findings.
-
 ## 1. Correctness
 
 - Off-by-one errors in loops, slices, indexes, ranges

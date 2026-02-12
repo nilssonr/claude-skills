@@ -91,26 +91,7 @@ Hooks provide baseline enforcement regardless of which skill is active. You do n
 
 ## Review Standards
 
-The review skill applies 9 dimensions in priority order (Code Review Pyramid -- spend most time on correctness/security, least on style):
-
-1. Correctness -- off-by-one, null handling, boundary conditions, race conditions, resource leaks, logic errors
-2. Security -- injection (CWE-89, CWE-78), XSS (CWE-79), auth/authz (CWE-862/863), hardcoded secrets (CWE-798), deprecated crypto, deserialization (CWE-502), SSRF (CWE-918), timing attacks
-3. Error handling -- swallowed errors [CRIT], missing context [WARN], overly broad catches [WARN], retry without backoff, fail-fast principle
-4. Performance -- N+1 queries [CRIT], O(n^2) in nested loops [WARN], unbounded allocations [WARN], sync blocking in async [CRIT]
-5. Defensiveness -- input validation at trust boundaries, preconditions, resource pairing, timeouts on external calls
-6. Readability -- cyclomatic complexity (<=10 ok, >20 [CRIT]), cognitive complexity (<=15 ok), function length (<=40 ok, >100 [CRIT]), nesting depth (<=3 ok)
-7. Testability -- constructor doing real work, Law of Demeter violations, global state, SRP violations
-8. Consistency -- codebase pattern adherence, DRY (rule of three), abstraction level alignment
-9. API design -- backward compatibility, idempotency, Hyrum's Law awareness, error response structure
-
-Severity:
-- [CRIT]: Would cause a production incident. Bugs, security vulnerabilities, data loss, race conditions.
-- [WARN]: Should fix before or shortly after merge. Design concerns, performance issues, missing tests, excessive complexity.
-- [INFO]: Take it or leave it. Naming, docs, minor simplification.
-
-Style (formatting, whitespace, import order) is NOT a review finding. It belongs to linters.
-
-Maximum 15 findings per review. If more exist, report the 15 highest-severity and note omissions. Never fabricate findings -- PASS with zero findings is a valid and good outcome.
+The review skill applies 9 dimensions (Code Review Pyramid). Full checklist in `skills/review/references/dimensions.md`. Severity definitions in `skills/review/references/severity-and-format.md`. Maximum 15 findings. Style belongs to linters, not reviews.
 
 ## Git Conventions
 
