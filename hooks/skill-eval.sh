@@ -26,6 +26,7 @@ This looks like a TARGETED FIX (specific file/line referenced).
 - git commit/branch/PR → git-workflow (auto-commits after implementation)
 - debugging / fix failed → troubleshoot
 - Temporal workflows → /temporal
+- Frontend UI → /frontend-design
 - something went wrong → retro
 If NO skill matches → implement directly. git-workflow will handle the commit.
 EOF
@@ -37,6 +38,7 @@ BEFORE responding, quickly evaluate: does this request match a skill?
 - git commit/branch/PR → git-workflow
 - debugging / fix failed → troubleshoot
 - Temporal workflows → /temporal
+- Frontend UI → /frontend-design
 - something went wrong → retro
 If YES → follow the skill. If NO → proceed normally.
 EOF
