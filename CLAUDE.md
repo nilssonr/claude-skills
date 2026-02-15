@@ -19,6 +19,7 @@ Before responding to ANY request, classify the task and announce your decision. 
 | Review requested or verifying work | review | `[SKILL:review] Reviewing [scope].` |
 | Sumo Logic query or log analysis | sumo-search | `[SKILL:search] Querying SumoQL.` |
 | Temporal workflow questions | temporal | `[SKILL:temporal] Consulting Temporal reference.` |
+| Frontend UI/component building | frontend-design | `[SKILL:frontend-design] Designing interface.` |
 
 If you announce a skill, follow it completely. Every phase, every gate. If you announce "targeted fix," do not secretly run requirements-gatherer or skip committing.
 
@@ -65,6 +66,12 @@ Invoke with `/search` when writing or debugging Sumo Logic queries.
 Temporal platform documentation and operational reference. Provides comprehensive guidance on workflow definitions, activities, deployment, configuration, monitoring, and best practices across Go, Java, Python, TypeScript, PHP, .NET, and Ruby SDKs. Backed by 266 official Temporal documentation files.
 
 Invoke with `/temporal` when working with Temporal workflows, designing temporal solutions, or troubleshooting operational issues.
+
+### frontend-design
+
+Creates distinctive, production-grade frontend interfaces with bold aesthetic direction. Guides typography, color, motion, spatial composition, and visual detail choices. Avoids generic AI aesthetics.
+
+Invoke with `/frontend-design` when building web components, pages, or applications.
 
 ## Hooks (always running)
 
