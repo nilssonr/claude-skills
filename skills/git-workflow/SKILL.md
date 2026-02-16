@@ -38,13 +38,15 @@ Auto-activates when performing git operations. Follow the rules below.
 ## Pushing
 - After rebase: `git push --force-with-lease` (NEVER `--force`)
 - If rejected: someone else pushed. Fetch and re-examine.
-- After any push to a feature branch, check for an existing PR:
+- **MANDATORY: After EVERY push to a feature branch**, run:
   ```bash
   gh pr view --json state,url 2>/dev/null
   ```
+  This is NOT optional. User saying "push" does NOT skip this step -- it is part of the push workflow.
   - PR exists and open: note the PR URL. The push updated it.
   - PR exists but merged/closed: inform the user. Do nothing.
   - No PR: offer to create one. If yes, follow the Pull Requests section.
+- **When user says "merge" and a PR is open**: ALWAYS use `gh pr merge`, not local `git merge`. The PR is the active context. Only do a local merge if explicitly requested or if no PR exists.
 
 ## Pull Requests
 

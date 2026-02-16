@@ -46,6 +46,16 @@ if ls *.csproj 1>/dev/null 2>&1; then
   dotnet test 2>&1 | tail -10 || { echo ".NET tests failing. Fix before completing." >&2; exit 2; }
 fi
 
+# Run lint and format checks (Node projects only)
+if [ -f 'pnpm-lock.yaml' ] || [ -f 'pnpm-workspace.yaml' ]; then
+  if grep -q '"lint"' package.json 2>/dev/null; then
+    pnpm -w lint 2>&1 | tail -10 || { echo "Lint failing. Fix before completing." >&2; exit 2; }
+  fi
+  if grep -q '"format:check"' package.json 2>/dev/null; then
+    pnpm -w format:check 2>&1 | tail -10 || { echo "Formatting issues found. Run 'pnpm -w format' to fix." >&2; exit 2; }
+  fi
+fi
+
 # Check for uncommitted code changes and remind about git-workflow
 uncommitted=$(git status --porcelain 2>/dev/null | grep -E '\.(go|rs|ts|tsx|cs|js|jsx)$' || true)
 if [ -n "$uncommitted" ]; then

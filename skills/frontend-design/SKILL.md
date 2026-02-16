@@ -8,6 +8,31 @@ This skill guides creation of distinctive, production-grade frontend interfaces 
 
 The user provides frontend requirements: a component, page, application, or interface to build. They may include context about the purpose, audience, or technical constraints.
 
+## Pre-Build Checklist (MANDATORY)
+
+Before writing ANY component markup, complete these steps:
+
+### 1. Reference Existing Patterns
+- If the project uses shadcn/ui, query the MCP server FIRST:
+  - `search_items_in_registries` -- find the component
+  - `get_item_examples_from_registries` -- get the official demo code (e.g. "data-table-demo", "card-demo")
+  - `view_items_in_registries` -- check available variants and props
+- Read existing pages/components in the codebase for established token usage patterns (colors, spacing, typography)
+- Use the official demo + existing codebase patterns as the structural baseline, then customize
+
+### 2. Verify CSS Foundation
+When the project uses Tailwind CSS v4 + shadcn/ui, verify these exist in the CSS entry point (e.g. `index.css`) BEFORE touching component classes:
+- `@layer base { * { border-color: var(--color-border) } }` -- without this, ALL borders use currentColor (dark text) instead of the design token
+- `body { background-color: var(--color-background); color: var(--color-foreground) }`
+- Design tokens properly mapped in `@theme inline { }` (e.g. `--color-primary: var(--primary)`)
+
+If a visual issue involves color or contrast (e.g. "dark borders", "wrong colors"), check the CSS foundation FIRST before making component-level changes. Trace the CSS cascade, don't guess.
+
+### 3. Review Design Tokens
+- Read the project's token files (colors, typography, spacing, radii, shadows)
+- Use the project's established conventions (e.g. `font-semibold` not `font-bold`, `text-muted-foreground` for secondary text)
+- Never introduce arbitrary color/spacing values when tokens exist
+
 ## Design Thinking
 
 Before coding, understand the context and commit to a BOLD aesthetic direction:
