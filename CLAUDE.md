@@ -88,7 +88,7 @@ Hooks provide baseline enforcement regardless of which skill is active. You do n
 
 ## Review Standards
 
-The review skill applies 9 dimensions (Code Review Pyramid). Full checklist in `skills/review/references/dimensions.md`. Severity definitions in `skills/review/references/severity-and-format.md`. Maximum 15 findings. Style belongs to linters, not reviews.
+The review skill applies 11 dimensions (Code Review Pyramid). Full checklist in `skills/review/references/dimensions.md`. Severity definitions in `skills/review/references/severity-and-format.md`. Maximum 30 findings. Style belongs to linters, not reviews.
 
 ## Git Conventions
 

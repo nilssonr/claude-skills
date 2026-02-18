@@ -47,7 +47,7 @@ gh pr diff $PR_NUM --repo $OWNER_REPO | awk '
 ```
 The awk script annotates every context and added line with its actual file line number (derived from `@@` hunk headers). Removed lines (`-`) are not numbered. Use these prefixed numbers as the canonical line reference in all findings.
 
-Use the **GitHub PR** report header from severity-and-format.md.
+Use the **GitHub PR** report header from `references/severity-and-format.md`.
 
 **Local** (arguments are empty or contain local paths):
 
@@ -68,7 +68,7 @@ git diff --cached 2>/dev/null | awk '...'  # staged
 
 If the user specified files, constrain with `-- path/to/file`. Otherwise review all changed files.
 
-Use the **local review** report header from severity-and-format.md.
+Use the **local review** report header from `references/severity-and-format.md`.
 
 ### Measure scope and route
 
@@ -91,7 +91,7 @@ Dispatch one `code-reviewer` agent per group (all in parallel via multiple Task 
 After all agents return, merge findings:
 1. Deduplicate (same file:line, same dimension)
 2. Rank by severity
-3. Enforce 15-finding cap (highest severity kept)
+3. Enforce 30-finding cap (highest severity kept)
 4. Note omissions if any
 
 ## Step 2: Analyze
@@ -110,6 +110,6 @@ After the code-reviewer returns, evaluate and add under PR-LEVEL OBSERVATIONS:
 
 ## Step 3: Report
 
-Produce the structured report per severity-and-format.md. Line numbers in findings come from the annotated diff prefix -- they are already actual file line numbers.
+Produce the structured report per `references/severity-and-format.md`. Line numbers in findings come from the annotated diff prefix -- they are already actual file line numbers.
 
 **Constraint: never run `gh pr comment`, `gh pr review`, or any write command. This skill is read-only.**
