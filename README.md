@@ -34,7 +34,7 @@ These are your commands. Type them and Claude switches into that workflow.
 |-------|---------|-------------|
 | **requirements-gatherer** | `/requirements-gatherer` | Scouts the repo with parallel agents, delegates synthesis to requirements-synthesizer (haiku), surfaces blocking questions, produces a SPEC, enters plan mode. |
 | **tdd** | `/tdd` | RED (sonnet, parallel fan-out for 3+ criteria) -- GREEN+REFACTOR (single haiku agent) -- COMMIT. Every phase gate is enforced. No skipping. |
-| **review** | `/review` | 11-dimension code review with size-based routing. Small diffs get one agent; large diffs fan out to parallel agents. Works on local diffs, files, or GitHub PRs. Read-only. |
+| **review** | `/review` | 11-dimension code review with size-based routing. Small diffs get one agent; large diffs fan out to parallel agents. Works on local diffs, files, GitHub PRs, or full repository snapshots (`/review repo`). Read-only. |
 | **retro** | `/retro` | Logs what went wrong. Run `/retro review` to delegate pattern analysis to retro-analyzer (haiku) and propose skill improvements. |
 | **sumo-search** | `/search` | Sumo Logic Search Query Language reference. Covers search operators, parsing, aggregation, time-series, enrichment, pattern detection, and query optimization. Backed by 214 official docs. |
 | **temporal** | `/temporal` | Temporal platform documentation and operational reference. Covers workflow definitions, activities, deployment, configuration, monitoring, and best practices across Go, Java, Python, TypeScript, PHP, .NET, and Ruby SDKs. Backed by 266 official docs. |

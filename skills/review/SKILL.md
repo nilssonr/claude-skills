@@ -15,6 +15,7 @@ agent: code-reviewer
 - `/review https://github.com/owner/repo/pull/123` -- review a GitHub PR
 - `/review owner/repo#123` -- shorthand for GitHub PR
 - `/review path/to/file.ts` -- review a specific file
+- `/review repo` -- review all tracked source files in the repository
 - After TDD COMMIT phase (optional verification step)
 
 ## Step 1: Acquire and Route
@@ -70,22 +71,42 @@ If the user specified files, constrain with `-- path/to/file`. Otherwise review 
 
 Use the **local review** report header from `references/severity-and-format.md`.
 
+**Repository snapshot** (argument is `repo`):
+
+Collect all tracked source files, excluding non-reviewable content:
+```bash
+git ls-files -- \
+  ':!:*.lock' ':!:*.sum' \
+  ':!:*.png' ':!:*.jpg' ':!:*.jpeg' ':!:*.gif' ':!:*.svg' ':!:*.ico' \
+  ':!:*.woff' ':!:*.woff2' ':!:*.ttf' ':!:*.eot' \
+  ':!:*.mp3' ':!:*.mp4' ':!:*.zip' ':!:*.tar' ':!:*.gz' \
+  ':!:*.min.js' ':!:*.min.css' ':!:*.map' \
+  ':!:*.pb.go' ':!:*_generated.*' ':!:*.g.dart' ':!:*.freezed.dart' \
+  ':!:vendor/*' ':!:node_modules/*' ':!:dist/*' ':!:build/*' ':!:coverage/*'
+```
+
+Count the files. Record the current commit SHA with `git rev-parse --short HEAD`.
+
+Use the **repository snapshot review** report header from `references/severity-and-format.md`.
+
 ### Measure scope and route
 
 Count changed files and total diff lines.
 
+- **Repository snapshot**: always fan-out (see below). Single-agent routing is not used for repo reviews.
 - **Small review** (<=20 files AND <=3000 diff lines): dispatch a single `code-reviewer` agent with the full diff.
 - **Large review** (>20 files OR >3000 diff lines): fan-out (see below).
 
-### Fan-out strategy (large reviews)
+### Fan-out strategy (large reviews and repo snapshots)
 
-Group changed files:
+Group files (changed files for diff reviews, all tracked source files for repo snapshots):
 - Group 1: Security-sensitive paths (auth, crypto, payment, session, middleware)
 - Groups 2-N: Remaining files grouped by directory, max 15 files per group
 
 Dispatch one `code-reviewer` agent per group (all in parallel via multiple Task calls). Each agent receives:
 - Its file list
-- The diff for those files (plus 10 lines of surrounding context)
+- For diff reviews: the diff for those files (plus 10 lines of surrounding context)
+- For repo snapshots: instruction to read full files via the Read tool
 - A note that it is reviewing a subset
 
 After all agents return, merge findings:
@@ -107,6 +128,16 @@ After the code-reviewer returns, evaluate and add under PR-LEVEL OBSERVATIONS:
 - **Description quality**: Does the PR description explain what and why?
 - **Test coverage**: Are test files in the diff? Do new code paths have corresponding tests?
 - **Breaking changes**: Public API, schema, config, or wire protocol changes without migration/versioning?
+
+### Repo-level checks (repository snapshots only)
+
+After all fan-out agents return, evaluate and add under REPO-LEVEL OBSERVATIONS:
+
+- **Architecture**: Clear layering? Dependencies flow in one direction?
+- **Consistency**: Same class of problem uses the same patterns across modules?
+- **Dependencies**: Healthy import graphs? Circular dependencies? Unnecessary coupling?
+- **Test coverage**: Test files present and proportional? Critical paths covered?
+- **Dead code**: Exported symbols with no importers? Orphaned files?
 
 ## Step 3: Report
 

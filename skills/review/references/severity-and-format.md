@@ -83,6 +83,27 @@ SUMMARY: [N] critical, [N] warnings, [N] info
 VERDICT: PASS | CONCERNS | FAIL
 ```
 
+## Repository snapshot review
+
+```
+REVIEW: Repository snapshot -- [repo name or path]
+Branch: [current branch name]
+Commit: [short SHA]
+Files reviewed: [N of M total tracked files]
+---
+[findings, ordered by severity]
+---
+REPO-LEVEL OBSERVATIONS:
+  Architecture: [clear layering and separation of concerns?]
+  Consistency: [uniform patterns across modules?]
+  Dependencies: [healthy import graph, or circular/unnecessary coupling?]
+  Test coverage: [test files present and proportional? critical paths covered?]
+  Dead code: [unreachable exports, unused files, orphaned modules?]
+---
+SUMMARY: [N] critical, [N] warnings, [N] info
+VERDICT: PASS | CONCERNS | FAIL
+```
+
 ---
 
 # Verdict
@@ -98,7 +119,7 @@ VERDICT: PASS | CONCERNS | FAIL
 # Rules
 
 1. **Be specific.** Every finding includes file, line number, dimension, description, and a concrete fix.
-2. **Stay in scope.** Do not request changes to code outside the diff. File separate issues for pre-existing problems.
+2. **Stay in scope.** For diff-based reviews, do not request changes to code outside the diff; file separate issues for pre-existing problems. For repository snapshot reviews, all tracked source files are in scope.
 3. **Style is not a finding.** Formatting, whitespace, and import order belong to linters.
 4. **Calibrate severity.** See calibration rules above.
 5. **Maximum 30 findings.** If there are more, report the 30 highest-severity and append: `N additional lower-severity findings omitted.`
