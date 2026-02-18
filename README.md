@@ -34,7 +34,7 @@ These are your commands. Type them and Claude switches into that workflow.
 |-------|---------|-------------|
 | **requirements-gatherer** | `/requirements-gatherer` | Scouts the repo with parallel agents, delegates synthesis to requirements-synthesizer (haiku), surfaces blocking questions, produces a SPEC, enters plan mode. |
 | **tdd** | `/tdd` | RED (sonnet, parallel fan-out for 3+ criteria) -- GREEN+REFACTOR (single haiku agent) -- COMMIT. Every phase gate is enforced. No skipping. |
-| **review** | `/review` | 9-dimension code review with size-based routing. Small diffs get one agent; large diffs fan out to parallel agents. Works on local diffs, files, or GitHub PRs. Read-only. |
+| **review** | `/review` | 11-dimension code review with size-based routing. Small diffs get one agent; large diffs fan out to parallel agents. Works on local diffs, files, or GitHub PRs. Read-only. |
 | **retro** | `/retro` | Logs what went wrong. Run `/retro review` to delegate pattern analysis to retro-analyzer (haiku) and propose skill improvements. |
 | **sumo-search** | `/search` | Sumo Logic Search Query Language reference. Covers search operators, parsing, aggregation, time-series, enrichment, pattern detection, and query optimization. Backed by 214 official docs. |
 | **temporal** | `/temporal` | Temporal platform documentation and operational reference. Covers workflow definitions, activities, deployment, configuration, monitoring, and best practices across Go, Java, Python, TypeScript, PHP, .NET, and Ruby SDKs. Backed by 266 official docs. |
@@ -74,7 +74,7 @@ Skills dispatch these as isolated sub-models. They do one thing well and report 
 | **requirements-synthesizer** | requirements-gatherer | haiku | Synthesizes scout reports into questions and SPEC |
 | **tool-researcher** | troubleshoot | sonnet | Web research on unfamiliar tools, libraries, and error messages |
 | **troubleshoot-investigator** | troubleshoot | sonnet | Runs a single troubleshoot phase (0-2), returns concise report |
-| **code-reviewer** | review | sonnet | Structured 9-dimension code review (diff-hunk preference) |
+| **code-reviewer** | review | sonnet | Structured 11-dimension code review (diff-hunk preference) |
 | **pr-composer** | git-workflow | haiku | Composes PR title and body from branch context |
 | **retro-analyzer** | retro | haiku | Analyzes retro log for patterns, proposes improvements |
 
@@ -89,7 +89,7 @@ Skills dispatch these as isolated sub-models. They do one thing well and report 
 /tdd next criterion
   --> repeat until done
 /review
-  --> 9-dimension review of everything on the branch
+  --> 11-dimension review of everything on the branch
 git push, open PR
 ```
 
