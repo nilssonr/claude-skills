@@ -15,7 +15,7 @@ Before responding to ANY request, classify the task and announce your decision. 
 | Targeted fix (specific file:line, known change) | None | `[SKILL:none] Targeted fix -- proceeding directly.` |
 | New feature / unclear scope | requirements-gatherer | `[SKILL:requirements-gatherer] Defining scope.` |
 | Test-first development | tdd | `[SKILL:tdd] Starting RED phase.` |
-| Git operation | git-workflow | `[SKILL:git-workflow] Active.` |
+| Git operation (branch, commit, push, merge, PR) | git-workflow | `[SKILL:git-workflow] Active.` |
 | Debugging / 2nd failed attempt | troubleshoot | `[SKILL:troubleshoot] Researching before fixing.` |
 | Something went wrong | retro | `[SKILL:retro] Logging observation.` |
 | Review requested or verifying work | review | `[SKILL:review] Reviewing [scope].` |
@@ -124,6 +124,7 @@ The review skill applies 11 dimensions (Code Review Pyramid). Full checklist in 
 - Never declare "Done" with uncommitted code.
 - Never run the test suite manually at the end of a task -- the stop-gate hook handles this.
 - Never use `--force` for git push. Use `--force-with-lease`.
+- Git operations ALWAYS trigger git-workflow, even under a "targeted fix" classification. Branching, committing, pushing, and merging follow git-workflow regardless of whether requirements-gatherer was used. "Targeted fix" means "no requirements-gatherer needed" -- it does NOT exempt git operations.
 
 ## Rationalization Detection
 
@@ -135,3 +136,4 @@ If you catch yourself thinking any of these, you are about to violate the workfl
 - "The tests already pass" -- Then you wrote the wrong tests. RED means they must FAIL first.
 - "No refactoring needed so I'll skip the phase" -- The phase must RUN. "No changes" is the outcome, not the reason to skip.
 - "I'll commit later" -- No. Commit now. The stop-gate will block you anyway.
+- "The git operation is simple/fast/local" -- Git operations ALWAYS trigger git-workflow. Simplicity is not an exemption.
