@@ -97,6 +97,7 @@ The review skill applies 11 dimensions (Code Review Pyramid). Full checklist in 
 - Breaking changes: `type(scope)!: description`
 - Rebase over merge. Always.
 - Push after rebase: `git push --force-with-lease` (never `--force`)
+- Merge PRs with `gh pr merge --rebase --admin` (branch protection requires `--admin`)
 - Small logical commits over big batched ones
 - Use HEREDOC for multi-line commit messages to avoid escaping issues
 
