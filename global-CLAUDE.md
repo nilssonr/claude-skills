@@ -70,7 +70,7 @@ Classification gate determines reference loading (saves tokens on obvious issues
 
 ### retro
 
-Two modes: "log" captures observations to ~/.claude/retros/log.md. "review" delegates to retro-analyzer agent (haiku) for pattern analysis and improvement proposals.
+Two modes: "log" captures observations to ~/.claude/retros/log.md. "review" delegates to retro-analyzer (haiku) for pattern detection, then retro-researcher (sonnet) for evidence-based validation with dual confidence scores (pattern + fix, 0.0-1.0). Proposals with confidence < 0.9 include research-driven next steps.
 
 ### sumo-search
 
