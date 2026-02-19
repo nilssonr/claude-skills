@@ -45,7 +45,11 @@ Delegate analysis to retro-analyzer agent:
 4. Ask: "Which improvements should I apply?"
    - Apply all / specific numbers / review only
 5. If applying: make targeted edits to the specified skill files. Show diff. Confirm before saving.
+6. After applying fixes, offer to archive resolved entries:
+   - Ask: "Archive the [N] addressed entries from the log?"
+   - If yes: move those entries from `~/.claude/retros/log.md` to `~/.claude/retros/archive.md` (create if needed, append at bottom).
+   - Preserve unaddressed entries in `log.md`.
 
 ## Rules
-- Never modify `log.md` (append-only for log, read-only for review).
+- `log.md` is append-only during log mode. During review, addressed entries may be archived (step 6).
 - Be specific about changes. "Improve the prompt" is not actionable.
