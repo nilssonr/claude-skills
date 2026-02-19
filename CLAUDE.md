@@ -106,7 +106,7 @@ The review skill applies 11 dimensions (Code Review Pyramid). Full checklist in 
 
 ## Dependencies
 
-- **ast-grep** (`brew install ast-grep`) — structural code search via tree-sitter. Used by codebase-analyzer for finding functions, types, interfaces, and other code constructs. Per-language pattern references in `agents/references/ast-grep/`. Falls back to grep if unavailable.
+- **ast-grep** (`brew install ast-grep`) — structural code search via tree-sitter. Used by codebase-analyzer for finding functions, types, interfaces, and other code constructs. Tool reference in `agents/references/ast-grep/README.md`.
 
 ## Constraints
 

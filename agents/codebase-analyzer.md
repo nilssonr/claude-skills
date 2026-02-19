@@ -16,12 +16,7 @@ You have two search tools. Use the correct one -- this is not optional:
 
 **Rule**: if you are searching for a code construct (function, type, interface, import, class, struct, method), you MUST use ast-grep. Falling back to grep for structural queries is a bug.
 
-**Metavariable quick reference** (do NOT use `$$` for multi-match -- that matches unnamed nodes):
-- `$NAME` -- exactly one named AST node
-- `$$$MULTI` -- zero or more AST nodes (params, fields, body, etc.)
-- `$_` -- any single node, non-capturing
-
-Read the language-specific reference file matching the stack (e.g., `agents/references/ast-grep/typescript.md`). Skip languages not present in the repo.
+**Before using ast-grep**: read `agents/references/ast-grep/README.md`. It covers metavariable syntax, CLI flags, language gotchas, and common mistakes. One file, no per-language files -- you compose patterns from your knowledge of each language.
 
 **Prerequisite**: verify ast-grep is available. Run: `which ast-grep || which sg`. If neither exists, STOP and report: "ast-grep is not installed. Install with: brew install ast-grep". Do not fall back to grep for structural queries.
 
