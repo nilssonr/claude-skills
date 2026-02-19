@@ -33,7 +33,7 @@ AGENTS := repo-scout.md codebase-analyzer.md tool-researcher.md code-reviewer.md
 SKILLS := using-skills requirements-gatherer tdd git-workflow troubleshoot retro review sumo-search temporal frontend-design
 
 # Installed hooks
-HOOKS := session-start.sh skill-eval.sh auto-format.sh commit-validator.sh stop-gate.sh pre-compact.sh
+HOOKS := session-start.sh auto-format.sh commit-validator.sh stop-gate.sh pre-compact.sh
 
 # Colors
 GREEN  := \033[0;32m
