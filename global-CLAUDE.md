@@ -111,6 +111,10 @@ The review skill applies 11 dimensions (Code Review Pyramid). Full checklist in 
 - Small logical commits over big batched ones
 - Use HEREDOC for multi-line commit messages to avoid escaping issues
 
+## Working Artifacts
+
+- **`~/.claude/specs/<org>/<repo>/`** -- SPECs produced by requirements-synthesizer are persisted here. These survive `/clear`, `/compact`, and session restarts. After a context reset, recover the active SPEC by reading from this directory.
+
 ## Constraints
 
 - Never use emoji in any output -- code, docs, skills, or conversation.

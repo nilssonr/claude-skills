@@ -65,14 +65,19 @@ DONE WHEN
 
 ### Persist SPEC to disk
 
-After producing the SPEC, write it to `.claude/specs/` so it survives `/clear` and context compaction.
+After producing the SPEC, write it to `~/.claude/specs/<org>/<repo>/` so it survives `/clear` and context compaction without touching repo files.
 
-1. Create `.claude/specs/` if it doesn't exist: `mkdir -p .claude/specs`
-2. Derive the filename:
+1. Detect repo identity:
+   - Run `git remote get-url origin` and extract `org/repo` from the URL:
+     - SSH format `git@github.com:org/repo.git` -- extract between `:` and `.git`
+     - HTTPS format `https://github.com/org/repo.git` -- extract last two path segments before `.git`
+   - If no remote exists, fall back to `basename $(git rev-parse --show-toplevel)` as the repo name with no org prefix
+2. Create the target directory: `mkdir -p ~/.claude/specs/<org>/<repo>`
+3. Derive the filename:
    - Use the branch name if available (from session-start context or git): slugify it (e.g., `feat/add-oauth-login` becomes `add-oauth-login.md`)
    - If no branch or on main/master, slugify the task description (e.g., "Add user authentication" becomes `add-user-authentication.md`)
    - Lowercase, replace spaces and slashes with hyphens, strip non-alphanumeric characters except hyphens
-3. Write the file with a metadata header:
+4. Write the file with a metadata header:
 
 ```
 # SPEC: [task title]
@@ -81,12 +86,12 @@ After producing the SPEC, write it to `.claude/specs/` so it survives `/clear` a
 [full SPEC content]
 ```
 
-4. Return the SPEC in your response as before (the main context still needs it for plan mode).
+5. Return the SPEC in your response as before (the main context still needs it for plan mode).
 
 Example bash call to write the SPEC:
 
 ```bash
-mkdir -p .claude/specs && cat > .claude/specs/add-oauth-login.md << 'SPECEOF'
+mkdir -p ~/.claude/specs/nilssonr/my-project && cat > ~/.claude/specs/nilssonr/my-project/add-oauth-login.md << 'SPECEOF'
 # SPEC: Add OAuth Login
 > Branch: feat/add-oauth-login | Generated: 2026-02-18
 
