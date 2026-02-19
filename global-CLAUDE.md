@@ -44,7 +44,7 @@ When executing a plan (e.g. from /requirements-gatherer), follow this workflow:
 
 ### requirements-gatherer
 
-Launches repo-scout and codebase-analyzer in parallel, delegates synthesis to requirements-synthesizer agent (haiku). Produces blocking questions, then a SPEC. Use for new features or unclear scope. Do NOT use for targeted fixes.
+Launches repo-scout first, then uses its findings to compose a targeted prompt for codebase-analyzer (sequential). Delegates synthesis to requirements-synthesizer agent (haiku). Produces blocking questions, then a SPEC. Use for new features or unclear scope. Do NOT use for targeted fixes.
 
 ### tdd
 

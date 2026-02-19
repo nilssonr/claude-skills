@@ -1,6 +1,6 @@
 ---
 name: requirements-gatherer
-description: Gathers requirements before planning. Orchestrates repo-scout and codebase-analyzer in parallel, delegates synthesis to requirements-synthesizer agent, produces a SPEC. Triggers on "let's gather requirements", "before we start", or when ambiguity is detected.
+description: Gathers requirements before planning. Orchestrates repo-scout then codebase-analyzer (sequential), delegates synthesis to requirements-synthesizer agent, produces a SPEC. Triggers on "let's gather requirements", "before we start", or when ambiguity is detected.
 ---
 
 # Requirements Gatherer
@@ -16,34 +16,41 @@ description: Gathers requirements before planning. Orchestrates repo-scout and c
 Ask: "What are we building? (one sentence)"
 Get the repo path if not obvious from cwd.
 
-### 2. Scout the Repo (parallel)
-Launch BOTH agents in parallel via Task tool (two Task calls in a single response):
+### 2. Scout the Repo
+Launch `repo-scout` with the repo path and the task goal. Wait for it to return.
 
-- `repo-scout` with the repo path
-- `codebase-analyzer` with the repo path, task goal, and domain keywords extracted from the goal
+If repo-scout returns EMPTY_REPO: skip codebase-analyzer and go to step 3 with minimal questions.
 
-If repo-scout returns EMPTY_REPO: skip codebase-analyzer results (may not have returned yet) and go to step 3 with minimal questions.
+If repo is small (<500 files) and task is focused, you may skip codebase-analyzer and proceed with repo-scout findings alone.
 
-If repo is small (<500 files) and task is focused, you may ignore codebase-analyzer results and proceed with repo-scout findings alone.
+### 3. Analyze the Domain
+Using the repo-scout report, compose a targeted prompt for `codebase-analyzer` that includes:
 
-### 3. Synthesize Questions (agent)
+- The repo path and task goal
+- The **stack** from repo-scout (e.g., "React/TypeScript with shadcn/ui") so the agent knows which language modes and patterns to use
+- The **roots** from repo-scout (e.g., "features in `src/features/`, UI components in `src/core/components/ui/`") so the agent knows where to search
+- Domain keywords extracted from the user's goal
+
+The better the prompt, the better the analysis. Don't just forward the user's raw question -- reframe it using what repo-scout found.
+
+### 4. Synthesize Questions (agent)
 Launch `requirements-synthesizer` (Task tool, subagent_type: general-purpose, model: haiku) with:
-- Both scout reports (or just repo-scout if codebase-analyzer was skipped)
+- Both reports (repo-scout + codebase-analyzer), or just repo-scout if codebase-analyzer was skipped
 - The user's goal statement
 - Any context the user already provided
 
 The synthesizer returns a categorized question list (blocking + directional with defaults).
 
-### 4. Ask Questions
+### 5. Ask Questions
 Present blocking questions from the synthesizer. One at a time. If user says "I don't know," propose options:
 > "Options: A) [tradeoff] or B) [tradeoff]. Which fits?"
 
 For directional questions, present the synthesizer's proposed defaults:
 > "I'll assume [X] based on [evidence]. Object if wrong."
 
-### 5. Produce SPEC (agent)
+### 6. Produce SPEC (agent)
 Launch `requirements-synthesizer` again with:
-- Both scout reports
+- Both reports (repo-scout + codebase-analyzer)
 - The user's goal
 - All resolved answers
 
@@ -51,7 +58,7 @@ The synthesizer produces the SPEC and persists it to `.claude/specs/<slug>.md`. 
 
 The SPEC file survives `/clear`, `/compact`, and session restarts. After any context reset, recover the SPEC by reading from `.claude/specs/`.
 
-### 6. Transition
+### 7. Transition
 Present options:
 1. **Plan** -- Call `EnterPlanMode`. Plan mode will use the SPEC to create implementation steps.
 2. **TDD** -- Use `/tdd` with the SPEC's DONE WHEN criteria.
