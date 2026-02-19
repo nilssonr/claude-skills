@@ -6,16 +6,22 @@ Use `--lang go` for all patterns.
 
 ```bash
 # Function declarations
-ast-grep -p 'func $NAME($$PARAMS) $$RET { $$BODY }' --lang go
+ast-grep -p 'func $NAME($$$PARAMS) $$$RET { $$$BODY }' --lang go
 
 # Method declarations (with receiver)
-ast-grep -p 'func ($RECV $TYPE) $NAME($$PARAMS) $$RET { $$BODY }' --lang go
+ast-grep -p 'func ($RECV $TYPE) $NAME($$$PARAMS) $$$RET { $$$BODY }' --lang go
 
 # Struct definitions
-ast-grep -p 'type $NAME struct { $$FIELDS }' --lang go
+ast-grep -p 'type $NAME struct { $$$FIELDS }' --lang go
 
 # Interface definitions
-ast-grep -p 'type $NAME interface { $$METHODS }' --lang go
+ast-grep -p 'type $NAME interface { $$$METHODS }' --lang go
+
+# Error wrapping
+ast-grep -p 'fmt.Errorf($$$ARGS)' --lang go
+
+# Goroutine launch
+ast-grep -p 'go $FUNC($$$ARGS)' --lang go
 ```
 
 ## Go-specific caveat: function calls

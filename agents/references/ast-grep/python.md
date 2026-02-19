@@ -4,26 +4,33 @@ Use `--lang python` for all patterns.
 
 ```bash
 # Function definitions
-ast-grep -p 'def $NAME($$PARAMS): $$BODY' --lang python
+ast-grep -p 'def $NAME($$$PARAMS): $$$BODY' --lang python
 
 # Class definitions
-ast-grep -p 'class $NAME: $$BODY' --lang python
+ast-grep -p 'class $NAME: $$$BODY' --lang python
 
 # Class with inheritance
-ast-grep -p 'class $NAME($$BASES): $$BODY' --lang python
+ast-grep -p 'class $NAME($$$BASES): $$$BODY' --lang python
 
 # Decorated functions
 ast-grep -p '@$DECORATOR
-def $NAME($$PARAMS): $$BODY' --lang python
+def $NAME($$$PARAMS): $$$BODY' --lang python
 
 # Imports (from ... import)
-ast-grep -p 'from $MODULE import $$NAMES' --lang python
+ast-grep -p 'from $MODULE import $$$NAMES' --lang python
 
 # Imports (plain import)
 ast-grep -p 'import $MODULE' --lang python
 
 # Async functions
-ast-grep -p 'async def $NAME($$PARAMS): $$BODY' --lang python
+ast-grep -p 'async def $NAME($$$PARAMS): $$$BODY' --lang python
+
+# Dataclass
+ast-grep -p '@dataclass
+class $NAME: $$$BODY' --lang python
+
+# Context manager
+ast-grep -p 'with $EXPR as $NAME: $$$BODY' --lang python
 ```
 
 ## Note
