@@ -9,8 +9,10 @@ description: Git conventions for branching, commits, and PRs. Auto-activates on 
 
 Auto-activates when performing git operations. Follow the rules below.
 
+**Trigger rule**: ANY task that creates branches, commits code, pushes, or opens PRs MUST use this skill. Classifying as "targeted fix" does not exempt git operations. If the task involves `git commit`, this skill is active.
+
 ## Branching
-- On main/master -> create `type/description` branch (e.g. `feat/add-oauth`)
+- On main/master -> create `type/description` branch. Prefer `git worktree add -b` for multi-commit feature work (enables parallel sessions). Use `git checkout -b` only for quick single-commit fixes.
 - Already on feature branch -> confirm and continue. Don't create nested branches.
 - NEVER commit to main/master.
 
@@ -136,11 +138,13 @@ gh pr create --title "<title from agent>" --body "<body from agent>"
 
 ## Branch Completion
 
-After implementation is committed on a feature branch, present the user with next steps. Check for a remote first:
+After implementation is committed on a feature branch, present the user with next steps. **MANDATORY: check for a remote first** -- do not skip this:
 
 ```bash
 git remote 2>/dev/null | head -1
 ```
+
+If empty: no remote configured. Do NOT mention pushing, PRs, or anything remote-related. Only offer local options (merge to main, discard branch, remove worktree).
 
 Detect if currently in a worktree:
 
