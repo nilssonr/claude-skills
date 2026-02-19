@@ -39,7 +39,7 @@ These are your commands. Type them and Claude switches into that workflow.
 | **requirements-gatherer** | `/requirements-gatherer` | Scouts the repo with parallel agents, delegates synthesis to requirements-synthesizer (haiku), surfaces blocking questions, produces a SPEC, enters plan mode. |
 | **tdd** | `/tdd` | RED (sonnet, parallel fan-out for 3+ criteria) -- GREEN+REFACTOR (single haiku agent) -- COMMIT. Every phase gate is enforced. No skipping. |
 | **review** | `/review` | 11-dimension code review with size-based routing. Small diffs get one agent; large diffs fan out to parallel agents. Works on local diffs, files, GitHub PRs, or full repository snapshots (`/review repo`). Read-only. |
-| **retro** | `/retro` | Logs what went wrong. Run `/retro review` to delegate pattern analysis to retro-analyzer (haiku) and propose skill improvements. |
+| **retro** | `/retro` | Logs what went wrong. Run `/retro review` to delegate pattern analysis to retro-analyzer (haiku), then evidence validation to retro-researcher (sonnet) with dual confidence scores. |
 | **sumo-search** | `/search` | Sumo Logic Search Query Language reference. Covers search operators, parsing, aggregation, time-series, enrichment, pattern detection, and query optimization. Backed by 214 official docs. |
 | **temporal** | `/temporal` | Temporal platform documentation and operational reference. Covers workflow definitions, activities, deployment, configuration, monitoring, and best practices across Go, Java, Python, TypeScript, PHP, .NET, and Ruby SDKs. Backed by 266 official docs. |
 | **frontend-design** | `/frontend-design` | Creates distinctive, production-grade frontend interfaces with bold aesthetic direction. Avoids generic AI aesthetics. Works with HTML/CSS/JS, React, Vue, etc. |
@@ -81,6 +81,7 @@ Skills dispatch these as isolated sub-models. They do one thing well and report 
 | **code-reviewer** | review | sonnet | Structured 11-dimension code review (diff-hunk preference) |
 | **pr-composer** | git-workflow | haiku | Composes PR title and body from branch context |
 | **retro-analyzer** | retro | haiku | Analyzes retro log for patterns, proposes improvements |
+| **retro-researcher** | retro | sonnet | Validates fix proposals with evidence, assigns confidence scores |
 
 ## Workflows in practice
 

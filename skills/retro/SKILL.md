@@ -37,15 +37,23 @@ Confirm logged. Done.
 
 **Announce at start:** `[SKILL:retro:review] Analyzing patterns.`
 
-Delegate analysis to retro-analyzer agent:
+Delegate analysis to retro-analyzer, then validate with retro-researcher:
 
-1. Launch `retro-analyzer` (Task tool, subagent_type: general-purpose, model: haiku) with the path `~/.claude/retros/log.md`.
+1. Launch `retro-analyzer` (Task tool, subagent_type: retro-analyzer, model: haiku) with the path `~/.claude/retros/log.md`.
 2. If agent returns `NO_ENTRIES`, say so and stop.
-3. Present the agent's ranked improvement proposals to the user.
-4. Ask: "Which improvements should I apply?"
+3. Launch `retro-researcher` (Task tool, subagent_type: retro-researcher, model: sonnet) with:
+   - The ranked proposals from step 1
+   - The repo path and tech stack context
+4. Present the confidence-scored proposals to the user. For each proposal show:
+   - Title, pattern confidence, fix confidence
+   - Evidence summary and assessment
+   - Proposed change (refined by researcher if applicable)
+   - For any proposal with either confidence < 0.9, show the **Next steps** section prominently
+5. Ask: "Which improvements should I apply?"
    - Apply all / specific numbers / review only
-5. If applying: make targeted edits to the specified skill files. Show diff. Confirm before saving.
-6. After applying fixes, offer to archive resolved entries:
+6. If the user picks a proposal with fix confidence < 0.9, confirm: "This fix has [X] confidence. Apply anyway, or investigate the suggested next steps first?"
+7. If applying: make targeted edits to the specified skill files. Show diff. Confirm before saving.
+8. After applying fixes, offer to archive resolved entries:
    - Ask: "Archive the [N] addressed entries from the log?"
    - If yes, use this exact sequence:
      1. Read `~/.claude/retros/archive.md`. If it doesn't exist, create it with `# Retro Archive` as the header using Write.
