@@ -4,13 +4,13 @@ Use `--lang css` for all patterns.
 
 ```bash
 # Class selectors with declarations
-ast-grep -p '.$NAME { $$DECLS }' --lang css
+ast-grep -p '.$NAME { $$$DECLS }' --lang css
 
 # Media queries
-ast-grep -p '@media $$QUERY { $$RULES }' --lang css
+ast-grep -p '@media $$$QUERY { $$$RULES }' --lang css
 
 # Keyframe definitions
-ast-grep -p '@keyframes $NAME { $$FRAMES }' --lang css
+ast-grep -p '@keyframes $NAME { $$$FRAMES }' --lang css
 
 # CSS custom properties (variables)
 ast-grep -p '--$NAME: $VALUE;' --lang css

@@ -16,7 +16,14 @@ You have two search tools. Use the correct one -- this is not optional:
 
 **Rule**: if you are searching for a code construct (function, type, interface, import, class, struct, method), you MUST use ast-grep. Falling back to grep for structural queries is a bug.
 
-**Before Phase 1**: read `agents/references/ast-grep/README.md`, then read the language file matching the stack (e.g., `typescript.md` for TS). This read is mandatory -- do not skip it to save time. Do NOT read all language files, only the relevant one(s).
+**Metavariable quick reference** (do NOT use `$$` for multi-match -- that matches unnamed nodes):
+- `$NAME` -- exactly one named AST node
+- `$$$MULTI` -- zero or more AST nodes (params, fields, body, etc.)
+- `$_` -- any single node, non-capturing
+
+Read the language-specific reference file matching the stack (e.g., `agents/references/ast-grep/typescript.md`). Skip languages not present in the repo.
+
+**Prerequisite**: verify ast-grep is available. Run: `which ast-grep || which sg`. If neither exists, STOP and report: "ast-grep is not installed. Install with: brew install ast-grep". Do not fall back to grep for structural queries.
 
 ## Inputs
 
@@ -48,13 +55,13 @@ Extract keywords from the task. Search for existing code using the right tool fo
 
 ```bash
 # Find types/structs/interfaces matching a keyword (Go example)
-ast-grep -p 'type $NAME struct { $$FIELDS }' --lang go --json ./internal | head -30
+ast-grep -p 'type $NAME struct { $$$FIELDS }' --lang go --json=stream ./internal | head -30
 
 # Find exported functions (TypeScript example)
-ast-grep -p 'export function $NAME($$PARAMS) { $$BODY }' --lang typescript --json ./src | head -30
+ast-grep -p 'export function $NAME($$$PARAMS) { $$$BODY }' --lang typescript --json=stream ./src | head -30
 
 # Find class declarations (C# example)
-ast-grep -p 'public class $NAME { $$BODY }' --lang csharp --json | head -30
+ast-grep -p 'public class $NAME { $$$BODY }' --lang csharp --json=stream | head -30
 ```
 
 **Text queries** — find strings, config values, keywords:
