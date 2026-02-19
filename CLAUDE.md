@@ -77,7 +77,8 @@ Invoke with `/frontend-design` when building web components, pages, or applicati
 
 | Hook | Event | What it does |
 |---|---|---|
-| session-start | SessionStart | Injects branch and stack context |
+| session-start | SessionStart | Injects branch, stack context, and skill reminder |
+| skill-eval | UserPromptSubmit | Classifies task against skill routing table on every user message; detects targeted fixes |
 | auto-format | PostToolUse (Write/Edit) | Runs language-appropriate formatter (gofmt, rustfmt, prettier, dotnet-format) |
 | commit-validator | PreToolUse (Bash) | Blocks non-conventional commit messages. Blocks commits to main/master. |
 | stop-gate | Stop | Runs test suite (auto-detects pnpm/yarn/bun/npm). Blocks if tests fail. Blocks if code changes are uncommitted. |
@@ -102,13 +103,6 @@ The review skill applies 11 dimensions (Code Review Pyramid). Full checklist in 
 ## Working Artifacts
 
 - **`.claude/specs/`** -- SPECs produced by requirements-synthesizer are persisted here. These survive `/clear`, `/compact`, and session restarts. After a context reset, recover the active SPEC by reading from this directory. Gitignored -- SPECs are ephemeral working artifacts, not source code.
-
-## Context Management
-
-- **When to /clear**: when context feels sluggish or you're past ~70% usage. Don't ride to auto-compaction at 95%.
-- **Before /clear**: write in-progress state to disk. SPECs are in `.claude/specs/`. Plans persist natively. For implementation progress, append a `## Progress` section to the SPEC file noting what's done, what's next, and any decisions made since the SPEC was written.
-- **After /clear**: re-read the SPEC file and plan file to rebuild context. Don't re-run repo-scout or codebase-analyzer unless the task has fundamentally changed.
-- **Survives /clear**: CLAUDE.md (always reloaded), plan files (native), SPEC files (on disk). **Does not survive**: conversation history, tool outputs, agent reports not written to disk.
 
 ## Dependencies
 

@@ -22,4 +22,15 @@ cat <<EOF
 Branch: $BRANCH | Last commit: $COMMIT | Uncommitted files: $DIRTY
 Stack: ${STACK:-unknown}
 </project-context>
+<skill-reminder>
+Before responding, check if a skill applies:
+- New work -> /requirements-gatherer
+- Code with tests -> /tdd
+- Git ops -> git-workflow (auto)
+- Debugging -> troubleshoot (auto)
+- Temporal workflows -> /temporal
+- Frontend UI -> /frontend-design
+- Session end -> /retro
+If none apply, proceed normally.
+</skill-reminder>
 EOF
