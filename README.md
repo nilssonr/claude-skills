@@ -60,7 +60,8 @@ These run in the background on every session. They don't care what skill is acti
 
 | Hook | Fires on | What it enforces |
 |------|----------|-----------------|
-| **session-start** | Session start, resume, compact | Injects branch and stack context |
+| **session-start** | Session start, resume, compact | Injects branch, stack context, and skill reminder |
+| **skill-eval** | Every user message | Classifies the task against skills before Claude responds. Detects targeted fixes to skip requirements-gatherer. |
 | **auto-format** | Every file write or edit | Runs the right formatter (gofmt, rustfmt, prettier, dotnet-format) |
 | **commit-validator** | Any `git commit -m` | Blocks non-conventional commit messages and commits to main |
 | **stop-gate** | Claude tries to finish | Runs the test suite. Blocks if tests fail. Blocks if code is uncommitted. |
