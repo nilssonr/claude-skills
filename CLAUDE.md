@@ -43,7 +43,7 @@ Structured code review with size-based routing. Small reviews (<=20 files, <=300
 
 ### git-workflow
 
-Conventional commits, feature branches, rebase over merge, force-with-lease. Delegates PR composition to pr-composer agent (haiku). PR-aware: checks for PR after push, routes merge through `gh pr merge` when PR exists.
+Conventional commits, feature branches, rebase over merge, force-with-lease. Delegates PR composition to pr-composer agent (haiku). PR-aware: checks for PR after push, routes merge through `gh pr merge` when PR exists. Supports worktree creation and lifecycle for parallel Claude Code sessions.
 
 After ANY code change: commit immediately. Do not declare "Done" without committing. The stop-gate hook blocks this.
 
@@ -77,8 +77,7 @@ Invoke with `/frontend-design` when building web components, pages, or applicati
 
 | Hook | Event | What it does |
 |---|---|---|
-| session-start | SessionStart | Injects branch, stack, and skill reminder into context |
-| skill-eval | UserPromptSubmit | Detects targeted fixes (file paths with extensions or line numbers) to skip requirements-gatherer; otherwise reminds to evaluate skills |
+| session-start | SessionStart | Injects branch and stack context |
 | auto-format | PostToolUse (Write/Edit) | Runs language-appropriate formatter (gofmt, rustfmt, prettier, dotnet-format) |
 | commit-validator | PreToolUse (Bash) | Blocks non-conventional commit messages. Blocks commits to main/master. |
 | stop-gate | Stop | Runs test suite (auto-detects pnpm/yarn/bun/npm). Blocks if tests fail. Blocks if code changes are uncommitted. |
@@ -99,6 +98,21 @@ The review skill applies 11 dimensions (Code Review Pyramid). Full checklist in 
 - Push after rebase: `git push --force-with-lease` (never `--force`)
 - Small logical commits over big batched ones
 - Use HEREDOC for multi-line commit messages to avoid escaping issues
+
+## Working Artifacts
+
+- **`.claude/specs/`** -- SPECs produced by requirements-synthesizer are persisted here. These survive `/clear`, `/compact`, and session restarts. After a context reset, recover the active SPEC by reading from this directory. Gitignored -- SPECs are ephemeral working artifacts, not source code.
+
+## Context Management
+
+- **When to /clear**: when context feels sluggish or you're past ~70% usage. Don't ride to auto-compaction at 95%.
+- **Before /clear**: write in-progress state to disk. SPECs are in `.claude/specs/`. Plans persist natively. For implementation progress, append a `## Progress` section to the SPEC file noting what's done, what's next, and any decisions made since the SPEC was written.
+- **After /clear**: re-read the SPEC file and plan file to rebuild context. Don't re-run repo-scout or codebase-analyzer unless the task has fundamentally changed.
+- **Survives /clear**: CLAUDE.md (always reloaded), plan files (native), SPEC files (on disk). **Does not survive**: conversation history, tool outputs, agent reports not written to disk.
+
+## Dependencies
+
+- **ast-grep** (`brew install ast-grep`) — structural code search via tree-sitter. Used by codebase-analyzer for finding functions, types, interfaces, and other code constructs. Per-language pattern references in `agents/references/ast-grep/`. Falls back to grep if unavailable.
 
 ## Constraints
 
