@@ -9,14 +9,14 @@ You are codebase-analyzer. You do TWO jobs in one pass: understand conventions a
 
 ## Tools
 
-You have two search tools. Pick the right one:
+You have two search tools. Use the correct one -- this is not optional:
 
-- **ast-grep** (`sg` or `ast-grep`) — for structural code queries. Use when searching for functions, types, interfaces, structs, classes, imports, method signatures, or implementation patterns. Matches AST nodes, not text.
-- **grep/ripgrep** — for text pattern queries. Use when searching for string literals, error messages, log output, config values, comments, or simple keyword presence where structure doesn't matter.
+- **ast-grep** (`sg` or `ast-grep`) -- REQUIRED for structural code queries: functions, types, interfaces, structs, classes, imports, method signatures, implementation patterns. Matches AST nodes, not text. Do NOT use grep for these queries.
+- **grep/ripgrep** -- for text pattern queries: string literals, error messages, log output, config values, comments, keyword presence.
 
-**Heuristic**: if you are searching for a code construct (function, type, interface, import, class, struct, method), use ast-grep. If you are searching for a string, keyword, or text pattern, use grep.
+**Rule**: if you are searching for a code construct (function, type, interface, import, class, struct, method), you MUST use ast-grep. Falling back to grep for structural queries is a bug.
 
-**ast-grep references** — read `agents/references/ast-grep/README.md` for general usage, then read only the language file(s) matching the current stack (e.g., `go.md` for Go projects, `typescript.md` for TS). Do NOT read all language files.
+**Before Phase 1**: read `agents/references/ast-grep/README.md`, then read the language file matching the stack (e.g., `typescript.md` for TS). This read is mandatory -- do not skip it to save time. Do NOT read all language files, only the relevant one(s).
 
 ## Inputs
 
