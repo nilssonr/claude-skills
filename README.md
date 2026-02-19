@@ -14,6 +14,10 @@ agents/     Specialized sub-models that skills dispatch for focused work
 hooks/      Shell scripts that enforce the rules -- always on, no opt-out
 ```
 
+## Prerequisites
+
+- [ast-grep](https://ast-grep.github.io/) -- structural code search used by codebase-analyzer. Install: `brew install ast-grep`
+
 ## Get started
 
 ```sh
@@ -46,7 +50,7 @@ You don't call these -- they kick in when the situation demands it.
 
 | Skill | Triggers on | What it does |
 |-------|------------|-------------|
-| **git-workflow** | Any git operation | Conventional commits, feature branches, rebase over merge, `--force-with-lease`. Delegates PR composition to pr-composer (haiku). PR-aware push and merge. |
+| **git-workflow** | Any git operation | Conventional commits, feature branches, worktrees for parallel sessions, rebase over merge, `--force-with-lease`. Delegates PR composition to pr-composer (haiku). PR-aware push and merge. |
 | **troubleshoot** | Failed fix, unfamiliar tool, or `/troubleshoot` | Classification gate loads only needed references. Phases 0-2 dispatched as troubleshoot-investigator agents (sonnet). Background tool-researcher for unfamiliar tools. Two strikes and it escalates. |
 | **using-skills** | Every session start | The meta-skill. Reminds Claude to check which skill applies before doing anything. |
 
@@ -56,8 +60,7 @@ These run in the background on every session. They don't care what skill is acti
 
 | Hook | Fires on | What it enforces |
 |------|----------|-----------------|
-| **session-start** | Session start, resume, compact | Injects branch context and skill reminder |
-| **skill-eval** | Every user message | Forces Claude to evaluate which skill applies before responding |
+| **session-start** | Session start, resume, compact | Injects branch and stack context |
 | **auto-format** | Every file write or edit | Runs the right formatter (gofmt, rustfmt, prettier, dotnet-format) |
 | **commit-validator** | Any `git commit -m` | Blocks non-conventional commit messages and commits to main |
 | **stop-gate** | Claude tries to finish | Runs the test suite. Blocks if tests fail. Blocks if code is uncommitted. |
@@ -70,7 +73,7 @@ Skills dispatch these as isolated sub-models. They do one thing well and report 
 | Agent | Dispatched by | Model | Job |
 |-------|--------------|-------|-----|
 | **repo-scout** | requirements-gatherer | haiku | Fast repo structure mapping |
-| **codebase-analyzer** | requirements-gatherer | haiku | Convention and domain analysis in a single pass |
+| **codebase-analyzer** | requirements-gatherer | haiku | Convention and domain analysis with ast-grep structural search |
 | **requirements-synthesizer** | requirements-gatherer | haiku | Synthesizes scout reports into questions and SPEC |
 | **tool-researcher** | troubleshoot | sonnet | Web research on unfamiliar tools, libraries, and error messages |
 | **troubleshoot-investigator** | troubleshoot | sonnet | Runs a single troubleshoot phase (0-2), returns concise report |
