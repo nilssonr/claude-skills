@@ -47,8 +47,10 @@ Delegate analysis to retro-analyzer agent:
 5. If applying: make targeted edits to the specified skill files. Show diff. Confirm before saving.
 6. After applying fixes, offer to archive resolved entries:
    - Ask: "Archive the [N] addressed entries from the log?"
-   - If yes: move those entries from `~/.claude/retros/log.md` to `~/.claude/retros/archive.md` (create if needed, append at bottom).
-   - Preserve unaddressed entries in `log.md`.
+   - If yes, use this exact sequence:
+     1. Read `~/.claude/retros/archive.md`. If it doesn't exist, create it with `# Retro Archive` as the header using Write.
+     2. Use Edit to append the archived entries (with `- **Resolution**: [description]` added) after the last line of `archive.md`.
+     3. Use Edit to remove the archived entries from `log.md`. Preserve unaddressed entries.
 
 ## Rules
 - `log.md` is append-only during log mode. During review, addressed entries may be archived (step 6).
