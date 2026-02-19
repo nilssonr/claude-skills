@@ -201,7 +201,7 @@ The changeset must be internally uniform regardless of the surrounding codebase:
 
 ### Cross-codebase consistency
 
-New code must match established patterns. **Detection technique from a diff:** expand context, check imports for divergence from established dependencies, use Grep/Glob to find 2–3 peer implementations.
+New code must match established patterns. **Detection technique from a diff:** expand context, check imports for divergence from established dependencies. For structural patterns (function signatures, error handling, DI, abstractions), use ast-grep to find 2-3 peer implementations. For text patterns (string constants, config values), use Grep/Glob. Consult `agents/references/ast-grep/` for language-specific patterns.
 
 Check for:
 - **Naming synonyms**: `getUser` in new code when the codebase uses `fetchUser` for equivalent operations = [WARN]
