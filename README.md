@@ -74,7 +74,7 @@ Skills dispatch these as isolated sub-models. They do one thing well and report 
 |-------|--------------|-------|-----|
 | **repo-scout** | requirements-gatherer | haiku | Fast repo structure mapping |
 | **codebase-analyzer** | requirements-gatherer | haiku | Convention and domain analysis with ast-grep structural search |
-| **requirements-synthesizer** | requirements-gatherer | haiku | Synthesizes scout reports into questions and SPEC |
+| **requirements-synthesizer** | requirements-gatherer | sonnet | Synthesizes scout reports into questions and SPEC |
 | **tool-researcher** | troubleshoot | sonnet | Web research on unfamiliar tools, libraries, and error messages |
 | **troubleshoot-investigator** | troubleshoot | sonnet | Runs a single troubleshoot phase (0-2), returns concise report |
 | **code-reviewer** | review | sonnet | Structured 11-dimension code review (diff-hunk preference) |
