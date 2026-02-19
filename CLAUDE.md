@@ -103,7 +103,7 @@ The review skill applies 11 dimensions (Code Review Pyramid). Full checklist in 
 
 ## Working Artifacts
 
-- **`.claude/specs/`** -- SPECs produced by requirements-synthesizer are persisted here. These survive `/clear`, `/compact`, and session restarts. After a context reset, recover the active SPEC by reading from this directory. Gitignored -- SPECs are ephemeral working artifacts, not source code.
+- **`~/.claude/specs/<org>/<repo>/`** -- SPECs produced by requirements-synthesizer are persisted here. These survive `/clear`, `/compact`, and session restarts. After a context reset, recover the active SPEC by reading from this directory. Stored outside the repo so no `.gitignore` entries are needed.
 
 ## Dependencies
 
