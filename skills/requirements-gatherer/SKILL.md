@@ -47,7 +47,9 @@ Launch `requirements-synthesizer` again with:
 - The user's goal
 - All resolved answers
 
-The synthesizer produces the SPEC. Review it for completeness, then present to the user.
+The synthesizer produces the SPEC and persists it to `.claude/specs/<slug>.md`. Review it for completeness, then present to the user.
+
+The SPEC file survives `/clear`, `/compact`, and session restarts. After any context reset, recover the SPEC by reading from `.claude/specs/`.
 
 ### 6. Transition
 Present options:
