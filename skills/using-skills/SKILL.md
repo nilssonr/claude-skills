@@ -16,7 +16,7 @@ Classify the task, match to a skill, and **announce your decision before doing a
 | Targeted fix (specific file:line, known change) | None — proceed directly | `[SKILL:none] Targeted fix — proceeding directly.` |
 | New feature / unclear scope | requirements-gatherer | `[SKILL:requirements-gatherer] Defining scope.` |
 | Test-first requested | tdd | `[SKILL:tdd] Starting RED phase.` |
-| Git operation | git-workflow | `[SKILL:git-workflow] Active.` |
+| Git operation (branch, commit, push, merge, PR) | git-workflow | `[SKILL:git-workflow] Active.` |
 | Debugging / 2nd failed attempt | troubleshoot | `[SKILL:troubleshoot] Researching before fixing.` |
 | Something went wrong, session end | retro | `[SKILL:retro] Logging observation.` |
 | Review requested or verifying work | review | `[SKILL:review] Reviewing [scope].` |
@@ -29,7 +29,7 @@ Classify the task, match to a skill, and **announce your decision before doing a
 
 After announcing:
 - **If a skill was announced:** read and follow that skill exactly. Every phase, every gate.
-- **If no skill (targeted fix):** implement directly. git-workflow and stop-gate hooks still apply.
+- **If no skill (targeted fix):** implement directly. If the fix involves ANY git operation (branch, commit, push, merge, PR), also invoke `[SKILL:git-workflow]` -- it is not handled automatically by hooks alone.
 
 ## 3. Don't over-apply
 
