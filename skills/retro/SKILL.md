@@ -45,13 +45,12 @@ Delegate analysis to retro-analyzer, then validate with retro-researcher:
    - The ranked proposals from step 1
    - The repo path and tech stack context
 4. Present the confidence-scored proposals to the user. For each proposal show:
-   - Title, pattern confidence, fix confidence
+   - Title, pattern confidence, fix confidence (original)
    - Evidence summary and assessment
-   - Proposed change (refined by researcher if applicable)
-   - For any proposal with either confidence < 0.9, show the **Next steps** section prominently
-5. Ask: "Which improvements should I apply?"
-   - Apply all / specific numbers / review only
-6. If the user picks a proposal with fix confidence < 0.9, confirm: "This fix has [X] confidence. Apply anyway, or investigate the suggested next steps first?"
+   - If the researcher self-deepened (original fix confidence < 0.9): show the refined fix with its higher confidence score. Present both the original and refined options so the user can choose.
+   - For any proposal still < 0.9 after self-deepening, show the **Next steps** section prominently
+5. Ask: "Which improvements should I apply?" (original fix / refined fix / specific numbers / review only)
+6. If the user picks a fix with confidence < 0.9, confirm: "This fix has [X] confidence. Apply anyway, or investigate the suggested next steps first?"
 7. If applying: make targeted edits to the specified skill files. Show diff. Confirm before saving.
 8. After applying fixes, offer to archive resolved entries:
    - Ask: "Archive the [N] addressed entries from the log?"
