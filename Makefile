@@ -182,7 +182,7 @@ link: ## Symlink everything to ~/.claude/ (for iterating on skills)
 		if [ -d $(SRC_SKILLS)/$$s/references ]; then \
 			mkdir -p $(GLOBAL_DIR)/skills/$$s/references; \
 			for ref in $(CURDIR)/$(SRC_SKILLS)/$$s/references/*; do \
-				ln -sf $$ref $(GLOBAL_DIR)/skills/$$s/references/$$(basename $$ref); \
+				ln -sfn $$ref $(GLOBAL_DIR)/skills/$$s/references/$$(basename $$ref); \
 			done; \
 		fi; \
 	done
