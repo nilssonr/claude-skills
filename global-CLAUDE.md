@@ -23,7 +23,7 @@ Before responding to ANY request, classify the task and announce your decision. 
 | Temporal workflow questions | temporal | `[SKILL:temporal] Consulting Temporal reference.` |
 | Frontend UI/component building | frontend-design | `[SKILL:frontend-design] Designing interface.` |
 
-If you announce a skill, follow it completely. Every phase, every gate. If you announce "targeted fix," do not secretly run requirements-gatherer or skip committing.
+If you announce a skill, follow it completely. Every phase, every gate. If you announce "targeted fix," do not secretly run requirements-gatherer or skip committing. Targeted fix and git-workflow are independent axes -- if the fix involves any git operation (branch, commit, push, merge, PR), also announce `[SKILL:git-workflow] Active.`
 
 ## Implementation Workflow
 

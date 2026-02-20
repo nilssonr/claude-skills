@@ -23,19 +23,19 @@ This looks like a TARGETED FIX (specific file/line referenced).
 - Do NOT use requirements-gatherer for targeted fixes. Proceed directly.
 - If this is a multi-file change or has unclear scope, use /requirements-gatherer instead.
 - writing tests first / TDD → tdd
-- git commit/branch/PR → git-workflow (auto-commits after implementation)
+- git commit/branch/push/merge/PR → git-workflow
 - debugging / fix failed → troubleshoot
 - Temporal workflows → /temporal
 - Frontend UI → /frontend-design
 - something went wrong → retro
-If NO skill matches → implement directly. git-workflow will handle the commit.
+If NO skill matches → implement directly. But git operations (commit/branch/push/merge/PR) ALWAYS require [SKILL:git-workflow].
 EOF
 else
   cat <<'EOF'
 BEFORE responding, quickly evaluate: does this request match a skill?
 - new feature / unclear scope / multi-file → /requirements-gatherer
 - writing tests first / TDD → tdd
-- git commit/branch/PR → git-workflow
+- git commit/branch/push/merge/PR → git-workflow
 - debugging / fix failed → troubleshoot
 - Temporal workflows → /temporal
 - Frontend UI → /frontend-design
